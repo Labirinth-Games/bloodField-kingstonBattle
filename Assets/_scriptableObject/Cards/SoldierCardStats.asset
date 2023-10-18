@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Soldier
   description: "Soldado guerreiro que tem ataque curto e movimenta\xE7\xE3o curta"
-  type: 0
   sprite: {fileID: 6246832655069406539, guid: 8560f9c1fd611c344815f9471fc9ec1e, type: 3}
+  type: 0
+  direction: 2
   ATK: 2
   DEF: 2
   MOV: 1

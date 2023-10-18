@@ -47,6 +47,9 @@ TagManager:
   - name: Card
     uniqueID: 3939090061
     locked: 0
+  - name: UI
+    uniqueID: 4265612187
+    locked: 0
   - name: Miniature
     uniqueID: 249345543
     locked: 0

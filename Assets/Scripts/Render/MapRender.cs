@@ -55,14 +55,13 @@ namespace Render
             return instances;
         }
 
-        public static GameObject MiniatureRender(Card card)
+        public static GameObject MiniatureRender(Card card, GameObject prefab)
         {
             (int y, int x) pos = (0, 0);
 
-            var instance = new GameObject();
-            instance.AddComponent<SpriteRenderer>().sprite = card.stats.sprite;
-            instance.AddComponent<Miniature>().Create(pos, card);
-            instance.GetComponent<SpriteRenderer>().sortingLayerName = "Miniature";
+            var instance = Instantiate(prefab);
+            instance.GetComponent<Miniature>().Create(pos, card);
+            instance.GetComponent<SpriteRenderer>().sprite = card.stats.sprite;
 
             instance.transform.SetParent(GameObject.Find("Miniatures").transform);
 

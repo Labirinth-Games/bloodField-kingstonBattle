@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8560f9c1fd611c344815f9471fc9ec1e
+guid: 4f2396f296783b844b979c23a95b51e9
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 6246832655069406539
-    second: soldier_0
+      213: -8360479188709166652
+    second: reach_0
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -122,22 +122,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: soldier_0
+      name: reach_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 17
-        height: 18
+        width: 16
+        height: 16
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b45e8b0e33531b650800000000000000
-      internalID: 6246832655069406539
+      spriteID: 4c1b1fc397c99fb80800000000000000
+      internalID: -8360479188709166652
       vertices: []
       indices: 
       edges: []
@@ -145,7 +145,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: e665342a9f2526045a162a170c99fa03
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -153,7 +153,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      soldier_0: 6246832655069406539
+      reach_0: -8360479188709166652
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -8,6 +8,14 @@ namespace Managers
     public class GamePlayManager : MonoBehaviour
     {
         [SerializeField] private GameObject kingsPrefab;
+        [SerializeField] private List<Miniature> miniatures = new List<Miniature>();
+        [SerializeField] private Miniature currentMiniature = null;
+
+        #region Gets/Sets
+        public bool IsOtherMiniature() => currentMiniature != null;
+        public void SetCurrentMiniature(Miniature miniature) => currentMiniature = miniature;
+        public void AddMiniature(Miniature miniature) => miniatures.Add(miniature);
+        #endregion
 
         public void StartMatch()
         {

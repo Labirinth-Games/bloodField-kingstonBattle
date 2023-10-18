@@ -23,6 +23,17 @@ namespace Managers
 
         #region Gets/Sets
         public (int w, int h) Size() => (_sizeWidth, _sizeHeight);
+
+        public List<Tile>[,] GetMap() => _map;
+
+        public List<Tile> FindByPosition((int y, int x) position) 
+        {
+            if(IsInsideMap(position))
+                return _map[position.y, position.x];
+
+            return null;
+        }
+
         public List<(int y, int x)> GetKingPositions()
         {
             var h_position = Mathf.FloorToInt(_sizeWidth / 2);

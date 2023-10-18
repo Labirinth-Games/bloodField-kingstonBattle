@@ -3,6 +3,7 @@ using Render;
 using System.Collections;
 using System.Collections.Generic;
 using Tiles;
+using Unity.Burst.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,7 +11,9 @@ namespace Helpers
 {
     public class MiniatureMouseHelper : MonoBehaviour
     {
-        private GameObject _miniature;
+        [SerializeField] private GameObject miniaturePrefab;
+
+        [SerializeField]private GameObject _miniature;
         private bool _isAttached = false;
         private bool _canSpawnMiniatureOnMap = false;
 
@@ -19,7 +22,7 @@ namespace Helpers
             if(card == null) return;
 
             _isAttached = true;
-            _miniature = MapRender.MiniatureRender(card);
+            _miniature = MapRender.MiniatureRender(card, miniaturePrefab);
         }
 
         private void MoveMiniaturePosition()
@@ -27,7 +30,7 @@ namespace Helpers
             if (_isAttached)
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Color color = new Color();
+                Color color;// = new Color();
                 var x = Mathf.FloorToInt(mousePos.x + .5f);
                 var y = Mathf.FloorToInt(mousePos.y + .5f);
 
@@ -50,17 +53,13 @@ namespace Helpers
 
         private void AddMiniatureOnMap()
         {
-            if (_miniature != null && _canSpawnMiniatureOnMap && Input.GetButtonDown("Fire1"))
+            if (_miniature != null && _isAttached && _canSpawnMiniatureOnMap && Input.GetButtonDown("Fire1"))
             {
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 int x = (int)_miniature.transform.position.x;
                 int y = (int)_miniature.transform.position.y;
                 var miniature = _miniature.GetComponent<Miniature>();
                 miniature.self.MoveTo((y, x));
-
-                //var tile = new Tile(card.stats.type, _miniature);
-
-                //GameManager.Instance.mapManager.Register(tile, (y, x));
+                miniature.SetReady();
 
                 _miniature = null;
                 _isAttached = false;
@@ -76,6 +75,16 @@ namespace Helpers
         private void Start()
         {
             GameManager.Instance.mouseHelper.OnCardSelected.AddListener(SelectedCard);
+        }
+
+        public static (int y, int x) GetPositionOnWorld()
+        {
+            Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            var x = Mathf.FloorToInt(mousePos.x + .5f);
+            var y = Mathf.FloorToInt(mousePos.y + .5f);
+            (int y, int x) position = (y, x);
+
+            return position;
         }
     }
 }

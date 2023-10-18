@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Lancer
   description: "Esse \xE9 um guerreiro com ataques de media distancia."
-  type: 0
   sprite: {fileID: 6060888893177541482, guid: 34a8cae984f64d24d8abe2cde2e457dd, type: 3}
+  type: 0
+  direction: 2
   ATK: 1
   DEF: 1
   MOV: 1

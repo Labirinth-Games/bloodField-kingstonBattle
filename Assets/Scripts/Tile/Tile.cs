@@ -62,6 +62,7 @@ namespace Tiles
         public Vector3 SetPositionOnWorld() => gameObject.transform.position = GetPositionOnWorld();
 
         public bool IsEmpty() => type == TileTypeEnum.None;
+        public bool AnyElement() => type != TileTypeEnum.None;
 
         private TileTypeEnum TranslateTypes(CardTypeEnum cardType)
         {

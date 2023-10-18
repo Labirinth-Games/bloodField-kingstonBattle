@@ -12,5 +12,15 @@ namespace Managers
         #region Gets/Sets
         public bool IsMyTurn() => _isTurnPlayer;
         #endregion
+
+        public void EndTurn()
+        {
+            _isTurnPlayer = !_isTurnPlayer;
+        }
+
+        public void Load()
+        {
+
+        }
     }
 }

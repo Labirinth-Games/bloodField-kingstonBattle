@@ -6,11 +6,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
 public class CardSO : ScriptableObject
 {
+    [Header("Settings")]
     public string title;
     [TextArea()]
     public string description;
-    public CardTypeEnum type;
     public Sprite sprite;
+    public CardTypeEnum type;
+    public ScanDirectionTypeEnum direction;
 
     [Header("Stats")]
     public int ATK;
@@ -19,6 +21,6 @@ public class CardSO : ScriptableObject
     public int D_ATK;
 
     [Header("Flags")]
-    public bool isGroup;    
+    public bool isGroup;
 }
 
