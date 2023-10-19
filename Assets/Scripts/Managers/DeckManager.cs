@@ -8,42 +8,36 @@ namespace Managers
 {
     public class DeckManager : MonoBehaviour
     {
-        [SerializeField] private List<CardSO> deck;
+        [SerializeField] private Queue<CardSO> deck;
 
         [Header("References")]
         public DeckGenerate deckGenerate;
 
-        private int _cardRemaing;
+        private int _amountCardOnPlayerHand;
 
-        public List<CardSO> Draw(int amount = 1)
+        public void Draw(int amount = 1)
         {
             var cards = new List<CardSO>();
-            _cardRemaing -= amount;
+            _amountCardOnPlayerHand += amount;
 
             for(int i = 0; i< amount; i++)
             {
-                var card = deck[Random.Range(0, deck.Count)];
+                var card = deck.Dequeue();
 
                 cards.Add(card);                
             }
 
-            return cards;
+            GameManager.Instance.cardManager.Create(cards);
+            GameManager.Instance.player.SetCardOnHand(cards);
         }
 
-        public CardSO Draw()
-        {
-            _cardRemaing--;
+        public bool CanDraw() => deck.Count > 0 && _amountCardOnPlayerHand <= GameManager.Instance.matchConfig.maxCardOnPlayerHand;
 
-             return deck[Random.Range(0, deck.Count)];
-        }
-
-        public bool CanDraw() => _cardRemaing > 0;
+        public void UseCardOnPlayerHand() => _amountCardOnPlayerHand--;
 
         public void Load()
         {
-            _cardRemaing = GameManager.Instance.matchConfig.deckAmount;
-            deck = deckGenerate.Deck();
-            
+            deck = deckGenerate.Deck();            
         }
 
         private void OnValidate()

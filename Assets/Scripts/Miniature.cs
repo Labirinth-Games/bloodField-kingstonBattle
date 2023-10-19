@@ -32,7 +32,9 @@ public class Miniature : TileElement, ITurn
     #region Actions
     private void Select()
     {
-        if (_isSelected)
+        _isSelected = !_isSelected;
+
+        if (!_isSelected)
         {
             signageUI.Clear();
             GetComponent<BoxCollider2D>().size = Vector2.one;
@@ -51,7 +53,6 @@ public class Miniature : TileElement, ITurn
 
         GetComponent<BoxCollider2D>().size *= (stats.D_ATK + stats.MOV) * 2;
 
-        _isSelected = !_isSelected;
     }
 
     private void Move((int y, int x) position)
@@ -99,8 +100,6 @@ public class Miniature : TileElement, ITurn
         if (Input.GetMouseButtonDown(0))
         {
             if (!_isReady || _finishAction) return;
-
-            //if (GameManager.Instance.gamePlayManager.IsOtherMiniature()) return;
 
             var position = MiniatureMouseHelper.GetPositionOnWorld();
 

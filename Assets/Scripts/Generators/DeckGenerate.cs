@@ -8,9 +8,9 @@ namespace Generators
 {
     public class DeckGenerate : MonoBehaviour
     {
-        public List<CardSO> Deck()
+        public Queue<CardSO> Deck()
         {
-            List<CardSO> deck = new List<CardSO>();
+            Queue<CardSO> deck = new Queue<CardSO>();
             MatchConfigSO matchConfig = GameManager.Instance.matchConfig;
 
             foreach (var card in matchConfig.DeckCardTypeAmount)
@@ -25,7 +25,7 @@ namespace Generators
                     {
                         int indexRandom = Random.Range(0, cards.Count);
 
-                        deck.Add(cards[indexRandom]);
+                        deck.Enqueue(cards[indexRandom]);
                     }
                 }
             }

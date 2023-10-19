@@ -29,6 +29,8 @@ namespace Managers
             if (_amountCardUsed >= amountPlayCardCanActive)
                 OnDontUseCard?.Invoke();
 
+            GameManager.Instance.deckManager.UseCardOnPlayerHand();
+
             AutomaticEndTurn();
         }
         public void SetMiniatureFinishAction()
@@ -61,7 +63,6 @@ namespace Managers
 
         private void ResetConfig()
         {
-            _isTurnPlayer = true;
             _amountCardUsed = 0;
             _isAllMiniatureFinish = false;
 

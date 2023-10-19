@@ -43,7 +43,7 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
             GameManager.Instance.turnManager.SetCardUsed();
             GameManager.Instance.cardManager.ClosePreview();
             GameManager.Instance.miniatureMouseHelper.CreateMiniature(stats);
-            Destroy(gameObject);
+            cardUI.Click();
         }
 
         if (eventData.button == PointerEventData.InputButton.Right)

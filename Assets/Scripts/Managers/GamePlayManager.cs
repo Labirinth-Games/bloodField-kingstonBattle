@@ -18,14 +18,17 @@ namespace Managers
         public void SetCurrentMiniature(Miniature miniature) => currentMiniature = miniature;
         public void AddMiniature(Miniature miniature) => miniatures.Add(miniature);
         public bool IsAllMiniaturesFinish() => miniatures.All(f => f.finishAction == true);
+        #endregion
         public void MyTurn()
         {
+            if(GameManager.Instance.deckManager.CanDraw())
+                GameManager.Instance.deckManager.Draw();
+
             foreach (Miniature miniature in miniatures)
             {
                 miniature.MyTurn();
             }
         }
-        #endregion
 
         public void StartMatch()
         {
@@ -35,9 +38,7 @@ namespace Managers
 
 
             // get hand initial
-            var cards = GameManager.Instance.deckManager.Draw(GameManager.Instance.matchConfig.initialAmountInHand);
-            GameManager.Instance.cardManager.Create(cards);
-            GameManager.Instance.player.SetCardHand(cards);
+            GameManager.Instance.deckManager.Draw(GameManager.Instance.matchConfig.initialAmountInHand);
         }
     }
 }

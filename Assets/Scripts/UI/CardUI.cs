@@ -21,8 +21,6 @@ namespace UI
         [SerializeField] private GameObject badgeGroup;
         [SerializeField] private int moveUpHoverMouse = 30;
 
-        private Vector3 _originalPosition;
-
         public void Render(CardSO cardStats)
         {
             Title.text = cardStats.title;
@@ -36,26 +34,13 @@ namespace UI
 
             badgeGroup.SetActive(cardStats.isGroup);
 
-            _originalPosition = Vector3.zero;
+            transform.DOScale(0, .3f).From();
         }
 
-        public void HoverEnter()
-        {
-            if (_originalPosition == Vector3.zero)
-                _originalPosition = transform.position;
+        public void HoverEnter() => transform.DOLocalMoveY(moveUpHoverMouse, .1f);
 
-            var dir = _originalPosition;
-            dir.y += moveUpHoverMouse;
+        public void HoverExit() => transform.DOLocalMoveY(0, .1f);
 
-            transform.DOMove(dir, .2f);
-        }
-
-        public void HoverExit()
-        {
-            var dir = _originalPosition;
-            dir.y -= moveUpHoverMouse;
-
-            transform.DOMove(_originalPosition, .2f);
-        }
+        public void Click() => transform.DOScale(0, .1f).OnComplete(() => Destroy(gameObject));
     }
 }

@@ -13,6 +13,7 @@ public class MatchConfigSO : ScriptableObject
     public string title;
     public int initialAmountInHand = 5; // initial number of cards the player has in hand
     public int amountPlayCardCanActive = 1; // amount that the player can play in your turn
+    public int maxCardOnPlayerHand = 10; // max cards tha a player can has on hand
 
     [Space()]
     [Header("Settings Deck")]

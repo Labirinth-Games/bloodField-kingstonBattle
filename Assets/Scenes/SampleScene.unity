@@ -760,7 +760,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2ff4d66612e30141a714c7a1e31b491, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deck: []
   deckGenerate: {fileID: 1545291039}
 --- !u!114 &1545291041
 MonoBehaviour:
@@ -844,8 +843,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1432.9335, y: 74}
-  m_SizeDelta: {x: 974.1331, y: 300}
+  m_AnchoredPosition: {x: 1447.1624, y: 74}
+  m_SizeDelta: {x: 945.6753, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1629685453
 MonoBehaviour:
@@ -864,7 +863,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 4
+  m_ChildAlignment: 5
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 200, y: 300}
@@ -1234,7 +1233,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 4
-  m_StartCorner: 0
+  m_StartCorner: 1
   m_StartAxis: 0
   m_CellSize: {x: 400, y: 600}
   m_Spacing: {x: -95, y: 0}
