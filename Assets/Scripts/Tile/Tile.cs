@@ -63,13 +63,13 @@ namespace Tiles
 
         public bool IsEmpty() => type == TileTypeEnum.None;
         public bool AnyElement() => type != TileTypeEnum.None;
+        public bool IsMove() => type == TileTypeEnum.None || type == TileTypeEnum.Terrain;
 
         private TileTypeEnum TranslateTypes(CardTypeEnum cardType)
         {
             switch (cardType)
             {
                 case CardTypeEnum.Army: return TileTypeEnum.Army;
-                case CardTypeEnum.Command: return TileTypeEnum.Command;
                 case CardTypeEnum.Equipament: return TileTypeEnum.Equipament;
                 case CardTypeEnum.Terrain: return TileTypeEnum.Terrain;
                 default: return TileTypeEnum.None;

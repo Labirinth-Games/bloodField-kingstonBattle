@@ -162,8 +162,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3579693289345171380}
-  - component: {fileID: 3565041860387342385}
+  - component: {fileID: 3018545033940873582}
   - component: {fileID: 3545970457223005344}
+  - component: {fileID: 2376662884734677913}
   m_Layer: 5
   m_Name: CardPreviewPrefab
   m_TagString: Untagged
@@ -199,7 +200,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 600}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3565041860387342385
+--- !u!114 &3018545033940873582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -208,7 +209,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1962485834779004676}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc8e8c7655859e149af725acbd0fcbe2, type: 3}
+  m_Script: {fileID: 11500000, guid: adf0937aa09b238468c151426f8fd134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cardUI: {fileID: 3545970457223005344}
@@ -234,6 +235,52 @@ MonoBehaviour:
   type: {fileID: 5992220482100352393}
   badgeGroup: {fileID: 6222250230523595848}
   moveUpHoverMouse: 30
+--- !u!61 &2376662884734677913
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1962485834779004676}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Size: {x: 400, y: 600}
+  m_EdgeRadius: 0
 --- !u!1 &2240279808675460799
 GameObject:
   m_ObjectHideFlags: 0

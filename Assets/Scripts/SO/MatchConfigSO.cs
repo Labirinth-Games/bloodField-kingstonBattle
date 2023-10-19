@@ -11,7 +11,8 @@ public class MatchConfigSO : ScriptableObject
 {
     [Header("Settings Game")]
     public string title;
-    public int initialAmountInHand = 5;
+    public int initialAmountInHand = 5; // initial number of cards the player has in hand
+    public int amountPlayCardCanActive = 1; // amount that the player can play in your turn
 
     [Space()]
     [Header("Settings Deck")]

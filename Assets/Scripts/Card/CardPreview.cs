@@ -1,15 +1,12 @@
-using Managers;
-using System.Collections;
-using System.Collections.Generic;
 using UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class Card : MonoBehaviour
+public class CardPreview : MonoBehaviour
 {
     [SerializeField] private CardUI cardUI;
 
     public CardSO stats { get; private set; }
-    public string _id { get; private set; } = System.Guid.NewGuid().ToString();
 
     public void Create(CardSO cardStats)
     {
@@ -18,11 +15,11 @@ public class Card : MonoBehaviour
         stats = Instantiate(cardStats);
     }
 
-    public void SetStats(CardSO stats) => this.stats = stats;
-
+    #region Unity Event
     private void OnValidate()
     {
         if (TryGetComponent(out CardUI cardUI))
             this.cardUI = cardUI;
     }
+    #endregion
 }

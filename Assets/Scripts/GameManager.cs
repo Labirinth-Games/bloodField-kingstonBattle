@@ -1,4 +1,5 @@
 using Controls;
+using Helpers;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -19,8 +20,7 @@ namespace Managers
         public DeckManager deckManager;
         public GamePlayManager gamePlayManager;
         public Player player;
-        public MouseHelper mouseHelper;
-
+        public MiniatureMouseHelper miniatureMouseHelper;
 
         private void Start()
         {
@@ -46,6 +46,9 @@ namespace Managers
 
             if (TryGetComponent(out GamePlayManager gamePlay))
                 this.gamePlayManager = gamePlay;
+
+            if (TryGetComponent(out MiniatureMouseHelper miniatureMouseHelper))
+                this.miniatureMouseHelper = miniatureMouseHelper;
         }
     }
 }

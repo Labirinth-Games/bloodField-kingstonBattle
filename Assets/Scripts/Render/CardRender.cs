@@ -23,5 +23,22 @@ namespace Render
 
             return (card._id, instance);
         }
+
+        public static GameObject PreviewRender(CardSO cardData)
+        {
+            GameObject prefab = GameManager.Instance.cardManager.cardPreviewPrefab;
+
+            var instance = Instantiate(prefab);
+            var parent = GameObject.FindGameObjectWithTag("HUD");
+
+            instance.transform.SetParent(parent.transform);
+
+            if (instance.TryGetComponent(out CardPreview card))
+            {
+                card.Create(cardData);
+            }
+
+            return instance;
+        }
     }
 }

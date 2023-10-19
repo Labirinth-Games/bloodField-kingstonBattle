@@ -41,7 +41,7 @@ namespace UI
 
         public void HoverEnter()
         {
-            if(_originalPosition == Vector3.zero)
+            if (_originalPosition == Vector3.zero)
                 _originalPosition = transform.position;
 
             var dir = _originalPosition;

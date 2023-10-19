@@ -13,16 +13,16 @@ namespace Helpers
     {
         [SerializeField] private GameObject miniaturePrefab;
 
-        [SerializeField]private GameObject _miniature;
+        [SerializeField] private GameObject _miniature;
         private bool _isAttached = false;
         private bool _canSpawnMiniatureOnMap = false;
 
-        public void SelectedCard(Card card)
+        public void CreateMiniature(CardSO card)
         {
-            if(card == null) return;
+            if (card == null) return;
 
             _isAttached = true;
-            _miniature = MapRender.MiniatureRender(card, miniaturePrefab);
+            _miniature = MiniatureRender.Render(card, miniaturePrefab);
         }
 
         private void MoveMiniaturePosition()
@@ -30,7 +30,7 @@ namespace Helpers
             if (_isAttached)
             {
                 Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                Color color;// = new Color();
+                Color color;
                 var x = Mathf.FloorToInt(mousePos.x + .5f);
                 var y = Mathf.FloorToInt(mousePos.y + .5f);
 
@@ -70,11 +70,6 @@ namespace Helpers
         {
             MoveMiniaturePosition();
             AddMiniatureOnMap();
-        }
-
-        private void Start()
-        {
-            GameManager.Instance.mouseHelper.OnCardSelected.AddListener(SelectedCard);
         }
 
         public static (int y, int x) GetPositionOnWorld()

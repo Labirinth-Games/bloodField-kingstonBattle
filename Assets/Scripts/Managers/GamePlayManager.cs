@@ -1,7 +1,9 @@
 using Render;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Managers
 {
@@ -15,13 +17,21 @@ namespace Managers
         public bool IsOtherMiniature() => currentMiniature != null;
         public void SetCurrentMiniature(Miniature miniature) => currentMiniature = miniature;
         public void AddMiniature(Miniature miniature) => miniatures.Add(miniature);
+        public bool IsAllMiniaturesFinish() => miniatures.All(f => f.finishAction == true);
+        public void MyTurn()
+        {
+            foreach (Miniature miniature in miniatures)
+            {
+                miniature.MyTurn();
+            }
+        }
         #endregion
 
         public void StartMatch()
         {
             // load deck to start match
             GameManager.Instance.deckManager.Load();
-            MapRender.KingRender(GameManager.Instance.mapManager.GetKingPositions(), kingsPrefab);
+            MiniatureRender.KingRender(GameManager.Instance.mapManager.GetKingPositions(), kingsPrefab);
 
 
             // get hand initial

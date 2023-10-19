@@ -39,33 +39,5 @@ namespace Render
 
             return instances;
         }
-
-        public static List<GameObject> KingRender(List<(int y, int x)> positions, GameObject prefab)
-        {
-            List<GameObject> instances = new List<GameObject>();
-
-            foreach (var position in positions)
-            {
-                var instance = Instantiate(prefab);
-                instance.GetComponent<King>().Create(position);
-
-                instances.Add(instance);
-            }
-
-            return instances;
-        }
-
-        public static GameObject MiniatureRender(Card card, GameObject prefab)
-        {
-            (int y, int x) pos = (0, 0);
-
-            var instance = Instantiate(prefab);
-            instance.GetComponent<Miniature>().Create(pos, card);
-            instance.GetComponent<SpriteRenderer>().sprite = card.stats.sprite;
-
-            instance.transform.SetParent(GameObject.Find("Miniatures").transform);
-
-            return instance;
-        }
     }
 }

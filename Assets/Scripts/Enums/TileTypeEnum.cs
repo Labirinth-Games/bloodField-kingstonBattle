@@ -9,7 +9,6 @@ namespace Tiles
         None,
         Army,
         Terrain,
-        Command,
         Equipament,
         King
     }
