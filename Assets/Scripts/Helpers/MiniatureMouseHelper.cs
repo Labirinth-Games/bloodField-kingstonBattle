@@ -1,4 +1,5 @@
 using Managers;
+using Miniatures;
 using Render;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,32 +12,28 @@ namespace Helpers
 {
     public class MiniatureMouseHelper : MonoBehaviour
     {
-        [SerializeField] private GameObject miniaturePrefab;
-
         [SerializeField] private GameObject _miniature;
         private bool _isAttached = false;
         private bool _canSpawnMiniatureOnMap = false;
 
-        public void CreateMiniature(CardSO card)
+        public void Attachment(GameObject element)
         {
-            if (card == null) return;
+            if (element == null) return;
 
             _isAttached = true;
-            _miniature = MiniatureRender.Render(card, miniaturePrefab);
+            _miniature = element;
         }
 
-        private void MoveMiniaturePosition()
+        private void AttachmentOnMouse()
         {
             if (_isAttached)
             {
-                Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                var position = GetPositionOnWorld();
                 Color color;
-                var x = Mathf.FloorToInt(mousePos.x + .5f);
-                var y = Mathf.FloorToInt(mousePos.y + .5f);
 
-                _miniature.transform.position = new Vector2(x, y);
+                _miniature.transform.position = new Vector2(position.x, position.y);
 
-                if (GameManager.Instance.mapManager.CanSpawnMiniatures((y, x)))
+                if (_miniature.GetComponent<Miniature>().CanAddOnBoard(position))
                 {
                     color = new Color(1, 1, 1, 1f);
                     _canSpawnMiniatureOnMap = true;
@@ -51,15 +48,13 @@ namespace Helpers
             }
         }
 
-        private void AddMiniatureOnMap()
+        private void AddOnBoard()
         {
             if (_miniature != null && _isAttached && _canSpawnMiniatureOnMap && Input.GetButtonDown("Fire1"))
             {
                 int x = (int)_miniature.transform.position.x;
                 int y = (int)_miniature.transform.position.y;
-                var miniature = _miniature.GetComponent<Miniature>();
-                miniature.self.MoveTo((y, x));
-                miniature.SetReady();
+                _miniature.GetComponent<Miniature>().AddOnBoard((y, x));
 
                 _miniature = null;
                 _isAttached = false;
@@ -68,8 +63,8 @@ namespace Helpers
 
         private void Update()
         {
-            MoveMiniaturePosition();
-            AddMiniatureOnMap();
+            AttachmentOnMouse();
+            AddOnBoard();
         }
 
         public static (int y, int x) GetPositionOnWorld()
@@ -81,5 +76,7 @@ namespace Helpers
 
             return position;
         }
+
+        public static bool HasTouchMe(Tile tile) => GetPositionOnWorld() == tile.position;
     }
 }

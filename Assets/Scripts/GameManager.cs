@@ -19,6 +19,7 @@ namespace Managers
         public CardManager cardManager;
         public DeckManager deckManager;
         public GamePlayManager gamePlayManager;
+        public MiniatureManager miniatureManager;
         public Player player;
         public MiniatureMouseHelper miniatureMouseHelper;
 
@@ -48,7 +49,10 @@ namespace Managers
                 this.gamePlayManager = gamePlay;
 
             if (TryGetComponent(out MiniatureMouseHelper miniatureMouseHelper))
-                this.miniatureMouseHelper = miniatureMouseHelper;
+                this.miniatureMouseHelper = miniatureMouseHelper; 
+            
+            if (TryGetComponent(out MiniatureManager miniatureManager))
+                this.miniatureManager = miniatureManager;
         }
     }
 }

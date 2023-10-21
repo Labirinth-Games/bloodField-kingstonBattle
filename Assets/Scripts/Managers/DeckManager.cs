@@ -2,6 +2,7 @@ using Generators;
 using Render;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Managers
@@ -31,13 +32,34 @@ namespace Managers
             GameManager.Instance.player.SetCardOnHand(cards);
         }
 
+        public Queue<CardSO> Shuffle(Queue<CardSO> cards)
+        {
+            CardSO aux;
+            List<CardSO> list = cards.ToList();
+            Queue<CardSO> deck = new Queue<CardSO>();
+
+            for(var i = 0; i < list.Count; i++)
+            {
+                int id1 = Random.Range(0, list.Count);
+                int id2 = Random.Range(0, list.Count);
+
+                aux = list[id1];
+                list[id1] = list[id2];
+                list[id2] = aux;
+            }
+
+            list.ForEach(f => deck.Enqueue(f));
+
+            return deck;
+        }
+
         public bool CanDraw() => deck.Count > 0 && _amountCardOnPlayerHand <= GameManager.Instance.matchConfig.maxCardOnPlayerHand;
 
         public void UseCardOnPlayerHand() => _amountCardOnPlayerHand--;
 
         public void Load()
         {
-            deck = deckGenerate.Deck();            
+            deck = Shuffle(deckGenerate.Deck());            
         }
 
         private void OnValidate()

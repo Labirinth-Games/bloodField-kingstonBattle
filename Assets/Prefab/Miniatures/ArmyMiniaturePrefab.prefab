@@ -9,12 +9,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7820776208695857286}
-  - component: {fileID: 635781815191786918}
+  - component: {fileID: 2127155457402155650}
   - component: {fileID: 8500032449884109017}
   - component: {fileID: 8992774778030448235}
   - component: {fileID: 7693993368503169579}
   m_Layer: 0
-  m_Name: MiniaturePrefab
+  m_Name: ArmyMiniaturePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,9 +33,9 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &635781815191786918
+--- !u!114 &2127155457402155650
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -44,10 +44,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1332999202083502562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 43b95c18641ac9a4e95ed63e7e312eff, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c5e5380dc16acb49820caade5c60af5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  miniaturePreviewPrefab: {fileID: 7020397068233471694, guid: 31d2f22400416a4488c4a4a761c14b68, type: 3}
+  miniaturePreviewHUDPrefab: {fileID: 7020397068233471694, guid: 31d2f22400416a4488c4a4a761c14b68, type: 3}
   signageUI: {fileID: 8500032449884109017}
 --- !u!114 &8500032449884109017
 MonoBehaviour:

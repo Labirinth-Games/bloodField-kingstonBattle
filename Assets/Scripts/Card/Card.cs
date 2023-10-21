@@ -23,6 +23,23 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         GameManager.Instance.turnManager.OnUseCard.AddListener(() => _canPlayCard = true);
     }
 
+    public void ActionFactory()
+    {
+        GameManager.Instance.miniatureManager.Build(stats);
+        //switch(stats.type)
+        //{
+        //    case Cards.CardTypeEnum.Army:
+        //    case Cards.CardTypeEnum.Equipament:
+        //        return;
+        //    case Cards.CardTypeEnum.Command:
+        //        Debug.Log("Command has applyed");
+        //        return; 
+        //    case Cards.CardTypeEnum.Terrain:
+        //        Debug.Log("Terrain has applyed");
+        //        return;
+        //}
+    }
+
     #region Mouse Events
     public void OnPointerEnter(PointerEventData eventData)
     {
@@ -42,8 +59,9 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         {
             GameManager.Instance.turnManager.SetCardUsed();
             GameManager.Instance.cardManager.ClosePreview();
-            GameManager.Instance.miniatureMouseHelper.CreateMiniature(stats);
             cardUI.Click();
+
+            ActionFactory();
         }
 
         if (eventData.button == PointerEventData.InputButton.Right)

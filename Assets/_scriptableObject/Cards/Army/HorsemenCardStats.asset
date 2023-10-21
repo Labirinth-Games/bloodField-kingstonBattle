@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7254bc9ebb8147a4085925e570d8c221, type: 3}
-  m_Name: MenCardStats
+  m_Name: HorsemenCardStats
   m_EditorClassIdentifier: 
-  title: Men OK
-  description: Unidade de corpo a corpo
+  title: Horsemen
+  description: Cavaleiro que tem otima movimentacao e boa defesa.
+  sprite: {fileID: -5334307125324478943, guid: 54f5933341bc646459f6c78a5ece8584, type: 3}
   type: 0
-  sprite: {fileID: -2311659948842064771, guid: 1923957877860bd419ab88c5eb096131, type: 3}
+  direction: 2
   ATK: 2
-  DEF: 1
-  MOV: 2
-  D_ATK: 2
+  DEF: 3
+  MOV: 4
+  D_ATK: 1
   isGroup: 0

@@ -118,10 +118,20 @@ namespace Managers
                     return true;
 
             return false;
+        }  
+        
+        public bool CanSpawnUntilMiddleMiniatures((int y, int x) dir)
+        {
+            if (IsInsideSpawnUntilMiddleMap(dir))
+                if (_map[dir.y, dir.x].Exists(f => f.IsEmpty()))
+                    return true;
+
+            return false;
         } 
 
         public bool IsInsideMap((int y, int x) dir) => dir.x >= 0 && dir.x < _sizeWidth && dir.y >= 0 && dir.y < _sizeHeight;
         public bool IsInsideSpawnMap((int y, int x) dir) => dir.x >= 0 && dir.x < _sizeWidth && dir.y >= 0 && dir.y < spawnAreaScale;
+        public bool IsInsideSpawnUntilMiddleMap((int y, int x) dir) => dir.x >= 0 && dir.x < _sizeWidth && dir.y >= 0 && dir.y < _sizeHeight - spawnAreaScale;
         #endregion
 
         private void OnValidate()

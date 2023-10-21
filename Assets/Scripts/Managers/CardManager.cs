@@ -31,7 +31,7 @@ namespace Managers
         {
             ClosePreview();
 
-            _instancePreview = CardRender.PreviewRender(card.stats);
+            _instancePreview = CardRender.PreviewRender(card.stats, card.gameObject);
         }
 
         public void ClosePreview()

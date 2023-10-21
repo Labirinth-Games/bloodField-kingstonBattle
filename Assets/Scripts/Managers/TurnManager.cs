@@ -35,7 +35,7 @@ namespace Managers
         }
         public void SetMiniatureFinishAction()
         {
-            _isAllMiniatureFinish = GameManager.Instance.gamePlayManager.IsAllMiniaturesFinish();
+            _isAllMiniatureFinish = GameManager.Instance.miniatureManager.IsAllMiniaturesFinish();
 
             AutomaticEndTurn();
         }

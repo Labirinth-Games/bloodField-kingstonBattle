@@ -187,7 +187,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -7.3}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1715552778096818966
@@ -218,7 +218,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Troop
+  m_text: troop
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ef341605434adec4c8ce0dec9280552b, type: 2}
   m_sharedMaterial: {fileID: 677948142048578632, guid: ef341605434adec4c8ce0dec9280552b, type: 2}
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 39.971497, y: 9.992889, z: 40.425842, w: 10.447144}
+  m_margin: {x: 60.212658, y: 9.992889, z: 60.970882, w: 24.121569}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -464,8 +464,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -70.1, y: -47.69994}
-  m_SizeDelta: {x: 60, y: 15}
+  m_AnchoredPosition: {x: -61.13567, y: -47.69994}
+  m_SizeDelta: {x: 77.9287, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8565062460024276583
 CanvasRenderer:
@@ -1210,6 +1210,7 @@ MonoBehaviour:
   description: {fileID: 3633311695763425168}
   type: {fileID: 9165064948046214493}
   badgeGroup: {fileID: 5857055743490853109}
+  icons: {fileID: 2650017684976019295}
   moveUpHoverMouse: 30
 --- !u!61 &-3798715347405840635
 BoxCollider2D:

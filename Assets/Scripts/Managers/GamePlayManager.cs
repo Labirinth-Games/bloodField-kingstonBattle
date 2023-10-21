@@ -1,3 +1,4 @@
+using Miniatures;
 using Render;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,24 +11,19 @@ namespace Managers
     public class GamePlayManager : MonoBehaviour
     {
         [SerializeField] private GameObject kingsPrefab;
-        [SerializeField] private List<Miniature> miniatures = new List<Miniature>();
         [SerializeField] private Miniature currentMiniature = null;
 
         #region Gets/Sets
         public bool IsOtherMiniature() => currentMiniature != null;
         public void SetCurrentMiniature(Miniature miniature) => currentMiniature = miniature;
-        public void AddMiniature(Miniature miniature) => miniatures.Add(miniature);
-        public bool IsAllMiniaturesFinish() => miniatures.All(f => f.finishAction == true);
         #endregion
+
         public void MyTurn()
         {
             if(GameManager.Instance.deckManager.CanDraw())
                 GameManager.Instance.deckManager.Draw();
 
-            foreach (Miniature miniature in miniatures)
-            {
-                miniature.MyTurn();
-            }
+           GameManager.Instance.miniatureManager.InitTurnForAll();
         }
 
         public void StartMatch()

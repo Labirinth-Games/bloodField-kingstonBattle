@@ -63,7 +63,7 @@ namespace Tiles
 
         public bool IsEmpty() => type == TileTypeEnum.None;
         public bool AnyElement() => type != TileTypeEnum.None;
-        public bool IsMove() => type == TileTypeEnum.None || type == TileTypeEnum.Terrain;
+        public bool CanMove() => type == TileTypeEnum.None || type == TileTypeEnum.Terrain;
 
         private TileTypeEnum TranslateTypes(CardTypeEnum cardType)
         {

@@ -24,7 +24,7 @@ namespace Render
             return (card._id, instance);
         }
 
-        public static GameObject PreviewRender(CardSO cardData)
+        public static GameObject PreviewRender(CardSO cardData, GameObject gameObject)
         {
             GameObject prefab = GameManager.Instance.cardManager.cardPreviewPrefab;
 
@@ -35,7 +35,7 @@ namespace Render
 
             if (instance.TryGetComponent(out CardPreview card))
             {
-                card.Create(cardData);
+                card.Create(cardData, gameObject);
             }
 
             return instance;

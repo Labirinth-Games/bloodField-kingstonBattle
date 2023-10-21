@@ -234,6 +234,7 @@ MonoBehaviour:
   description: {fileID: 6648352481817603217}
   type: {fileID: 5992220482100352393}
   badgeGroup: {fileID: 6222250230523595848}
+  icons: {fileID: 7520999588898323761}
   moveUpHoverMouse: 30
 --- !u!61 &2376662884734677913
 BoxCollider2D:
@@ -607,8 +608,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -146, y: -95.4}
-  m_SizeDelta: {x: 120, y: 30}
+  m_AnchoredPosition: {x: -126.09335, y: -95.4}
+  m_SizeDelta: {x: 159.8133, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &66626808197777022
 CanvasRenderer:
@@ -1560,7 +1561,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Troop
+  m_text: Equipament
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ef341605434adec4c8ce0dec9280552b, type: 2}
   m_sharedMaterial: {fileID: 677948142048578632, guid: ef341605434adec4c8ce0dec9280552b, type: 2}
@@ -1623,7 +1624,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 39.971497, y: 9.992889, z: 40.425842, w: 10.447144}
+  m_margin: {x: 20.232452, y: 9.992889, z: 20.08863, w: 10.447144}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

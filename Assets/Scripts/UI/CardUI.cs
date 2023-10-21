@@ -19,6 +19,7 @@ namespace UI
         [SerializeField] private TextMeshProUGUI description;
         [SerializeField] private TextMeshProUGUI type;
         [SerializeField] private GameObject badgeGroup;
+        [SerializeField] private GameObject icons;
         [SerializeField] private int moveUpHoverMouse = 30;
 
         public void Render(CardSO cardStats)
@@ -35,6 +36,9 @@ namespace UI
             badgeGroup.SetActive(cardStats.isGroup);
 
             transform.DOScale(0, .3f).From();
+
+            if (cardStats.type == Cards.CardTypeEnum.Command)
+                icons.SetActive(false);
         }
 
         public void HoverEnter() => transform.DOLocalMoveY(moveUpHoverMouse, .1f);
