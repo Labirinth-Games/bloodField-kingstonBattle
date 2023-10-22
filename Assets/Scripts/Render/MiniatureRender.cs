@@ -9,19 +9,12 @@ namespace Render
 {
     public class MiniatureRender : MonoBehaviour
     {
-        public static List<GameObject> KingRender(List<(int y, int x)> positions, GameObject prefab)
+        public static GameObject KingRender((int y, int x) position, GameObject prefab)
         {
-            List<GameObject> instances = new List<GameObject>();
+            var instance = Instantiate(prefab);
+            instance.GetComponent<Miniature>().Create(position);
 
-            foreach (var position in positions)
-            {
-                var instance = Instantiate(prefab);
-                instance.GetComponent<King>().Create(position);
-
-                instances.Add(instance);
-            }
-
-            return instances;
+            return instance;
         }
 
         public static GameObject Render(CardSO card, GameObject prefab)

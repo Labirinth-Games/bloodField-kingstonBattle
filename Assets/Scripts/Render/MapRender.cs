@@ -20,7 +20,7 @@ namespace Render
             for (var y = 0; y < grid.GetLength(0); y++)
                 for (var x = 0; x < grid.GetLength(1); x++)
                 {
-                    var map = GameObject.Find("Map");
+                    var map = GameObject.Find("Map/Squares");
                     var instance = new GameObject();
 
                     instance.AddComponent<SpriteRenderer>();

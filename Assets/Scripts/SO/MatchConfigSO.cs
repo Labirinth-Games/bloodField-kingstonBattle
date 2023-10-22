@@ -1,5 +1,5 @@
 using AYellowpaper.SerializedCollections;
-using Cards;
+using Enums;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

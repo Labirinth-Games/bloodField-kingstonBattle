@@ -1,4 +1,4 @@
-using Cards;
+using Enums;
 using DG.Tweening;
 using Managers;
 using System.Collections;
@@ -72,6 +72,7 @@ namespace Tiles
                 case CardTypeEnum.Army: return TileTypeEnum.Army;
                 case CardTypeEnum.Equipament: return TileTypeEnum.Equipament;
                 case CardTypeEnum.Terrain: return TileTypeEnum.Terrain;
+                case CardTypeEnum.King: return TileTypeEnum.King;
                 default: return TileTypeEnum.None;
             }
         }

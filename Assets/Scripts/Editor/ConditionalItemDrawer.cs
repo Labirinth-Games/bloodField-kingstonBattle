@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using CustomAttributes;
 using UnityEditor.Rendering;
-using Cards;
+using Enums;
 
 [CustomPropertyDrawer(typeof(ConditionalItemAttribute))]
 public class ConditionalItemDrawer : PropertyDrawer

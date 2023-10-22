@@ -10,7 +10,8 @@ namespace Managers
 {
     public class GamePlayManager : MonoBehaviour
     {
-        [SerializeField] private GameObject kingsPrefab;
+        [SerializeField] private GameObject kingPrefab;
+        [SerializeField] private GameObject kingEnemyPrefab;
         [SerializeField] private Miniature currentMiniature = null;
 
         #region Gets/Sets
@@ -23,15 +24,17 @@ namespace Managers
             if(GameManager.Instance.deckManager.CanDraw())
                 GameManager.Instance.deckManager.Draw();
 
-           GameManager.Instance.miniatureManager.InitTurnForAll();
+           GameManager.Instance.miniatureManager.InitTurnForAll(); 
         }
 
         public void StartMatch()
         {
             // load deck to start match
             GameManager.Instance.deckManager.Load();
-            MiniatureRender.KingRender(GameManager.Instance.mapManager.GetKingPositions(), kingsPrefab);
+            GameManager.Instance.turnManager.Load();
 
+            MiniatureRender.KingRender(GameManager.Instance.mapManager.GetKingPositions(), kingPrefab);
+            //MiniatureRender.KingRender(GameManager.Instance.mapManager.GetKingEnemyPositions(), kingEnemyPrefab);
 
             // get hand initial
             GameManager.Instance.deckManager.Draw(GameManager.Instance.matchConfig.initialAmountInHand);

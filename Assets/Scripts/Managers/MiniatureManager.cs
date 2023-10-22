@@ -1,5 +1,5 @@
 using AYellowpaper.SerializedCollections;
-using Cards;
+using Enums;
 using Miniatures;
 using Render;
 using System.Collections;

@@ -12,9 +12,15 @@ namespace HUD
 
         private void FixedUpdate()
         {
-            if(label != null)
+            if (label != null)
             {
-                label.text = GameManager.Instance.turnManager.IsMyTurn() ? "My Turn" : "Wait...";
+                if (GameManager.Instance.turnManager.IsTurnPreparation())
+                {
+                    label.text = "Preparation stage";
+                    return;
+                }
+
+                label.text = GameManager.Instance.turnManager.IsMyTurn() ? "You Turn" : "Wait...";
             }
         }
     }

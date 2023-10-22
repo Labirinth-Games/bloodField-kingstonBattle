@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using Enums;
 
 namespace UI
 {
@@ -37,7 +38,7 @@ namespace UI
 
             transform.DOScale(0, .3f).From();
 
-            if (cardStats.type == Cards.CardTypeEnum.Command)
+            if (cardStats.type == CardTypeEnum.Command)
                 icons.SetActive(false);
         }
 
@@ -45,6 +46,6 @@ namespace UI
 
         public void HoverExit() => transform.DOLocalMoveY(0, .1f);
 
-        public void Click() => transform.DOScale(0, .1f).OnComplete(() => Destroy(gameObject));
+        public void Click() => transform.DOScale(0, .1f).OnComplete(() => Destroy(gameObject, 1f));
     }
 }

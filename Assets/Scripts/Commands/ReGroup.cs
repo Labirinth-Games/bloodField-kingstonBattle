@@ -1,3 +1,4 @@
+using Enums;
 using Helpers;
 using Managers;
 using Miniatures;
@@ -15,10 +16,11 @@ namespace Commands
         #region Strategy
         private void MoveArmy((int y, int x) pos)
         {
-            _miniatures = GameManager.Instance.miniatureManager.GetMiniatures().FindAll(f => f.stats.type == Cards.CardTypeEnum.Army);
+            _miniatures = GameManager.Instance.miniatureManager.GetMiniatures().FindAll(f => f.stats.type == CardTypeEnum.Army);
             int miniatureIndex = 0;
 
-            var tiles = ScanHelper.Scan(new Tile(pos.y, pos.x), ScanDirectionTypeEnum.Ring, 1);
+            var tiles = ScanHelper.Scan(new Tile(pos.y, pos.x, TileTypeEnum.None), ScanDirectionTypeEnum.Ring, 1);
+            tiles.Reverse();
 
             RegrupmentRecursive(tiles, miniatureIndex);
         }

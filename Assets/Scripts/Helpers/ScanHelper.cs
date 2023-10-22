@@ -1,10 +1,8 @@
 using Managers;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
+using Enums;
 using Tiles;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -189,4 +187,4 @@ namespace Helpers
         public static bool CanMoveToTile(List<Tile> tiles, (int y, int x) position) => tiles.Exists(e => e.position == position);
         #endregion
     }
-}
+} 

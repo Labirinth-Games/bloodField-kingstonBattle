@@ -1,6 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using UI;
+using Enums;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,7 +10,9 @@ namespace Managers
     public class TurnManager : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField] private int amountPlayCardCanActive = 1;
+        [SerializeField] private int amountPlayCardOnGameplay = 1;
+        [SerializeField] private int amountPlayCardOnPreparation = 3;
+        [SerializeField] private TurnStageEnum turnStage;
 
         [Header("callback")]
         public UnityEvent OnUseCard;
@@ -18,15 +21,18 @@ namespace Managers
         private bool _isTurnPlayer = true;
         private int _amountCardUsed = 0;
         private bool _isAllMiniatureFinish = false;
+        private Dictionary<TurnStageEnum, Func<bool>> _rules;
 
         #region Gets/Sets
         public bool IsMyTurn() => _isTurnPlayer;
+        public TurnStageEnum GetTurnState() => turnStage;
+        public bool IsTurnPreparation() => turnStage == TurnStageEnum.Preparation;
 
         public void SetCardUsed()
         {
             _amountCardUsed++;
 
-            if (_amountCardUsed >= amountPlayCardCanActive)
+            if (_rules[turnStage]())
                 OnDontUseCard?.Invoke();
 
             GameManager.Instance.deckManager.UseCardOnPlayerHand();
@@ -43,7 +49,7 @@ namespace Managers
 
         private void AutomaticEndTurn()
         {
-            bool isAllCardsPlayed = _amountCardUsed >= amountPlayCardCanActive;
+            bool isAllCardsPlayed = _amountCardUsed >= amountPlayCardOnGameplay;
             bool isAllMiniaturesHasFinish = _isAllMiniatureFinish;
 
             if (isAllCardsPlayed && isAllMiniaturesHasFinish) EndTurn();
@@ -52,6 +58,10 @@ namespace Managers
         public void EndTurn()
         {
             _isTurnPlayer = !_isTurnPlayer;
+
+            // when finish the preparation step
+            if (turnStage == TurnStageEnum.Preparation)
+                turnStage = TurnStageEnum.GamePlay;
 
             if (IsMyTurn())
             {
@@ -67,7 +77,7 @@ namespace Managers
             _isAllMiniatureFinish = false;
 
             OnUseCard?.Invoke();
-            
+
             GameManager.Instance.gamePlayManager.MyTurn();
         }
 
@@ -79,7 +89,13 @@ namespace Managers
 
         public void Load()
         {
+            turnStage = TurnStageEnum.Preparation;
 
+            _rules = new Dictionary<TurnStageEnum, Func<bool>>
+            {
+                { TurnStageEnum.Preparation, () => _amountCardUsed >= amountPlayCardOnPreparation },
+                { TurnStageEnum.GamePlay, () => _amountCardUsed >= amountPlayCardOnGameplay }
+            };
         }
     }
 }

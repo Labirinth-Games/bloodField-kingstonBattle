@@ -25,7 +25,7 @@ public class CardPreview : MonoBehaviour, IPointerDownHandler
         {
             GameManager.Instance.turnManager.SetCardUsed();
             GameManager.Instance.cardManager.ClosePreview();
-            parent.GetComponent<Card>().ActionFactory();
+            parent.GetComponent<Card>().PlayingCard();
 
             cardUI.Click();
             Destroy(parent, .2f);

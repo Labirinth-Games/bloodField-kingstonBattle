@@ -1,4 +1,5 @@
-﻿using Generators;
+﻿using Enums;
+using Generators;
 using Render;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,15 +35,18 @@ namespace Managers
             return null;
         }
 
-        public List<(int y, int x)> GetKingPositions()
+        public (int y, int x) GetKingPositions()
         {
             var h_position = Mathf.FloorToInt(_sizeWidth / 2);
 
-            return new List<(int y, int x)>()
-            {
-                (0, h_position),
-                (_sizeHeight - 1, h_position),
-            };
+            return (0, h_position);
+        }
+
+        public (int y, int x) GetKingEnemyPositions()
+        {
+            var h_position = Mathf.FloorToInt(_sizeWidth / 2);
+
+            return (_sizeHeight - 1, h_position);
         }
         #endregion
 

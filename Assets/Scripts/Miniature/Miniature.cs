@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Helpers;
 using Managers;
 using Render;
@@ -36,12 +37,14 @@ namespace Miniatures
         protected virtual void Select(bool showAttackUI = true, bool showMoveUI = true)
         {
             if (!MiniatureMouseHelper.HasTouchMe(self)) return;
+            if (GameManager.Instance.gamePlayManager.IsOtherMiniature()) return;
 
             ToggleSelection();
 
             if (!_isSelected)
             {
                 signageUI.Clear();
+                GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
                 GetComponent<BoxCollider2D>().size = Vector2.one;
                 return;
             }
@@ -50,13 +53,13 @@ namespace Miniatures
 
             signageUI.Clear();
 
-            if(showAttackUI)
+            if (showAttackUI)
             {
                 _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.D_ATK, true);
                 signageUI.OverlayAttack(_tilesToAttack);
             }
 
-            if(showMoveUI)
+            if (showMoveUI)
             {
                 _tilesToMove = ScanHelper.Scan(self, stats.direction, stats.MOV);
                 signageUI.OverlayMove(_tilesToMove);
@@ -145,16 +148,20 @@ namespace Miniatures
             GetComponent<BoxCollider2D>().size = Vector2.one;
             GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
             GameManager.Instance.turnManager.SetMiniatureFinishAction();
+            _tilesToAttack?.Clear();
+            _tilesToMove?.Clear();
         }
 
         protected virtual void ToggleSelection() => _isSelected = !_isSelected;
         #endregion
 
-        public virtual void Create((int y, int x) pos, CardSO card) 
+        public virtual void Create((int y, int x) pos, CardSO card)
         {
             stats = Instantiate(card);
         }
-        
+
+        public virtual void Create((int y, int x) pos) { }
+
         public virtual void AddOnBoard((int y, int x) pos)
         {
             self.MoveTo(pos);

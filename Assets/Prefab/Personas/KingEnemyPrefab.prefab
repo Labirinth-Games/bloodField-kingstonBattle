@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 3977470508389174451}
   - component: {fileID: 4299028299782875419}
   - component: {fileID: -7139041524816647172}
-  - component: {fileID: -4023631126393952648}
-  - component: {fileID: -2719756172598675102}
+  - component: {fileID: 634029105759526724}
+  - component: {fileID: -2569261826087796148}
   m_Layer: 0
-  m_Name: KingPrefab
+  m_Name: KingEnemyPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,10 +100,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miniaturePreviewHUDPrefab: {fileID: 7020397068233471694, guid: 31d2f22400416a4488c4a4a761c14b68, type: 3}
-  signageUI: {fileID: -4023631126393952648}
-  kingSprite: {fileID: -1724822148711148119, guid: ed4ab417e5d66294086dcc2f4e694020, type: 3}
+  signageUI: {fileID: 634029105759526724}
+  kingSprite: {fileID: 3875702248331517723, guid: ad2dc405396e1044da5f004db7cd1e04, type: 3}
   card: {fileID: 11400000, guid: 68b054dc9705b034d8062c17ca674598, type: 2}
---- !u!114 &-4023631126393952648
+--- !u!114 &634029105759526724
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,7 +117,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveOverlayerSprite: {fileID: 3481968747849857473, guid: b539f03ee35724d4fa01e627444feb9b, type: 3}
   reachOverlayerSprite: {fileID: -8360479188709166652, guid: 4f2396f296783b844b979c23a95b51e9, type: 3}
---- !u!61 &-2719756172598675102
+--- !u!61 &-2569261826087796148
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

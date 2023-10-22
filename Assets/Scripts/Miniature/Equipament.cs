@@ -1,3 +1,4 @@
+using Enums;
 using Helpers;
 using Managers;
 using Render;
@@ -10,6 +11,8 @@ namespace Miniatures
 {
     public class Equipament : Miniature
     {
+        private bool _isExcludeActionTurn = false;
+
         #region Mouse Actions
         private void OnMouseOver()
         {
@@ -43,6 +46,12 @@ namespace Miniatures
         public override bool CanAddOnBoard((int y, int x) position) => GameManager.Instance.mapManager.CanSpawnUntilMiddleMiniatures(position);
         #endregion
 
+        public override void MyTurn()
+        {
+            if (_isExcludeActionTurn) return;
+            base.MyTurn();
+        }
+
         public override void Create((int y, int x) pos, CardSO card)
         {
             self = GameManager.Instance.mapManager.Register(new Tile(card.type, gameObject), pos);
@@ -54,9 +63,11 @@ namespace Miniatures
             // remove equipaments of the count to auto finish turn
             List<EquipamentTypeEnum> excludeTurn = new List<EquipamentTypeEnum>() { EquipamentTypeEnum.Moral, EquipamentTypeEnum.Defense };
 
-            if (excludeTurn.Exists(f => f == stats.equipamentType))
+            if (excludeTurn.Exists(f => f == stats.equipamentType)) 
+            {
+                _isExcludeActionTurn = true;
                 _finishAction = true;
-
+            }
         }
     }
 }
