@@ -16,9 +16,23 @@ MonoBehaviour:
   description: "Soldado guerreiro que tem ataque curto e movimenta\xE7\xE3o curta"
   sprite: {fileID: 6246832655069406539, guid: 8560f9c1fd611c344815f9471fc9ec1e, type: 3}
   type: 0
+  equipamentType: 0
+  armyType: 0
   direction: 2
-  ATK: 2
-  DEF: 2
+  ATK: 1
+  DEF: 1
   MOV: 1
   D_ATK: 1
   isGroup: 0
+  commandScript: {fileID: 0}
+  aditionalStats:
+    _serializedList:
+    - Key: 0
+      Value: 0
+    - Key: 1
+      Value: 0
+    - Key: 2
+      Value: 0
+    - Key: 3
+      Value: 0
+  targets: 

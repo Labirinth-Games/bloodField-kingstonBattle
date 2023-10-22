@@ -19,10 +19,10 @@ namespace HUD
         public void Render(CardSO cardStats)
         {
             Title.text = cardStats.title;
-            ATKField.text =   $"ATK  -------   {cardStats.ATK}";
-            DEFField.text =   $"DEF  -------   {cardStats.DEF}";
-            MOVField.text =   $"MOV  -------   {cardStats.MOV}";
-            D_ATKField.text = $"D_ATK  ----   {cardStats.D_ATK}";
+            ATKField.text =   $"ATK   ---- {cardStats.GetATK()}";
+            DEFField.text =   $"DEF   ---- {cardStats.GetDEF()}";
+            MOVField.text =   $"MOV   ---- {cardStats.GetMOV()}";
+            D_ATKField.text = $"D_ATK ---- {cardStats.GetD_ATK()}";
             image.sprite = cardStats.sprite;
         }
 

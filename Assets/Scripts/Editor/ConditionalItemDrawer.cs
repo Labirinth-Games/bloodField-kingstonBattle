@@ -5,6 +5,7 @@ using UnityEngine;
 using CustomAttributes;
 using UnityEditor.Rendering;
 using Enums;
+using System;
 
 [CustomPropertyDrawer(typeof(ConditionalItemAttribute))]
 public class ConditionalItemDrawer : PropertyDrawer
@@ -24,13 +25,12 @@ public class ConditionalItemDrawer : PropertyDrawer
         // Set the global variables.
         conditionalItem = attribute as ConditionalItemAttribute;
         comparedField = property.serializedObject.FindProperty(conditionalItem.propertyName);
-        var comparedFieldValue = comparedField.GetEnumValue<CardTypeEnum>();
+        var comparedFieldValue = comparedField.GetEnumName<Enum>();
 
         // Get the value of the compared field.
-        //object comparedFieldValue = comparedField.GetValue<object>();
         propertyHeight = base.GetPropertyHeight(property, label);
 
-        if (conditionalItem.propertyValue == comparedFieldValue)
+        if (conditionalItem.propertyValue.ToString() == comparedFieldValue)
         {
             EditorGUI.PropertyField(position, property, label);
         } else

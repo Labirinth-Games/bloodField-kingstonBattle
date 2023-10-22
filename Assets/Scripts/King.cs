@@ -53,6 +53,6 @@ public class King : Miniature
 
         stats = Instantiate(card);
         stats.sprite = kingSprite;
-        _fullHP = stats.DEF;
+        _hp = stats.GetDEF();
     }
 }

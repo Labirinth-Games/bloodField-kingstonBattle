@@ -16,9 +16,23 @@ MonoBehaviour:
   description: "Esse \xE9 um guerreiro com ataques de media distancia."
   sprite: {fileID: 6060888893177541482, guid: 34a8cae984f64d24d8abe2cde2e457dd, type: 3}
   type: 0
+  equipamentType: 0
+  armyType: 2
   direction: 2
   ATK: 1
   DEF: 1
   MOV: 1
   D_ATK: 2
   isGroup: 0
+  commandScript: {fileID: 0}
+  aditionalStats:
+    _serializedList:
+    - Key: 0
+      Value: 0
+    - Key: 1
+      Value: 0
+    - Key: 2
+      Value: 0
+    - Key: 3
+      Value: 0
+  targets: 

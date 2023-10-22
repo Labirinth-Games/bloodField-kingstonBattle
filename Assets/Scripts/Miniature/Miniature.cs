@@ -1,4 +1,5 @@
 using DG.Tweening;
+using Enums;
 using Helpers;
 using Managers;
 using Render;
@@ -18,7 +19,7 @@ namespace Miniatures
 
         [SerializeField] protected SignageUI signageUI;
 
-        public CardSO stats { get; protected set; }
+        public CardSO stats;
         public bool finishAction
         {
             get => _finishAction;
@@ -31,7 +32,7 @@ namespace Miniatures
         protected bool _isReady = false;
         protected bool _finishAction = false;
         protected bool _isSelected = false;
-        protected int _fullHP;
+        protected int _hp;
 
         #region Actions
         protected virtual void Select(bool showAttackUI = true, bool showMoveUI = true)
@@ -55,18 +56,18 @@ namespace Miniatures
 
             if (showAttackUI)
             {
-                _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.D_ATK, true);
+                _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.GetD_ATK(), true);
                 signageUI.OverlayAttack(_tilesToAttack);
             }
 
             if (showMoveUI)
             {
-                _tilesToMove = ScanHelper.Scan(self, stats.direction, stats.MOV);
+                _tilesToMove = ScanHelper.Scan(self, stats.direction, stats.GetMOV());
                 signageUI.OverlayMove(_tilesToMove);
             }
 
 
-            GetComponent<BoxCollider2D>().size *= (stats.D_ATK + stats.MOV) * 2;
+            GetComponent<BoxCollider2D>().size *= (stats.GetD_ATK() + stats.GetMOV()) * 2;
         }
 
         protected virtual void Move((int y, int x) position)
@@ -89,7 +90,7 @@ namespace Miniatures
 
             if (enemy != null && enemy.gameObject.TryGetComponent(out Miniature miniatureEnemy))
             {
-                miniatureEnemy.Hit(stats.ATK);
+                miniatureEnemy.Hit(stats.GetATK());
             }
 
             FinishAction();
@@ -97,9 +98,9 @@ namespace Miniatures
 
         public virtual void Hit(int damage)
         {
-            stats.DEF -= damage;
+            _hp -= damage;
 
-            if (stats.DEF <= 0)
+            if (_hp <= 0)
                 Die();
         }
 
@@ -127,7 +128,7 @@ namespace Miniatures
             _isReady = true;
             _finishAction = false;
             _isSelected = false;
-            stats.DEF = _fullHP;
+            _hp = stats.GetDEF();
 
             signageUI.Clear();
         }

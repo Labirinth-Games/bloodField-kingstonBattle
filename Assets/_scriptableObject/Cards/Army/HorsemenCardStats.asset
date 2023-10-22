@@ -16,9 +16,23 @@ MonoBehaviour:
   description: Cavaleiro que tem otima movimentacao e boa defesa.
   sprite: {fileID: -5334307125324478943, guid: 54f5933341bc646459f6c78a5ece8584, type: 3}
   type: 0
+  equipamentType: 0
+  armyType: 3
   direction: 2
   ATK: 2
   DEF: 3
   MOV: 4
   D_ATK: 1
   isGroup: 0
+  commandScript: {fileID: 0}
+  aditionalStats:
+    _serializedList:
+    - Key: 0
+      Value: 0
+    - Key: 1
+      Value: 0
+    - Key: 2
+      Value: 0
+    - Key: 3
+      Value: 0
+  targets: 

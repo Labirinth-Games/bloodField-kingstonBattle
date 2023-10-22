@@ -10,9 +10,9 @@ namespace CustomAttributes
     public class ConditionalItemAttribute : PropertyAttribute
     {
         public string propertyName;
-        public CardTypeEnum propertyValue;
+        public object propertyValue;
 
-        public ConditionalItemAttribute(string propertyName, CardTypeEnum propertyValue)
+        public ConditionalItemAttribute(string propertyName, object propertyValue)
         {
             this.propertyName = propertyName;
             this.propertyValue = propertyValue;

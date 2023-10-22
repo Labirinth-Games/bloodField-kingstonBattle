@@ -32,11 +32,11 @@ namespace Managers
             GameManager.Instance.player.SetCardOnHand(cards);
         }
 
-        public Queue<CardSO> Shuffle(Queue<CardSO> cards)
+        public void Shuffle()
         {
             CardSO aux;
-            List<CardSO> list = cards.ToList();
-            Queue<CardSO> deck = new Queue<CardSO>();
+            List<CardSO> list = deck.ToList();
+            Queue<CardSO> cards = new Queue<CardSO>();
 
             for(var i = 0; i < list.Count; i++)
             {
@@ -48,18 +48,25 @@ namespace Managers
                 list[id2] = aux;
             }
 
-            list.ForEach(f => deck.Enqueue(f));
+            list.ForEach(f => cards.Enqueue(f));
 
-            return deck;
+            deck = cards;
         }
 
+        #region Validatior
         public bool CanDraw() => deck.Count > 0 && _amountCardOnPlayerHand <= GameManager.Instance.matchConfig.maxCardOnPlayerHand;
+        #endregion
+
+        #region Gets/Sets
+        public Queue<CardSO> GetDeck() => deck;
+        #endregion
 
         public void UseCardOnPlayerHand() => _amountCardOnPlayerHand--;
 
         public void Load()
         {
-            deck = Shuffle(deckGenerate.Deck());            
+            deck = deckGenerate.Deck();
+            Shuffle(); // shuffle cards
         }
 
         private void OnValidate()

@@ -26,10 +26,10 @@ namespace UI
         public void Render(CardSO cardStats)
         {
             Title.text = cardStats.title;
-            ATKField.text = cardStats.ATK.ToString();
-            DEFField.text = cardStats.DEF.ToString();
-            MOVField.text = cardStats.MOV.ToString();
-            D_ATKField.text = cardStats.D_ATK.ToString();
+            ATKField.text = cardStats.GetATK().ToString();
+            DEFField.text = cardStats.GetDEF().ToString();
+            MOVField.text = cardStats.GetMOV().ToString();
+            D_ATKField.text = cardStats.GetD_ATK().ToString();
             description.text = cardStats.description;
             type.text = cardStats.type.ToString();
             image.sprite = cardStats.sprite;

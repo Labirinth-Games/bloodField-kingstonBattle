@@ -17,6 +17,7 @@ MonoBehaviour:
   sprite: {fileID: -5749666017210237806, guid: ddc7835ec75c3984aa6cb89c96b92b67, type: 3}
   type: 2
   equipamentType: 0
+  armyType: 0
   direction: 0
   ATK: 0
   DEF: 0
@@ -24,3 +25,6 @@ MonoBehaviour:
   D_ATK: 0
   isGroup: 0
   commandScript: {fileID: 6915731243299456942, guid: 8cc5b0c5a7447a94496d91b3a16f75f6, type: 3}
+  aditionalStats:
+    _serializedList: []
+  targets: 

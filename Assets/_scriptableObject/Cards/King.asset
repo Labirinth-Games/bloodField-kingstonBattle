@@ -17,6 +17,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   type: 4
   equipamentType: 0
+  armyType: 0
   direction: 1
   ATK: 1
   DEF: 20
@@ -24,3 +25,14 @@ MonoBehaviour:
   D_ATK: 1
   isGroup: 0
   commandScript: {fileID: 0}
+  additionalStats:
+    _serializedList:
+    - Key: 0
+      Value: 0
+    - Key: 1
+      Value: 0
+    - Key: 2
+      Value: 0
+    - Key: 3
+      Value: 0
+  targets: 
