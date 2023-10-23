@@ -21,9 +21,9 @@ MonoBehaviour:
     - Key: 0
       Value: 30
     - Key: 3
-      Value: 20
+      Value: 7
     - Key: 1
-      Value: 8
+      Value: 80
     - Key: 2
-      Value: 1
-  deckAmount: 59
+      Value: 10
+  deckAmount: 127

@@ -16,9 +16,17 @@ MonoBehaviour:
   description: Durante 1 turno, todos os jogadores receberam DEF -1 e MOV -1
   sprite: {fileID: -1766006069671443837, guid: 29ac324e9e3967b4ba8265c5065fc2b0, type: 3}
   type: 1
+  equipamentType: 0
+  armyType: 0
+  width: 0
+  height: 0
   direction: 4
   ATK: 0
   DEF: 0
   MOV: 0
   D_ATK: 0
   isGroup: 0
+  commandScript: {fileID: 0}
+  additionalStats:
+    _serializedList: []
+  targets: 

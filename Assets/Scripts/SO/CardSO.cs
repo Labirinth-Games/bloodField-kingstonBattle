@@ -23,6 +23,13 @@ public class CardSO : ScriptableObject
     [ConditionalItem(nameof(type), CardTypeEnum.Army)]
     public ArmyTypeEnum armyType;
 
+    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    public bool canApplyEffectToAllMap;
+    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    public int width;
+    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    public int height;
+
     public ScanDirectionTypeEnum direction;
 
     [Header("Stats")]
@@ -30,8 +37,6 @@ public class CardSO : ScriptableObject
     public int DEF;
     public int MOV;
     public int D_ATK;
-    // [SerializedDictionary("type", "value")]
-    // public SerializedDictionary<StatsTypeEnum, int> stats;
 
     [ConditionalItem(nameof(type), CardTypeEnum.Army)]
     public bool isGroup;

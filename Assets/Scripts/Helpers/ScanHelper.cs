@@ -24,6 +24,20 @@ namespace Helpers
             return tileList;
         }
 
+        public static List<Tile> ScanFixed(Tile tile, int width, int height, bool overcomeObstacles = false)
+        {
+            List<Tile> tileList = new List<Tile>();
+
+            // positions around tile
+            (int y, int x)[] positions = ScanDirectionFixed(tile, width, height, overcomeObstacles);
+            List<Tile>[,] map = GameManager.Instance.mapManager.GetMap();
+
+            foreach (var position in positions)
+                tileList.AddRange(map[position.y, position.x]);
+
+            return tileList;
+        }
+
         /**
          * Esse metodo vai tentar escaniar o quadrante baseado no scan direciton type,
          * basicamente vai pegar todas as celulas envolta do tile recebido e baseado na amplitude
@@ -111,7 +125,7 @@ namespace Helpers
                             positions.Add((direction.y, direction.x)); // up
                         else
                             canContinue[direction.id] = false;
-                    } 
+                    }
                     else
                         canContinue[direction.id] = false;
                 }
@@ -157,7 +171,7 @@ namespace Helpers
 
             for (int i = 1; i <= amplitude; i++)
             {
-                var scanDirection = new (int x, int y, int id)[] 
+                var scanDirection = new (int x, int y, int id)[]
                 {
                     (tile.position.x, tile.position.y + i, 0), // up
                     (tile.position.x , tile.position.y + i * -1, 1) // down
@@ -170,7 +184,7 @@ namespace Helpers
                         var tileFinded = GameManager.Instance.mapManager.FindByPosition((direction.y, direction.x));
 
                         if (tileFinded.Exists(f => f.IsEmpty()) || overcomeObstacles)
-                            positions.Add((direction.y, direction.x)); 
+                            positions.Add((direction.y, direction.x));
                         else
                             canContinue[direction.id] = false;
                     }
@@ -181,10 +195,29 @@ namespace Helpers
 
             return positions.ToArray();
         }
+
+        public static (int y, int x)[] ScanDirectionFixed(Tile tile, int width, int height, bool overcomeObstacles)
+        {
+            List<(int y, int x)> positions = new List<(int y, int x)>();
+
+            for (var y = tile.position.y - height + 1; y <= tile.position.y; y++)
+                for (var x = tile.position.x; x < tile.position.x + width; x++)
+                {
+                    if (GameManager.Instance.mapManager.IsInsideMap((y, x)))
+                    {
+                        var tileFinded = GameManager.Instance.mapManager.FindByPosition((y, x));
+
+                        if (tileFinded.Exists(f => f.IsEmpty()) || overcomeObstacles)
+                            positions.Add((y, x));
+                    }
+                }
+
+            return positions.ToArray();
+        }
         #endregion
 
         #region Validators
         public static bool CanMoveToTile(List<Tile> tiles, (int y, int x) position) => tiles.Exists(e => e.position == position);
         #endregion
     }
-} 
+}

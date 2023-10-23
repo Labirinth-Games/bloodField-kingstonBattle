@@ -18,11 +18,13 @@ public class SignageUI : MonoBehaviour
     {
         tiles.ForEach(tile =>
         {
+            var map = GameObject.Find("Map/OverlayActions");
             var instance = new GameObject();
             instance.AddComponent<SpriteRenderer>();
 
             instance.GetComponent<SpriteRenderer>().sprite = sprite;
             instance.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
+            instance.transform.SetParent(map.transform);
 
             if(isOpacity)
             {

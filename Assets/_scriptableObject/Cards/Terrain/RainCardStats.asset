@@ -17,9 +17,17 @@ MonoBehaviour:
     a movimenta\xE7\xE3o (MOV -1) de qualquer exercito dentro da \xE1rea de 6x3"
   sprite: {fileID: -6830152201372448578, guid: 80c44f40d7f717a42bed0d3af513147d, type: 3}
   type: 1
+  equipamentType: 0
+  armyType: 0
+  width: 6
+  height: 3
   direction: 4
   ATK: 0
   DEF: 0
   MOV: 0
   D_ATK: 0
   isGroup: 0
+  commandScript: {fileID: 0}
+  additionalStats:
+    _serializedList: []
+  targets: 
