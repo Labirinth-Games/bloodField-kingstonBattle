@@ -18,23 +18,27 @@ MonoBehaviour:
   type: 3
   equipamentType: 1
   armyType: 0
+  canApplyEffectToAllMap: 0
+  width: 0
+  height: 0
+  turnDuration: 0
+  effectSprite: {fileID: 0}
+  effectVFX: {fileID: 0}
   direction: 5
   ATK: 3
   DEF: 2
   MOV: 0
   D_ATK: 5
-  stats:
+  isGroup: 0
+  commandScript: {fileID: 0}
+  additionalStats:
     _serializedList:
     - Key: 0
-      Value: 3
+      Value: 0
     - Key: 1
-      Value: 2
+      Value: 0
     - Key: 2
       Value: 0
     - Key: 3
-      Value: 5
-  isGroup: 0
-  commandScript: {fileID: 0}
-  aditionalStats:
-    _serializedList: []
+      Value: 0
   targets: 

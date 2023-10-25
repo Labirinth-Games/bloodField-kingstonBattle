@@ -30,10 +30,10 @@ namespace Render
             return instance;
         }
 
-        public static GameObject PreviewRender(CardSO card, GameObject prefab)
+        public static GameObject PreviewRender(CardSO card, int hp, GameObject prefab)
         {
             var instance = Instantiate(prefab);
-            instance.GetComponent<MiniaturePreviewHUD>().Render(card);
+            instance.GetComponent<MiniaturePreviewHUD>().Render(card, hp);
 
             instance.transform.SetParent(GameObject.FindGameObjectWithTag("HUD").transform);
 

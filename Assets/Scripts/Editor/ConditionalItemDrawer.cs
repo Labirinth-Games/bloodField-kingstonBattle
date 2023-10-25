@@ -6,6 +6,7 @@ using CustomAttributes;
 using UnityEditor.Rendering;
 using Enums;
 using System;
+using System.Linq;
 
 [CustomPropertyDrawer(typeof(ConditionalItemAttribute))]
 public class ConditionalItemDrawer : PropertyDrawer
@@ -30,10 +31,11 @@ public class ConditionalItemDrawer : PropertyDrawer
         // Get the value of the compared field.
         propertyHeight = base.GetPropertyHeight(property, label);
 
-        if (conditionalItem.propertyValue.ToString() == comparedFieldValue)
+        if (conditionalItem.propertyValue.ToList().Exists(f => f.ToString() == comparedFieldValue))
         {
             EditorGUI.PropertyField(position, property, label);
-        } else
+        }
+        else
         {
             propertyHeight = 0f;
         }

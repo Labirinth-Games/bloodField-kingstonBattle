@@ -14,6 +14,8 @@ namespace Helpers
         {
             List<Tile> tileList = new List<Tile>();
 
+            if(amplitude < 1) return tileList;
+
             // positions around tile
             (int y, int x)[] positions = GetPositionByScanDirection(scanDirectionType, tile, amplitude, overcomeObstacles);
             List<Tile>[,] map = GameManager.Instance.mapManager.GetMap();
@@ -24,16 +26,16 @@ namespace Helpers
             return tileList;
         }
 
-        public static List<Tile> ScanFixed(Tile tile, int width, int height, bool overcomeObstacles = false)
+        public static List<(int y, int x)> ScanFixed(Tile tile, int width, int height, bool overcomeObstacles = false)
         {
-            List<Tile> tileList = new List<Tile>();
+            List<(int y, int x)> tileList = new List<(int y, int x)>();
 
             // positions around tile
             (int y, int x)[] positions = ScanDirectionFixed(tile, width, height, overcomeObstacles);
             List<Tile>[,] map = GameManager.Instance.mapManager.GetMap();
 
             foreach (var position in positions)
-                tileList.AddRange(map[position.y, position.x]);
+                tileList.Add(position);
 
             return tileList;
         }
@@ -90,7 +92,7 @@ namespace Helpers
                     {
                         var tileFinded = GameManager.Instance.mapManager.FindByPosition((direction.y, direction.x));
 
-                        if (tileFinded.Exists(f => f.IsEmpty()) || overcomeObstacles)
+                        if (tileFinded.Exists(f => f.CanMove()) || overcomeObstacles)
                             positions.Add((direction.y, direction.x)); // up
                         else
                             canContinue[direction.id] = false;
@@ -121,7 +123,7 @@ namespace Helpers
                     {
                         var tileFinded = GameManager.Instance.mapManager.FindByPosition((direction.y, direction.x));
 
-                        if (tileFinded.Exists(f => f.IsEmpty()) || overcomeObstacles)
+                        if (tileFinded.Exists(f => f.CanMove()) || overcomeObstacles)
                             positions.Add((direction.y, direction.x)); // up
                         else
                             canContinue[direction.id] = false;
@@ -151,7 +153,7 @@ namespace Helpers
                     if (canContinue[direction.id] && GameManager.Instance.mapManager.IsInsideMap((direction.y, direction.x)))
                     {
                         var tileFinded = GameManager.Instance.mapManager.FindByPosition((direction.y, direction.x));
-                        if (tileFinded.Exists(f => f.IsEmpty()) || overcomeObstacles)
+                        if (tileFinded.Exists(f => f.CanMove()) || overcomeObstacles)
                             positions.Add((direction.y, direction.x)); // up
                         else
                             canContinue[direction.id] = false;
@@ -183,7 +185,7 @@ namespace Helpers
                     {
                         var tileFinded = GameManager.Instance.mapManager.FindByPosition((direction.y, direction.x));
 
-                        if (tileFinded.Exists(f => f.IsEmpty()) || overcomeObstacles)
+                        if (tileFinded.Exists(f => f.CanMove()) || overcomeObstacles)
                             positions.Add((direction.y, direction.x));
                         else
                             canContinue[direction.id] = false;
@@ -217,7 +219,8 @@ namespace Helpers
         #endregion
 
         #region Validators
-        public static bool CanMoveToTile(List<Tile> tiles, (int y, int x) position) => tiles.Exists(e => e.position == position);
+        public static Tile CanMoveToTile(List<Tile> tiles, (int y, int x) position) => tiles.Find(e => e.position == position && e.CanMove());
+        public static Tile CanAttackTile(List<Tile> tiles, (int y, int x) position) => tiles.Find(e => e.position == position && e.IsATarget());
         #endregion
     }
 }

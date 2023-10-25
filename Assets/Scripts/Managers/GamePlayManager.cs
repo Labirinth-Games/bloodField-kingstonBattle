@@ -1,4 +1,7 @@
+using AYellowpaper.SerializedCollections;
 using Enums;
+using Generators;
+using Helpers;
 using Miniatures;
 using Render;
 using System;
@@ -19,8 +22,9 @@ namespace Managers
         [SerializeField] private List<AdditionalStats> additionalStats;
 
         #region Gets/Sets
-        public bool IsOtherMiniature() => currentMiniature != null;
+        public bool IsOtherMiniature(string id) => currentMiniature != null && currentMiniature?._id != id;
         public void SetCurrentMiniature(Miniature miniature) => currentMiniature = miniature;
+        public Miniature GetCurrentMiniature() => currentMiniature;
         public List<AdditionalStats> GetAdditionalStats() => additionalStats;
         public void UpdateAddionalStats(ArmyTypeEnum armyType, StatsTypeEnum statsType, int value) =>
             additionalStats
@@ -32,8 +36,6 @@ namespace Managers
         {
             if (GameManager.Instance.deckManager.CanDraw())
                 GameManager.Instance.deckManager.Draw();
-
-            GameManager.Instance.miniatureManager.InitTurnForAll();
         }
 
         public void StartMatch()
@@ -45,8 +47,12 @@ namespace Managers
             MiniatureRender.KingRender(GameManager.Instance.mapManager.GetKingPositions(), kingPrefab);
             //MiniatureRender.KingRender(GameManager.Instance.mapManager.GetKingEnemyPositions(), kingEnemyPrefab);
 
+            // if debug mode active get cards defined on list
+            if(GameManager.Instance.isDebug)
+                GetComponent<DeckDebug>().DeckTest();
+
             // get hand initial
-            GameManager.Instance.deckManager.Draw(GameManager.Instance.matchConfig.initialAmountInHand);
+            GameManager.Instance.deckManager.Draw(GameManager.Instance.gameSettings.initialAmountInHand);
 
             // auto generate to create stats additional for all armys on deck
             additionalStats = new List<AdditionalStats>();
@@ -58,6 +64,10 @@ namespace Managers
                     if (!additionalStats.Exists(e => e.type == f.armyType))
                         additionalStats.Add(new AdditionalStats(f.armyType));
                 });
+
+
+            // subscribers
+            GameManager.Instance.turnManager.OnStartTurnPlayer.AddListener(MyTurn);
         }
     }
 

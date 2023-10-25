@@ -54,11 +54,12 @@ namespace Managers
         }
 
         #region Validatior
-        public bool CanDraw() => deck.Count > 0 && _amountCardOnPlayerHand <= GameManager.Instance.matchConfig.maxCardOnPlayerHand;
+        public bool CanDraw() => deck.Count > 0 && _amountCardOnPlayerHand <= GameManager.Instance.gameSettings.maxCardOnPlayerHand;
         #endregion
 
         #region Gets/Sets
         public Queue<CardSO> GetDeck() => deck;
+        public Queue<CardSO> SettDeck(Queue<CardSO> deck) => this.deck = deck;
         #endregion
 
         public void UseCardOnPlayerHand() => _amountCardOnPlayerHand--;

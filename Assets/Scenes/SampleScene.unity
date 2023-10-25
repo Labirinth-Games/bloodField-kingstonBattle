@@ -986,6 +986,7 @@ GameObject:
   - component: {fileID: 1545291043}
   - component: {fileID: 1545291042}
   - component: {fileID: 1545291044}
+  - component: {fileID: 1545291045}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -1020,7 +1021,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b459d1a459393148ba2d10a5bfd7760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  matchConfig: {fileID: 11400000, guid: 248ca7ea0b15d884f9ea3bf8873ecdbf, type: 2}
+  gameSettings: {fileID: 11400000, guid: 248ca7ea0b15d884f9ea3bf8873ecdbf, type: 2}
+  isDebug: 1
   mapManager: {fileID: 1462828695}
   turnManager: {fileID: 1545291041}
   cameraControl: {fileID: 1545291037}
@@ -1083,13 +1085,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9085b693de0de84db6c436aba90db91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  amountPlayCardOnGameplay: 1
-  amountPlayCardOnPreparation: 3
   turnStage: 0
   OnUseCard:
     m_PersistentCalls:
       m_Calls: []
   OnDontUseCard:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStartTurnPlayer:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1545291042
@@ -1143,6 +1146,30 @@ MonoBehaviour:
       Value: {fileID: 1332999202083502562, guid: 559c05212ec1ddc48a70973b25a4cd1a, type: 3}
     - Key: 3
       Value: {fileID: 1332999202083502562, guid: f4c37eb963c20ee4ba1d83fffd0dc63b, type: 3}
+--- !u!114 &1545291045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1545291033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7a1867cf2b1ff4991465c5ff4692c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cards:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 431a3f411d57c634a9a5fdb59f543d9e, type: 2}
+      Value: 2
+    - Key: {fileID: 11400000, guid: 93c2f3cfc706bba4491bcd28816683bd, type: 2}
+      Value: 2
+    - Key: {fileID: 11400000, guid: 07ddd694c0bb3db459e6f772df992757, type: 2}
+      Value: 2
+    - Key: {fileID: 11400000, guid: adba77cfb5ac3ff4c9ebd5fd8eca3941, type: 2}
+      Value: 2
+    - Key: {fileID: 11400000, guid: 513fd31921b24c541948e894e8cebcb9, type: 2}
+      Value: 2
 --- !u!1 &1629685451
 GameObject:
   m_ObjectHideFlags: 0

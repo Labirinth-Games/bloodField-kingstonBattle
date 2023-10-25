@@ -18,6 +18,12 @@ MonoBehaviour:
   type: 0
   equipamentType: 0
   armyType: 0
+  canApplyEffectToAllMap: 0
+  width: 0
+  height: 0
+  turnDuration: 0
+  effectSprite: {fileID: 0}
+  effectVFX: {fileID: 0}
   direction: 2
   ATK: 1
   DEF: 1
@@ -25,7 +31,7 @@ MonoBehaviour:
   D_ATK: 1
   isGroup: 0
   commandScript: {fileID: 0}
-  aditionalStats:
+  additionalStats:
     _serializedList:
     - Key: 0
       Value: 0

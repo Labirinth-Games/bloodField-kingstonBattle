@@ -10,13 +10,12 @@ namespace Managers
     public class TurnManager : MonoBehaviour
     {
         [Header("Settings")]
-        [SerializeField] private int amountPlayCardOnGameplay = 1;
-        [SerializeField] private int amountPlayCardOnPreparation = 3;
         [SerializeField] private TurnStageEnum turnStage;
-
+        
         [Header("callback")]
         public UnityEvent OnUseCard;
         public UnityEvent OnDontUseCard;
+        public UnityEvent OnStartTurnPlayer;
 
         private bool _isTurnPlayer = true;
         private int _amountCardUsed = 0;
@@ -25,7 +24,7 @@ namespace Managers
 
         #region Gets/Sets
         public bool IsMyTurn() => _isTurnPlayer;
-        public TurnStageEnum GetTurnState() => turnStage;
+                public TurnStageEnum GetTurnState() => turnStage;
         public bool IsTurnPreparation() => turnStage == TurnStageEnum.Preparation;
 
         public void SetCardUsed()
@@ -49,7 +48,7 @@ namespace Managers
 
         private void AutomaticEndTurn()
         {
-            bool isAllCardsPlayed = _amountCardUsed >= amountPlayCardOnGameplay;
+            bool isAllCardsPlayed = _amountCardUsed >= GameManager.Instance.gameSettings.amountPlayCardOnGameplay;
             bool isAllMiniaturesHasFinish = _isAllMiniatureFinish;
 
             if (isAllCardsPlayed && isAllMiniaturesHasFinish) EndTurn();
@@ -58,7 +57,7 @@ namespace Managers
         public void EndTurn()
         {
             _isTurnPlayer = !_isTurnPlayer;
-
+            
             // when finish the preparation step
             if (turnStage == TurnStageEnum.Preparation)
                 turnStage = TurnStageEnum.GamePlay;
@@ -77,8 +76,7 @@ namespace Managers
             _isAllMiniatureFinish = false;
 
             OnUseCard?.Invoke();
-
-            GameManager.Instance.gamePlayManager.MyTurn();
+            OnStartTurnPlayer?.Invoke();
         }
 
         private void PlayAgain()
@@ -93,8 +91,8 @@ namespace Managers
 
             _rules = new Dictionary<TurnStageEnum, Func<bool>>
             {
-                { TurnStageEnum.Preparation, () => _amountCardUsed >= amountPlayCardOnPreparation },
-                { TurnStageEnum.GamePlay, () => _amountCardUsed >= amountPlayCardOnGameplay }
+                { TurnStageEnum.Preparation, () => _amountCardUsed >= GameManager.Instance.gameSettings.amountPlayCardOnPreparation },
+                { TurnStageEnum.GamePlay, () => _amountCardUsed >= GameManager.Instance.gameSettings.amountPlayCardOnGameplay }
             };
         }
     }

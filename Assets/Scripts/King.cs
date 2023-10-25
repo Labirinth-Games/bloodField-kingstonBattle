@@ -10,36 +10,16 @@ using UnityEngine;
 
 public class King : Miniature
 {
-    [SerializeField] private Sprite kingSprite;
     [SerializeField] private CardSO card;
 
-    #region Mouse Actions
-    private void OnMouseOver()
+    #region Turn Actions
+    public override void MyTurn()
     {
-        if (Input.GetMouseButtonDown(0)) // left mouse button
-        {
-            if (!_isReady || _finishAction) return;
+        _isReady = true;
+        _finishAction = false;
+        _isSelected = false;
 
-            var position = MiniatureMouseHelper.GetPositionOnWorld();
-
-            Select();
-            Move(position);
-            Attack(position);
-
-            return;
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            DestroyPreview();
-
-            _instancePreview = MiniatureRender.PreviewRender(stats, miniaturePreviewHUDPrefab);
-        }
-    }
-
-    private void OnMouseExit()
-    {
-        DestroyPreview();
+        signageUI.Clear();
     }
     #endregion
 
@@ -49,10 +29,9 @@ public class King : Miniature
         self.SetPositionOnWorld();
         SetReady();
 
-        GetComponent<SpriteRenderer>().sprite = kingSprite;
-
         stats = Instantiate(card);
-        stats.sprite = kingSprite;
         _hp = stats.GetDEF();
+
+        Subscribers();
     }
 }

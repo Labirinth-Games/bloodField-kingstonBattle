@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Tiles;
 using UnityEngine;
+using UnityEngine.Analytics;
 using UnityEngine.EventSystems;
 
 namespace Miniatures
@@ -20,13 +21,14 @@ namespace Miniatures
         [SerializeField] protected SignageUI signageUI;
 
         public CardSO stats;
+        public string _id { get; private set; } = System.Guid.NewGuid().ToString();
         public bool finishAction
         {
             get => _finishAction;
         }
 
-        protected List<Tile> _tilesToMove;
-        protected List<Tile> _tilesToAttack;
+        protected List<Tile> _tilesToMove = new List<Tile>();
+        protected List<Tile> _tilesToAttack = new List<Tile>();
         protected GameObject _instancePreview;
 
         protected bool _isReady = false;
@@ -35,63 +37,50 @@ namespace Miniatures
         protected int _hp;
 
         #region Actions
-        protected virtual void Select(bool showAttackUI = true, bool showMoveUI = true)
+        protected virtual bool Select()
         {
-            if (!MiniatureMouseHelper.HasTouchMe(self)) return;
-            if (GameManager.Instance.gamePlayManager.IsOtherMiniature()) return;
-
-            ToggleSelection();
-
-            if (!_isSelected)
-            {
-                signageUI.Clear();
-                GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
-                GetComponent<BoxCollider2D>().size = Vector2.one;
-                return;
-            }
-
-            GameManager.Instance.gamePlayManager.SetCurrentMiniature(this);
+            if (!MiniatureMouseHelper.HasTouchMe(self)) return false;
 
             signageUI.Clear();
+            ToggleSelection();
 
-            if (showAttackUI)
+            if (_isSelected)
             {
+                GameManager.Instance.gamePlayManager.SetCurrentMiniature(this);
+
                 _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.GetD_ATK(), true);
                 signageUI.OverlayAttack(_tilesToAttack);
-            }
 
-            if (showMoveUI)
-            {
                 _tilesToMove = ScanHelper.Scan(self, stats.direction, stats.GetMOV());
                 signageUI.OverlayMove(_tilesToMove);
+
+                return true;
             }
 
 
-            GetComponent<BoxCollider2D>().size *= (stats.GetD_ATK() + stats.GetMOV()) * 2;
+            GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
+            return false;
         }
 
-        protected virtual void Move((int y, int x) position)
+        public virtual void Move((int y, int x) position)
         {
-            if (!ScanHelper.CanMoveToTile(_tilesToMove, position)
-              || !GameManager.Instance.mapManager.FindByPosition(position).Exists(f => f.CanMove())
-              || _finishAction)
-                return;
+            Tile tileMove = ScanHelper.CanMoveToTile(_tilesToMove, position);
+
+            if (_finishAction || !_isSelected || tileMove == null) return;
 
             self.MoveTo(position);
 
             FinishAction();
         }
 
-        protected virtual void Attack((int y, int x) position)
+        public virtual void Attack((int y, int x) position)
         {
-            if (!ScanHelper.CanMoveToTile(_tilesToAttack, position) || _finishAction) return;
+            Tile enemy = ScanHelper.CanAttackTile(_tilesToAttack, position);
 
-            var enemy = GameManager.Instance.mapManager.FindByPosition(position).Find(f => f.AnyElement());
+            if (_finishAction || !_isSelected || enemy == null) return;
 
-            if (enemy != null && enemy.gameObject.TryGetComponent(out Miniature miniatureEnemy))
-            {
+            if (enemy.gameObject.TryGetComponent(out Miniature miniatureEnemy))
                 miniatureEnemy.Hit(stats.GetATK());
-            }
 
             FinishAction();
         }
@@ -119,7 +108,7 @@ namespace Miniatures
             _isReady = true;
         }
 
-        public virtual bool CanAddOnBoard((int y, int x) position) { return true; }
+        public virtual bool CanAddOnBoard((int y, int x) position) => true;
         #endregion
 
         #region Turn Actions
@@ -146,7 +135,6 @@ namespace Miniatures
             _finishAction = true;
             signageUI.Clear();
 
-            GetComponent<BoxCollider2D>().size = Vector2.one;
             GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
             GameManager.Instance.turnManager.SetMiniatureFinishAction();
             _tilesToAttack?.Clear();
@@ -154,11 +142,62 @@ namespace Miniatures
         }
 
         protected virtual void ToggleSelection() => _isSelected = !_isSelected;
+
+        public virtual void VerifyLocalEffect((int y, int x) lastPosition, (int y, int x) currentPosition)
+        {
+            void Debuff((int y, int x) position, int multiply = 1) =>
+                GameManager.Instance.mapManager.FindByPosition(position)
+                    .FindAll(tile => tile.IsTerrain())
+                    .ForEach(terrain =>
+                    {
+                        var terrainStats = terrain.gameObject.GetComponent<Miniature>().stats.additionalStats;
+                        var myStats = stats.additionalStats;
+
+                        foreach (var stat in terrainStats)
+                            myStats[stat.Key] += stat.Value * multiply;
+                    });
+
+            Debuff(lastPosition, -1); // verify and remove debuff when exit lastTile
+            Debuff(currentPosition); // verify and add the debuff if there is
+        }
         #endregion
+
+        #region Mouse Actions
+        protected virtual void OnMouseOver()
+        {
+            if (Input.GetMouseButtonDown(0) && _isReady) // left mouse button
+            {
+                if (_finishAction || GameManager.Instance.gamePlayManager.IsOtherMiniature(_id)) return;
+
+                if (Select()) return;
+            }
+
+            if (Input.GetMouseButtonDown(1))
+            {
+                DestroyPreview();
+
+                _instancePreview = MiniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
+            }
+        }
+
+        protected virtual void OnMouseExit()
+        {
+            DestroyPreview();
+        }
+        #endregion
+
+        protected virtual void Subscribers()
+        {
+            GameManager.Instance.turnManager.OnStartTurnPlayer.AddListener(MyTurn);
+
+            if (self != null)
+                self.OnTileMove = VerifyLocalEffect; // add listen when tile move
+        }
 
         public virtual void Create((int y, int x) pos, CardSO card)
         {
             stats = Instantiate(card);
+            Subscribers();
         }
 
         public virtual void Create((int y, int x) pos) { }

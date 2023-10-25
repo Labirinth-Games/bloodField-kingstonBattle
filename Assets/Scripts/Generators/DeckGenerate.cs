@@ -1,3 +1,4 @@
+using AYellowpaper.SerializedCollections;
 using Enums;
 using Managers;
 using System.Collections;
@@ -11,17 +12,17 @@ namespace Generators
         public Queue<CardSO> Deck()
         {
             Queue<CardSO> deck = new Queue<CardSO>();
-            MatchConfigSO matchConfig = GameManager.Instance.matchConfig;
+            MatchConfigSO matchConfig = GameManager.Instance.gameSettings;
 
             foreach (var card in matchConfig.DeckCardTypeAmount)
             {
                 CardTypeEnum CardType = card.Key;
 
-                for(var i = 0; i < card.Value; i++)
+                for (var i = 0; i < card.Value; i++)
                 {
                     var cards = GameManager.Instance.cardManager.GetCardByType(CardType);
 
-                    if(cards.Count > 0)
+                    if (cards.Count > 0)
                     {
                         int indexRandom = Random.Range(0, cards.Count);
 

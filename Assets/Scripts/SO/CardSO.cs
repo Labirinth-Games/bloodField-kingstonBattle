@@ -14,6 +14,7 @@ public class CardSO : ScriptableObject
     [TextArea()]
     public string description;
     public Sprite sprite;
+
     [Space()]
     public CardTypeEnum type;
 
@@ -23,19 +24,30 @@ public class CardSO : ScriptableObject
     [ConditionalItem(nameof(type), CardTypeEnum.Army)]
     public ArmyTypeEnum armyType;
 
+    // settings to terrain
     [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
     public bool canApplyEffectToAllMap;
     [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
     public int width;
     [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
     public int height;
+    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    public int turnDuration;
+    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    public Sprite effectSprite;
+    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    public ParticleSystem effectVFX;
 
+    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
     public ScanDirectionTypeEnum direction;
 
-    [Header("Stats")]
+    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
     public int ATK;
+    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
     public int DEF;
+    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
     public int MOV;
+    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
     public int D_ATK;
 
     [ConditionalItem(nameof(type), CardTypeEnum.Army)]
@@ -48,21 +60,25 @@ public class CardSO : ScriptableObject
     [Header("Effects")]
     [Space()]
     [SerializedDictionary("Prop Name", "value")]
-    public SerializedDictionary<StatsTypeEnum, int> additionalStats;
+    public SerializedDictionary<StatsTypeEnum, int> additionalStats = new SerializedDictionary<StatsTypeEnum, int>() {
+        {StatsTypeEnum.ATK, 0},
+        {StatsTypeEnum.DEF, 0},
+        {StatsTypeEnum.MOV, 0},
+        {StatsTypeEnum.D_ATK, 0},
+    };
     public List<ArmyTypeEnum> targets;
 
-    private CardSO()
-    {
-        if (type != CardTypeEnum.Army || type != CardTypeEnum.King) return;
+    // public CardSO() {
+    //     if (type != CardTypeEnum.Army || type != CardTypeEnum.King) return;
 
-        additionalStats = new SerializedDictionary<StatsTypeEnum, int>();
+    //     additionalStats = new SerializedDictionary<StatsTypeEnum, int>();
 
-        var enumValues = Enum.GetValues(typeof(StatsTypeEnum));
-        for (var i = 0; i < enumValues.GetLength(0); i++)
-        {
-            additionalStats.Add((StatsTypeEnum)enumValues.GetValue(i), 0);
-        }
-    }
+    //     var enumValues = Enum.GetValues(typeof(StatsTypeEnum));
+    //     for (var i = 0; i < enumValues.GetLength(0); i++)
+    //     {
+    //         additionalStats.Add((StatsTypeEnum)enumValues.GetValue(i), 0);
+    //     }
+    // }
 
     private int GetValue(StatsTypeEnum statsType, int baseValue)
     {

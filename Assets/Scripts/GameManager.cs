@@ -10,7 +10,8 @@ namespace Managers
     public class GameManager : Utils.Singleton<GameManager>
     {
         [Header("Settings")]
-        public MatchConfigSO matchConfig;
+        public MatchConfigSO gameSettings;
+        public bool isDebug = false;
 
         [Header("References")]
         public MapManager mapManager;

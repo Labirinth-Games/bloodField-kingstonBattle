@@ -19,8 +19,12 @@ MonoBehaviour:
   type: 1
   equipamentType: 0
   armyType: 0
+  canApplyEffectToAllMap: 0
   width: 6
   height: 3
+  turnDuration: 2
+  effectSprite: {fileID: 1820064276241994544, guid: 7a1ff6deb4d3ca441b64da7eb0e7d63b, type: 3}
+  effectVFX: {fileID: 345775955226391227, guid: 760c6ca3abe806c44b33bdee5e8a694e, type: 3}
   direction: 4
   ATK: 0
   DEF: 0
@@ -29,5 +33,7 @@ MonoBehaviour:
   isGroup: 0
   commandScript: {fileID: 0}
   additionalStats:
-    _serializedList: []
+    _serializedList:
+    - Key: 2
+      Value: -1
   targets: 

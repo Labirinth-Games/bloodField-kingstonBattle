@@ -15,31 +15,42 @@ namespace Miniatures
         private bool _isExcludeActionTurn = false;
 
         #region Mouse Actions
-        private void OnMouseOver()
+        protected override void OnMouseOver()
         {
             if (Input.GetMouseButtonDown(0) && stats.equipamentType == EquipamentTypeEnum.Attack) // left mouse button
             {
-                if (!_isReady || _finishAction) return;
+                if (GameManager.Instance.gamePlayManager.IsOtherMiniature(_id) || !_isReady || _finishAction) return;
 
-                var position = MiniatureMouseHelper.GetPositionOnWorld();
-
-                Select(true, false);
-                Attack(position);
-
-                return;
+                if (Select()) return;
             }
 
             if (Input.GetMouseButtonDown(1))
             {
                 DestroyPreview();
 
-                _instancePreview = MiniatureRender.PreviewRender(stats, miniaturePreviewHUDPrefab);
+                _instancePreview = MiniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
             }
         }
 
-        private void OnMouseExit()
+        protected override bool Select()
         {
-            DestroyPreview();
+            if (!MiniatureMouseHelper.HasTouchMe(self)) return false;
+
+            signageUI.Clear();
+            ToggleSelection();
+
+            if (_isSelected)
+            {
+                GameManager.Instance.gamePlayManager.SetCurrentMiniature(this);
+
+                _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.GetD_ATK(), true);
+                signageUI.OverlayAttack(_tilesToAttack);
+
+                return true;
+            }
+
+            GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
+            return false;
         }
         #endregion
 
@@ -62,10 +73,10 @@ namespace Miniatures
         public override void Die()
         {
             base.Die();
-            ApplyEffects(false);
+            ApplyEffects(-1);
         }
 
-        private void ApplyEffects(bool isAdd = true)
+        private void ApplyEffects(int multiply = 1)
         {
             if (stats.equipamentType != EquipamentTypeEnum.Moral) return;
 
@@ -82,18 +93,12 @@ namespace Miniatures
                 .ForEach(miniature =>
                 {
                     foreach (var additionalStats in stats.additionalStats)
-                    {
-                        var value = isAdd ? additionalStats.Value : additionalStats.Value * -1;
-                        miniature.stats.additionalStats[additionalStats.Key] += value;
-                    }
+                        miniature.stats.additionalStats[additionalStats.Key] += additionalStats.Value * multiply;
                 });
 
                 // update reference to new miniatures
                 foreach (var additionalStats in stats.additionalStats)
-                {
-                    var value = isAdd ? additionalStats.Value : additionalStats.Value * -1;
-                    GameManager.Instance.gamePlayManager.UpdateAddionalStats(armyType, additionalStats.Key, value);
-                }
+                    GameManager.Instance.gamePlayManager.UpdateAddionalStats(armyType, additionalStats.Key, additionalStats.Value * multiply);
             }
 
         }
@@ -114,6 +119,8 @@ namespace Miniatures
                 _isExcludeActionTurn = true;
                 _finishAction = true;
             }
+
+            Subscribers();
         }
     }
 }

@@ -20,7 +20,6 @@ namespace Managers
         public void AddMiniature(Miniature miniature) => _miniatures.Add(miniature);
         public void RemoveMiniature(Miniature miniature) => _miniatures.Remove(miniature);
         public bool IsAllMiniaturesFinish() => _miniatures.All(f => f.finishAction == true);
-        public void InitTurnForAll() => _miniatures.ForEach(f => f.MyTurn());
         public List<Miniature> GetMiniatures() => _miniatures;
         #endregion
 

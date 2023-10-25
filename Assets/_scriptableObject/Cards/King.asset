@@ -14,10 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: King
   description: 
-  sprite: {fileID: 0}
+  sprite: {fileID: -1724822148711148119, guid: ed4ab417e5d66294086dcc2f4e694020, type: 3}
   type: 4
   equipamentType: 0
   armyType: 0
+  canApplyEffectToAllMap: 0
+  width: 0
+  height: 0
+  turnDuration: 0
+  effectSprite: {fileID: 0}
+  effectVFX: {fileID: 0}
   direction: 1
   ATK: 1
   DEF: 20

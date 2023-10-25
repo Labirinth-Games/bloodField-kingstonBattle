@@ -28,7 +28,7 @@ namespace Render
                     instance.transform.SetParent(map.transform);
                     instance.GetComponent<SpriteRenderer>().sprite = floorPrefabs[Random.Range(0, floorPrefabs.Count)];
 
-                    if ((x >= 0 && x < grid.GetLength(1) && y >= 0 && y < spawnAreaScale) || ( x >= 0 && x < grid.GetLength(1) && y >= grid.GetLength(0) - spawnAreaScale && y < grid.GetLength(0)))
+                    if ((x >= 0 && x < grid.GetLength(1) && y >= 0 && y < spawnAreaScale) || (x >= 0 && x < grid.GetLength(1) && y >= grid.GetLength(0) - spawnAreaScale && y < grid.GetLength(0)))
                         instance.GetComponent<SpriteRenderer>().sprite = baseSpawn[Random.Range(0, baseSpawn.Count)];
                     else if ((x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0))
                         instance.GetComponent<SpriteRenderer>().color = new Color(.8f, .8f, .8f, .95f);
@@ -36,6 +36,21 @@ namespace Render
 
                     instances.Add(instance);
                 }
+
+            return instances;
+        }
+
+        public static List<GameObject> FloorRender(List<Tile> tiles, Sprite sprite)
+        {
+            var instances = new List<GameObject>();
+
+            foreach (Tile tile in tiles)
+            {
+                var instance = new GameObject();
+                instance.AddComponent<SpriteRenderer>().sprite = sprite;
+                instance.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                instance.transform.position = tile.GetPositionOnWorld();
+            }
 
             return instances;
         }

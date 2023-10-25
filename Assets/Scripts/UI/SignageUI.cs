@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Tiles;
 using UnityEngine;
 using UnityEngine.Events;
@@ -12,6 +13,13 @@ public class SignageUI : MonoBehaviour
     private List<GameObject> _instances = new List<GameObject>();
 
     public void OverlayAttack(List<Tile> tiles) => MarkUI(tiles, reachOverlayerSprite, true);
+    public void OverlayAttack(List<(int y, int x)> positions)
+    {
+        List<Tile> tiles = new List<Tile>();
+        positions.ToList().ForEach(f => tiles.Add(new Tile(f.y, f.x)));
+
+        MarkUI(tiles, reachOverlayerSprite, true);
+    }
     public void OverlayMove(List<Tile> tiles) => MarkUI(tiles, moveOverlayerSprite);
 
     private void MarkUI(List<Tile> tiles, Sprite sprite, bool isOpacity = false)
@@ -26,9 +34,9 @@ public class SignageUI : MonoBehaviour
             instance.GetComponent<SpriteRenderer>().sortingLayerName = "UI";
             instance.transform.SetParent(map.transform);
 
-            if(isOpacity)
+            if (isOpacity)
             {
-                instance.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, .5f);
+                instance.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, .3f);
                 instance.GetComponent<SpriteRenderer>().sortingOrder = -1;
             }
 

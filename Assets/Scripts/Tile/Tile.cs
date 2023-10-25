@@ -4,6 +4,9 @@ using Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using UnityEngine.Events;
+using System;
 
 namespace Tiles
 {
@@ -12,6 +15,8 @@ namespace Tiles
         public (int y, int x) position;
         public TileTypeEnum type;
         public GameObject gameObject;
+
+        public Action<(int y, int x), (int y, int x)> OnTileMove;
 
         public Tile(int y, int x, TileTypeEnum tileType = TileTypeEnum.None, GameObject gameObject = null)
         {
@@ -26,8 +31,8 @@ namespace Tiles
         {
             type = tileType;
             this.gameObject = gameObject;
-        } 
-        
+        }
+
         public Tile(CardTypeEnum tileType, GameObject gameObject = null)
         {
             type = TranslateTypes(tileType);
@@ -46,24 +51,31 @@ namespace Tiles
         public void SetPosition((int y, int x) pos) => this.position = pos;
 
         // used to move aposition filtred on map
-        public void MoveTo((int y, int x) position)
+        public void MoveTo((int y, int x) position, bool withAnimation = true)
         {
-            //this.position = position;
+            var lastPosition = this.position;
             var x = position.x - this.position.x;
             var y = position.y - this.position.y;
 
-            if (GameManager.Instance.mapManager.Register(this, (y, x)) == null)
+            var tile = GameManager.Instance.mapManager.Register(this, (y, x));
+
+            if (tile == null)
                 return;
 
-            gameObject.transform.DOMove(GetPositionOnWorld(), .2f);
+            OnTileMove(lastPosition, tile.position);
+
+            if (withAnimation)
+                gameObject.transform.DOMove(GetPositionOnWorld(), .2f);
         }
 
         public Vector3 GetPositionOnWorld() => new Vector3(position.x, position.y, 0);
         public Vector3 SetPositionOnWorld() => gameObject.transform.position = GetPositionOnWorld();
 
         public bool IsEmpty() => type == TileTypeEnum.None;
+        public bool IsTerrain() => type == TileTypeEnum.Terrain;
         public bool AnyElement() => type != TileTypeEnum.None;
-        public bool CanMove() => type == TileTypeEnum.None || type == TileTypeEnum.Terrain;
+        public bool CanMove() => new TileTypeEnum[] { TileTypeEnum.None, TileTypeEnum.Terrain }.Contains(type);
+        public bool IsATarget() => new TileTypeEnum[] { TileTypeEnum.Army, TileTypeEnum.Equipament, TileTypeEnum.King }.Contains(type);
 
         private TileTypeEnum TranslateTypes(CardTypeEnum cardType)
         {

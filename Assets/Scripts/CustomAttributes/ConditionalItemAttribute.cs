@@ -10,9 +10,15 @@ namespace CustomAttributes
     public class ConditionalItemAttribute : PropertyAttribute
     {
         public string propertyName;
-        public object propertyValue;
+        public object[] propertyValue;
 
         public ConditionalItemAttribute(string propertyName, object propertyValue)
+        {
+            this.propertyName = propertyName;
+            this.propertyValue = new object[] { propertyValue };
+        }
+
+        public ConditionalItemAttribute(string propertyName, object[] propertyValue)
         {
             this.propertyName = propertyName;
             this.propertyValue = propertyValue;

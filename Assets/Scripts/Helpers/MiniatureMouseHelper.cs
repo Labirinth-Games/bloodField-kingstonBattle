@@ -61,10 +61,24 @@ namespace Helpers
             }
         }
 
+        private void Actions()
+        {
+            var miniature = GameManager.Instance.gamePlayManager.GetCurrentMiniature();
+
+            if (Input.GetMouseButtonDown(0) && miniature != null) // left mouse button
+            {
+                var position = GetPositionOnWorld();
+
+                miniature.Move(position);
+                miniature.Attack(position);
+            }
+        }
+
         private void Update()
         {
             AttachmentOnMouse();
             AddOnBoard();
+            Actions();
         }
 
         public static (int y, int x) GetPositionOnWorld()
