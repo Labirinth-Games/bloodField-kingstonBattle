@@ -2,17 +2,19 @@ using HUD;
 using Managers;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using Miniatures;
+using Unity.Netcode;
+using UnityEngine;
 
 namespace Render
 {
-    public class MiniatureRender : MonoBehaviour
+    public class MiniatureRender : NetworkBehaviour
     {
         public static GameObject KingRender((int y, int x) position, GameObject prefab)
         {
             var instance = Instantiate(prefab);
             instance.GetComponent<Miniature>().Create(position);
+            instance.GetComponent<NetworkObject>().Spawn();
 
             return instance;
         }
@@ -21,11 +23,10 @@ namespace Render
         {
             (int y, int x) pos = (0, 0);
 
-            var instance = Instantiate(prefab);
+            var instance = Instantiate(prefab, GameObject.Find("Miniatures").transform);
             instance.GetComponent<Miniature>().Create(pos, card);
             instance.GetComponent<SpriteRenderer>().sprite = card.sprite;
-
-            instance.transform.SetParent(GameObject.Find("Miniatures").transform);
+            instance.GetComponent<NetworkObject>().Spawn();
 
             return instance;
         }

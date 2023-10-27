@@ -1,15 +1,9 @@
-using DG.Tweening;
-using Enums;
 using Helpers;
 using Managers;
 using Render;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using Tiles;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.EventSystems;
 
 namespace Miniatures
 {
@@ -183,6 +177,21 @@ namespace Miniatures
         protected virtual void OnMouseExit()
         {
             DestroyPreview();
+        }
+        #endregion
+
+        #region Network
+        public override void OnNetworkSpawn()
+        {
+            if (!IsOwner)
+            {
+                if (stats != null)
+                {
+                    Debug.Log("opas aim created man" + stats.title);
+                    GetComponent<SpriteRenderer>().sprite = stats.sprite;
+
+                }
+            }
         }
         #endregion
 

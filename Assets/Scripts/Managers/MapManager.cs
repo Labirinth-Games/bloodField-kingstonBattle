@@ -25,6 +25,8 @@ namespace Managers
         #region Gets/Sets
         public (int w, int h) Size() => (_sizeWidth, _sizeHeight);
 
+        public Vector3 ReflexPosition(Vector3 pos) => new Vector3(pos.x, _sizeHeight - pos.y, pos.y);
+
         public List<Tile>[,] GetMap() => _map;
 
         public List<Tile> FindByPosition((int y, int x) position)
