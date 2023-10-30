@@ -23,6 +23,7 @@ namespace Managers
         public MiniatureManager miniatureManager;
         public Player player;
         public MiniatureMouseHelper miniatureMouseHelper;
+        public Network.LobbyNetworkManager networkManager;
 
         private void Start()
         {

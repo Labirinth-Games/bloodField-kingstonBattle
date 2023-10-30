@@ -1,5 +1,5 @@
-using Unity.Netcode;
 using UnityEngine;
+using Mirror;
 
 namespace Tiles
 {
@@ -7,6 +7,6 @@ namespace Tiles
     {
         public Tile self { get; protected set; }
 
-        public void SetTile(Tile tile) => self = tile;
+        public void SetTile(Tile tile) => self = tile; 
     }
 }

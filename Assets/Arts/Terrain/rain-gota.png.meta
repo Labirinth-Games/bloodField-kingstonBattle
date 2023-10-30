@@ -152,7 +152,8 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      rain-gota_0: 4344866138783447627
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

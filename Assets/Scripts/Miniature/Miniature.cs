@@ -181,17 +181,9 @@ namespace Miniatures
         #endregion
 
         #region Network
-        public override void OnNetworkSpawn()
+        public override void OnStartClient()
         {
-            if (!IsOwner)
-            {
-                if (stats != null)
-                {
-                    Debug.Log("opas aim created man" + stats.title);
-                    GetComponent<SpriteRenderer>().sprite = stats.sprite;
-
-                }
-            }
+           Debug.Log("carregou");
         }
         #endregion
 
