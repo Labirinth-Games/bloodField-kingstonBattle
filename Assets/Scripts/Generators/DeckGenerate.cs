@@ -1,4 +1,5 @@
-using Cards;
+using AYellowpaper.SerializedCollections;
+using Enums;
 using Managers;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,24 +9,24 @@ namespace Generators
 {
     public class DeckGenerate : MonoBehaviour
     {
-        public List<CardSO> Deck()
+        public Queue<CardSO> Deck()
         {
-            List<CardSO> deck = new List<CardSO>();
-            MatchConfigSO matchConfig = GameManager.Instance.matchConfig;
+            Queue<CardSO> deck = new Queue<CardSO>();
+            MatchConfigSO matchConfig = GameManager.Instance.gameSettings;
 
             foreach (var card in matchConfig.DeckCardTypeAmount)
             {
                 CardTypeEnum CardType = card.Key;
 
-                for(var i = 0; i < card.Value; i++)
+                for (var i = 0; i < card.Value; i++)
                 {
                     var cards = GameManager.Instance.cardManager.GetCardByType(CardType);
 
-                    if(cards.Count > 0)
+                    if (cards.Count > 0)
                     {
                         int indexRandom = Random.Range(0, cards.Count);
 
-                        deck.Add(cards[indexRandom]);
+                        deck.Enqueue(cards[indexRandom]);
                     }
                 }
             }

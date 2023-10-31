@@ -1,31 +1,37 @@
-# BloodField - Kingdom Battle
-
 ## Objetivo
 
-Jogo competitivo entre dois jogadores, ao qual cada um controla um exercito e tem que tentar dominar o outro no campo de batalha, é um jogo misto de combate que é usado cartas e ação dentro de um grid.
+Jogo competitivo entre dois jogadores, ao qual cada um controla um exercito e tem como objetivo derrotar o rei inimigo em campo. É um jogo misto de combate tático que é usado cartas e ação dentro de um board.
 
 ## Referencies
 
 [Referencias - Inspiração](https://www.notion.so/Referencias-Inspira-o-82427f5612644a12998b591ebe0755cf?pvs=21)
 
+[Evolution](https://www.notion.so/Evolution-de71b5d40fba449f97ba8069658a447b?pvs=21)
+
 # Como jogar
 
-O jogo consiste em um tabuleiro grande 16x16 (podendo ser maior), cada um com seu rei a cavalo em cada extremidade. 
+O jogo consiste em um tabuleiro com o padrão 16x16 (podendo variar dependendo da configuração de jogo), cada jogador comanda um rei e seu exercito. 
 
 ### Preparação
 
-No inicio do jogo cada jogador recebe 7 cartas de forma aleatória. (não existirá um deck para cada jogador mas sim um para a partida onde os jogadores iram compartilhar a compra, assim deixando o jogo mais competitivo e baseado em sorte).
+No inicio do jogo cada jogador recebe 7 cartas de forma aleatória. (não existirá um deck para cada jogador mas sim um único para a partida onde os jogadores iram compartilhar a compra, assim deixando o jogo mais competitivo e baseado em sorte). 
 
 ### Fases do jogo
 
 - Jogadores começam com 7 cartas aleatórias
-- Na fase de preparação cada jogador pode chamar (ativar a carta como se fosse sumonar no grid) até 3 cartas, sendo elas: Tropa, Terreno, Comando ou Equipamento, assim podendo se prepara para a batalha.
-- Em seguida será escolhido de forma aleatória um jogador para começar e ele deverá seguir a seguinte sequencia na sua gameplay.
+- Na fase de preparação cada jogador pode chamar (ativar a carta como se fosse sumonar no board) até 3 cartas, sendo elas: Tropa, Terreno, Comando ou Equipamento, com isso se prepara para a batalha.
+    - Nesse momento de preparação o jogador seleciona e posiciona suas 3 miniaturas, assim que todos finalizarem essa etapa as miniaturas ficaram visíveis para todos os jogadores.
+- Será selecionado o primeiro jogador de forma aleatória.
+- O jogador pode escolher fazer todas ou alguns dos passos citados a baixo, sendo que se ele fizer todos o fim do turno será  automático.  Os passos são:
     1. Comprar uma carta.
-    2. Chamar uma carta para o campo de batalha (sendo qualquer tipo: Tropa, Terreno, Comando ou Equipamento) (Opcional)
-    3. Efetua uma ação entre mover tropas ou atacar (Opcional)
+    2. Chamar uma carta para o campo de batalha (sendo qualquer tipo: Tropa, Terreno, Comando ou Equipamento)
+    3. Efetua ação nas miniaturas do board, entre elas:  mover tropas ou atacar.
     4. Finaliza o turno.
     
+
+### Condições de Win/Lose
+
+O jogador ganha quando matar o rei inimigo.  Uma outra forma de ganhar é quando o inimigo lança bandeira branca, que é nada mais que desistir da batalha.
 
 # Especificações - Details
 
@@ -50,7 +56,7 @@ Dentro do jogo temos alguns tipos de cartas que possuem suas próprias caracter�
 - `Tropa` - São cartas para adicionar soldados ou variações do mesmo como arqueiros, basicamente são as pessoas que iram lutar por você, o seu povo.
 - `Terreno` - São cartas que possuem o poder de mudar o terreno (apenas na faixa amarela)
 - `Comando` - São cartas que ampliam a movimentação e organização de tropas e equipamentos.
-- `Equipamento` - São cartas de auxilio que podem atacar ou dar bônus.
+- `Equipamento` - São cartas de auxilio que podem atacar, defender ou dar bônus.
 
 ### Cartas do tipo Tropa
 
@@ -117,7 +123,7 @@ Esse tipo de carta é responsável pela estratégia em si, ela possibilita fazer
 
 ### Cartas do tipo Equipamento
 
-Cartas desse tipo podem ajudar muito durante a batalha, elas servem para auxiliar o comandante no avanço contra as tropas inimigas. Os equipamentos são divididos em 2 tipos:
+Cartas desse tipo podem ajudar muito durante a batalha, elas servem para auxiliar o comandante no avanço contra as tropas inimigas. Os equipamentos são divididos em 3 tipos:
 
 - Equipamentos de ataque  - equipamentos que de fato tem uma ação ofensiva contra os inimigos, assim causando dano.
 - Equipamentos de Defesa - São artimanhas usadas para controlar a movimentação do inimigo.
@@ -125,7 +131,10 @@ Cartas desse tipo podem ajudar muito durante a batalha, elas servem para auxilia
 
 Mas não se engane, os equipamentos podem ser destruídos pelo inimigo e tudo que eles proporcionaram é revogado!
 
-OBS:: Todos os efeitos por equipamento de moral é acumulável.
+OBS::.
+
+- Todos os efeitos por equipamento de moral é acumulável.
+- Cartas de equipamentos podem ser adicionados tanto na zona do jogador quanto na zona de batalha, mas jamais na zona inicial do inimigo.
 
 **Equipamentos de Ataque**
 
@@ -153,3 +162,13 @@ OBS:: Todos os efeitos por equipamento de moral é acumulável.
 | Campo de treino ao alvo | Arqueiros recebem D-ATK +1 | Pesado |
 | Engenharia | Equipamentos de ataque recebem ATK +1 | Pesado |
 | Enfermaria | Soldados recebem DEF +1 | Pesado |
+
+## Rei
+
+A entidade mais importante do jogo é o rei, ele que trás toda a tropa para a batalha e faz com que eles se movimentem e atinjam alvos específicos para garantir a vitória.
+
+O rei é como qualquer outro soldado possuindo seus atributos se necessário lutando para sobreviver.
+
+| Name | ATK/DEF/MOV | D_ATK |
+| --- | --- | --- |
+| Rei | 2/20/1 | 1 |

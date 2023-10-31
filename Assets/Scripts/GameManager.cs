@@ -1,4 +1,5 @@
 using Controls;
+using Helpers;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,7 +10,8 @@ namespace Managers
     public class GameManager : Utils.Singleton<GameManager>
     {
         [Header("Settings")]
-        public MatchConfigSO matchConfig;
+        public MatchConfigSO gameSettings;
+        public bool isDebug = false;
 
         [Header("References")]
         public MapManager mapManager;
@@ -18,9 +20,10 @@ namespace Managers
         public CardManager cardManager;
         public DeckManager deckManager;
         public GamePlayManager gamePlayManager;
+        public MiniatureManager miniatureManager;
         public Player player;
-        public MouseHelper mouseHelper;
-
+        public MiniatureMouseHelper miniatureMouseHelper;
+        public Network.LobbyNetworkManager networkManager;
 
         private void Start()
         {
@@ -46,6 +49,12 @@ namespace Managers
 
             if (TryGetComponent(out GamePlayManager gamePlay))
                 this.gamePlayManager = gamePlay;
+
+            if (TryGetComponent(out MiniatureMouseHelper miniatureMouseHelper))
+                this.miniatureMouseHelper = miniatureMouseHelper; 
+            
+            if (TryGetComponent(out MiniatureManager miniatureManager))
+                this.miniatureManager = miniatureManager;
         }
     }
 }

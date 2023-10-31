@@ -1,15 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace Tiles
+namespace Enums
 {
     public enum TileTypeEnum
     {
         None,
         Army,
         Terrain,
-        Command,
         Equipament,
         King
     }

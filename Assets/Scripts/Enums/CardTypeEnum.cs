@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Cards
+namespace Enums
 {
     public enum CardTypeEnum
     {
         Army,
         Terrain,
         Command,
-        Equipament
+        Equipament,
+        King
     }
 }

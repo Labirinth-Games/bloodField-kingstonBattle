@@ -20,7 +20,7 @@ namespace Render
             for (var y = 0; y < grid.GetLength(0); y++)
                 for (var x = 0; x < grid.GetLength(1); x++)
                 {
-                    var map = GameObject.Find("Map");
+                    var map = GameObject.Find("Map/Squares");
                     var instance = new GameObject();
 
                     instance.AddComponent<SpriteRenderer>();
@@ -28,7 +28,7 @@ namespace Render
                     instance.transform.SetParent(map.transform);
                     instance.GetComponent<SpriteRenderer>().sprite = floorPrefabs[Random.Range(0, floorPrefabs.Count)];
 
-                    if ((x >= 0 && x < grid.GetLength(1) && y >= 0 && y < spawnAreaScale) || ( x >= 0 && x < grid.GetLength(1) && y >= grid.GetLength(0) - spawnAreaScale && y < grid.GetLength(0)))
+                    if ((x >= 0 && x < grid.GetLength(1) && y >= 0 && y < spawnAreaScale) || (x >= 0 && x < grid.GetLength(1) && y >= grid.GetLength(0) - spawnAreaScale && y < grid.GetLength(0)))
                         instance.GetComponent<SpriteRenderer>().sprite = baseSpawn[Random.Range(0, baseSpawn.Count)];
                     else if ((x % 2 == 0 && y % 2 != 0) || (x % 2 != 0 && y % 2 == 0))
                         instance.GetComponent<SpriteRenderer>().color = new Color(.8f, .8f, .8f, .95f);
@@ -40,33 +40,19 @@ namespace Render
             return instances;
         }
 
-        public static List<GameObject> KingRender(List<(int y, int x)> positions, GameObject prefab)
+        public static List<GameObject> FloorRender(List<Tile> tiles, Sprite sprite)
         {
-            List<GameObject> instances = new List<GameObject>();
+            var instances = new List<GameObject>();
 
-            foreach (var position in positions)
+            foreach (Tile tile in tiles)
             {
-                var instance = Instantiate(prefab);
-                instance.GetComponent<King>().Create(position);
-
-                instances.Add(instance);
+                var instance = new GameObject();
+                instance.AddComponent<SpriteRenderer>().sprite = sprite;
+                instance.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                instance.transform.position = tile.GetPositionOnWorld();
             }
 
             return instances;
-        }
-
-        public static GameObject MiniatureRender(Card card)
-        {
-            (int y, int x) pos = (0, 0);
-
-            var instance = new GameObject();
-            instance.AddComponent<SpriteRenderer>().sprite = card.stats.sprite;
-            instance.AddComponent<Miniature>().Create(pos, card);
-            instance.GetComponent<SpriteRenderer>().sortingLayerName = "Miniature";
-
-            instance.transform.SetParent(GameObject.Find("Miniatures").transform);
-
-            return instance;
         }
     }
 }

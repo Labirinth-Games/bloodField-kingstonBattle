@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private List<CardSO> hand;
+    [SerializeField] private List<CardSO> hand = new List<CardSO>();
 
-    public void SetCardHand(List<CardSO> cards) => hand = cards;
+    public void SetCardOnHand(List<CardSO> cards) => hand.AddRange(cards);
 }

@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
+using Enums;
 
 namespace UI
 {
@@ -19,43 +20,32 @@ namespace UI
         [SerializeField] private TextMeshProUGUI description;
         [SerializeField] private TextMeshProUGUI type;
         [SerializeField] private GameObject badgeGroup;
+        [SerializeField] private GameObject icons;
         [SerializeField] private int moveUpHoverMouse = 30;
-
-        private Vector3 _originalPosition;
 
         public void Render(CardSO cardStats)
         {
             Title.text = cardStats.title;
-            ATKField.text = cardStats.ATK.ToString();
-            DEFField.text = cardStats.DEF.ToString();
-            MOVField.text = cardStats.MOV.ToString();
-            D_ATKField.text = cardStats.D_ATK.ToString();
+            ATKField.text = cardStats.GetATK().ToString();
+            DEFField.text = cardStats.GetDEF().ToString();
+            MOVField.text = cardStats.GetMOV().ToString();
+            D_ATKField.text = cardStats.GetD_ATK().ToString();
             description.text = cardStats.description;
             type.text = cardStats.type.ToString();
             image.sprite = cardStats.sprite;
 
             badgeGroup.SetActive(cardStats.isGroup);
 
-            _originalPosition = Vector3.zero;
+            transform.DOScale(0, .3f).From();
+
+            if (cardStats.type == CardTypeEnum.Command)
+                icons.SetActive(false);
         }
 
-        public void HoverEnter()
-        {
-            if(_originalPosition == Vector3.zero)
-                _originalPosition = transform.position;
+        public void HoverEnter() => transform.DOLocalMoveY(moveUpHoverMouse, .1f);
 
-            var dir = _originalPosition;
-            dir.y += moveUpHoverMouse;
+        public void HoverExit() => transform.DOLocalMoveY(0, .1f);
 
-            transform.DOMove(dir, .2f);
-        }
-
-        public void HoverExit()
-        {
-            var dir = _originalPosition;
-            dir.y -= moveUpHoverMouse;
-
-            transform.DOMove(_originalPosition, .2f);
-        }
+        public void Click() => transform.DOScale(0, .1f).OnComplete(() => Destroy(gameObject, 1f));
     }
 }

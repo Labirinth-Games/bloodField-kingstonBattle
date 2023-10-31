@@ -2,48 +2,72 @@ using Generators;
 using Render;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Managers
 {
     public class DeckManager : MonoBehaviour
     {
-        [SerializeField] private List<CardSO> deck;
+        [SerializeField] private Queue<CardSO> deck;
 
         [Header("References")]
         public DeckGenerate deckGenerate;
 
-        private int _cardRemaing;
+        private int _amountCardOnPlayerHand;
 
-        public List<CardSO> Draw(int amount = 1)
+        public void Draw(int amount = 1)
         {
             var cards = new List<CardSO>();
-            _cardRemaing -= amount;
+            _amountCardOnPlayerHand += amount;
 
             for(int i = 0; i< amount; i++)
             {
-                var card = deck[Random.Range(0, deck.Count)];
+                var card = deck.Dequeue();
 
                 cards.Add(card);                
             }
 
-            return cards;
+            GameManager.Instance.cardManager.Create(cards);
+            GameManager.Instance.player.SetCardOnHand(cards);
         }
 
-        public CardSO Draw()
+        public void Shuffle()
         {
-            _cardRemaing--;
+            CardSO aux;
+            List<CardSO> list = deck.ToList();
+            Queue<CardSO> cards = new Queue<CardSO>();
 
-             return deck[Random.Range(0, deck.Count)];
+            for(var i = 0; i < list.Count; i++)
+            {
+                int id1 = Random.Range(0, list.Count);
+                int id2 = Random.Range(0, list.Count);
+
+                aux = list[id1];
+                list[id1] = list[id2];
+                list[id2] = aux;
+            }
+
+            list.ForEach(f => cards.Enqueue(f));
+
+            deck = cards;
         }
 
-        public bool CanDraw() => _cardRemaing > 0;
+        #region Validatior
+        public bool CanDraw() => deck.Count > 0 && _amountCardOnPlayerHand <= GameManager.Instance.gameSettings.maxCardOnPlayerHand;
+        #endregion
+
+        #region Gets/Sets
+        public Queue<CardSO> GetDeck() => deck;
+        public Queue<CardSO> SettDeck(Queue<CardSO> deck) => this.deck = deck;
+        #endregion
+
+        public void UseCardOnPlayerHand() => _amountCardOnPlayerHand--;
 
         public void Load()
         {
-            _cardRemaing = GameManager.Instance.matchConfig.deckAmount;
             deck = deckGenerate.Deck();
-            
+            Shuffle(); // shuffle cards
         }
 
         private void OnValidate()

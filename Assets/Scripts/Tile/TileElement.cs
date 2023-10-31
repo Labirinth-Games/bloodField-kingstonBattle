@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
 namespace Tiles
 {
-    public class TileElement : MonoBehaviour
+    public class TileElement : NetworkBehaviour
     {
         public Tile self { get; protected set; }
+
+        public void SetTile(Tile tile) => self = tile; 
     }
 }

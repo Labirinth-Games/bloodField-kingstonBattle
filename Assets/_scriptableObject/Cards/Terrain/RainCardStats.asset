@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7254bc9ebb8147a4085925e570d8c221, type: 3}
+  m_Name: RainCardStats
+  m_EditorClassIdentifier: 
+  title: Rain
+  description: "Durante 3 turnos o ch\xE3o ficar\xE1 encharcado, assim dificultando
+    a movimenta\xE7\xE3o (MOV -1) de qualquer exercito dentro da \xE1rea de 6x3"
+  sprite: {fileID: -6830152201372448578, guid: 80c44f40d7f717a42bed0d3af513147d, type: 3}
+  type: 1
+  equipamentType: 0
+  armyType: 0
+  canApplyEffectToAllMap: 0
+  width: 6
+  height: 3
+  turnDuration: 2
+  effectSprite: {fileID: 1820064276241994544, guid: 7a1ff6deb4d3ca441b64da7eb0e7d63b, type: 3}
+  effectVFX: {fileID: 345775955226391227, guid: 760c6ca3abe806c44b33bdee5e8a694e, type: 3}
+  direction: 4
+  ATK: 0
+  DEF: 0
+  MOV: 0
+  D_ATK: 0
+  isGroup: 0
+  commandScript: {fileID: 0}
+  additionalStats:
+    _serializedList:
+    - Key: 2
+      Value: -1
+  targets: 

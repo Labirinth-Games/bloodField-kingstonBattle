@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Default
   initialAmountInHand: 7
+  amountPlayCardCanActive: 1
+  maxCardOnPlayerHand: 7
   DeckCardTypeAmount:
     _serializedList:
     - Key: 0
@@ -21,7 +23,7 @@ MonoBehaviour:
     - Key: 3
       Value: 7
     - Key: 1
-      Value: 8
+      Value: 80
     - Key: 2
       Value: 10
-  deckAmount: 55
+  deckAmount: 127
