@@ -1,5 +1,6 @@
 using Helpers;
 using Managers;
+using Mirror;
 using Render;
 using System.Collections.Generic;
 using Tiles;
@@ -33,7 +34,7 @@ namespace Miniatures
         #region Actions
         protected virtual bool Select()
         {
-            if (!MiniatureMouseHelper.HasTouchMe(self)) return false;
+            if (!MiniatureMouseHelper.HasTouchMe(self) || !isOwned) return false;
 
             signageUI.Clear();
             ToggleSelection();
@@ -58,20 +59,41 @@ namespace Miniatures
 
         public virtual void Move((int y, int x) position)
         {
-            Tile tileMove = ScanHelper.CanMoveToTile(_tilesToMove, position);
+            var tileMove = ScanHelper.CanMoveToTile(_tilesToMove, position);
 
-            if (_finishAction || !_isSelected || tileMove == null) return;
+            if (_finishAction || !_isSelected || tileMove is null || !isOwned) return;
 
-            self.MoveTo(position);
+            var pos = self.MoveTo(position);
+
+            CmdMove(new TileSerializeNetwork(self.position));
 
             FinishAction();
+        }
+
+        [Command]
+        public void CmdMove(TileSerializeNetwork tile)
+        {
+            MoveClientRpc(tile);
+        }
+
+        [ClientRpc]
+        public void MoveClientRpc(TileSerializeNetwork tile)
+        {
+            var pos = tile.position;
+            if (!isOwned)
+            {
+                pos = GameManager.Instance.mapManager.ReflexPosition(tile.position);
+                //self.MoveTo(pos);
+            }
+
+            transform.position = new Vector3(pos.x, pos.y, 0);
         }
 
         public virtual void Attack((int y, int x) position)
         {
             Tile enemy = ScanHelper.CanAttackTile(_tilesToAttack, position);
 
-            if (_finishAction || !_isSelected || enemy == null) return;
+            if (_finishAction || !_isSelected || enemy is null || !isOwned) return;
 
             if (enemy.gameObject.TryGetComponent(out Miniature miniatureEnemy))
                 miniatureEnemy.Hit(stats.GetATK());
@@ -170,7 +192,7 @@ namespace Miniatures
             {
                 DestroyPreview();
 
-                _instancePreview = MiniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
+                _instancePreview = GameManager.Instance.miniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
             }
         }
 
@@ -181,9 +203,11 @@ namespace Miniatures
         #endregion
 
         #region Network
-        public override void OnStartClient()
+        public override void OnStartAuthority()
         {
-           Debug.Log("carregou");
+            base.OnStartAuthority();
+
+            name = $"{name}-{netId}";
         }
         #endregion
 

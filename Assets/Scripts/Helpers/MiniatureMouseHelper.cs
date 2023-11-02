@@ -1,16 +1,12 @@
 using Managers;
 using Miniatures;
-using Render;
-using System.Collections;
-using System.Collections.Generic;
+using Mirror;
 using Tiles;
-using Unity.Burst.CompilerServices;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace Helpers
 {
-    public class MiniatureMouseHelper : MonoBehaviour
+    public class MiniatureMouseHelper : NetworkBehaviour
     {
         [SerializeField] private GameObject _miniature;
         private bool _isAttached = false;
@@ -65,7 +61,7 @@ namespace Helpers
         {
             var miniature = GameManager.Instance.gamePlayManager.GetCurrentMiniature();
 
-            if (Input.GetMouseButtonDown(0) && miniature != null) // left mouse button
+            if (Input.GetButtonDown("Fire1") && miniature != null) // left mouse button
             {
                 var position = GetPositionOnWorld();
 
@@ -76,6 +72,8 @@ namespace Helpers
 
         private void Update()
         {
+            if(!GameManager.Instance.gamePlayManager.isStartGame && !isLocalPlayer) return;
+            
             AttachmentOnMouse();
             AddOnBoard();
             Actions();

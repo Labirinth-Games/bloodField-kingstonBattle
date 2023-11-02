@@ -1,0 +1,248 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8286717693622155103
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1658489862345944690}
+  - component: {fileID: 4250467402241681238}
+  - component: {fileID: 190914148553131230}
+  - component: {fileID: 4512907760861070255}
+  - component: {fileID: 8307394737307420456}
+  - component: {fileID: 2601533054413961244}
+  - component: {fileID: 1839709873565443728}
+  - component: {fileID: 7226609682964516133}
+  - component: {fileID: 7969114790046353878}
+  - component: {fileID: 4758783257067734662}
+  - component: {fileID: 372815916091323547}
+  - component: {fileID: 6589441337178919539}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1658489862345944690
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4250467402241681238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b459d1a459393148ba2d10a5bfd7760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameSettings: {fileID: 11400000, guid: 248ca7ea0b15d884f9ea3bf8873ecdbf, type: 2}
+  isDebug: 1
+  isStartGame: 0
+  mapManager: {fileID: 1423650662961454086, guid: b082d5c2eb22d9542beec1abaa4586cd, type: 3}
+  turnManager: {fileID: 2601533054413961244}
+  cameraControl: {fileID: 190914148553131230}
+  cardManager: {fileID: 6068540755482202608, guid: 8b37f3ddd76e10d448c4c9723efe01bb, type: 3}
+  deckManager: {fileID: 4512907760861070255}
+  gamePlayManager: {fileID: 7226609682964516133}
+  miniatureManager: {fileID: 7969114790046353878}
+  player: {fileID: -273045122763258149, guid: 933b0976ffe7fb243a6642ed2e076873, type: 3}
+  miniatureMouseHelper: {fileID: 1839709873565443728}
+  networkManager: {fileID: 0}
+  miniatureRender: {fileID: 0}
+--- !u!114 &190914148553131230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0ca84e387673947a22461cc2fdd7b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxLimit: 80
+  minLimit: 35
+  isFreezing: 0
+  velocity: 30
+--- !u!114 &4512907760861070255
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a2ff4d66612e30141a714c7a1e31b491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  deckGenerate: {fileID: 8307394737307420456}
+--- !u!114 &8307394737307420456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49bb4ca2258f5f447bd2daf2612bc141, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2601533054413961244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9085b693de0de84db6c436aba90db91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnStage: 0
+  OnUseCard:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDontUseCard:
+    m_PersistentCalls:
+      m_Calls: []
+  OnStartTurnPlayer:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1839709873565443728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3febbf198081d484d83e7f15514e7d88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _miniature: {fileID: 0}
+--- !u!114 &7226609682964516133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14da06255bebb164ba839910f665014d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  kingEnemyPrefab: {fileID: 2040667226982221341, guid: 9005796117c05ee439697ff7dd6a6637, type: 3}
+  currentMiniature: {fileID: 0}
+  additionalStats: []
+  OnLoadDone:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &7969114790046353878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38300298df02ad9459ba82525375e678, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  miniaturePrefabs:
+    _serializedList:
+    - Key: 0
+      Value: {fileID: 1332999202083502562, guid: 26b8fe4dd45178e489fa932e3e2316e6, type: 3}
+    - Key: 1
+      Value: {fileID: 1332999202083502562, guid: 956feeb179dbd514eae573f4fd66ec2f, type: 3}
+    - Key: 2
+      Value: {fileID: 1332999202083502562, guid: 559c05212ec1ddc48a70973b25a4cd1a, type: 3}
+    - Key: 3
+      Value: {fileID: 1332999202083502562, guid: f4c37eb963c20ee4ba1d83fffd0dc63b, type: 3}
+--- !u!114 &4758783257067734662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d7a1867cf2b1ff4991465c5ff4692c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cards:
+    _serializedList:
+    - Key: {fileID: 11400000, guid: 431a3f411d57c634a9a5fdb59f543d9e, type: 2}
+      Value: 2
+    - Key: {fileID: 11400000, guid: 93c2f3cfc706bba4491bcd28816683bd, type: 2}
+      Value: 2
+    - Key: {fileID: 11400000, guid: 07ddd694c0bb3db459e6f772df992757, type: 2}
+      Value: 2
+    - Key: {fileID: 11400000, guid: adba77cfb5ac3ff4c9ebd5fd8eca3941, type: 2}
+      Value: 2
+    - Key: {fileID: 11400000, guid: 513fd31921b24c541948e894e8cebcb9, type: 2}
+      Value: 2
+--- !u!114 &372815916091323547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 2058258302
+  serverOnly: 0
+  visible: 0
+  hasSpawned: 0
+--- !u!114 &6589441337178919539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286717693622155103}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99d953092ca9b7d40bd7f3d12ff6c265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0

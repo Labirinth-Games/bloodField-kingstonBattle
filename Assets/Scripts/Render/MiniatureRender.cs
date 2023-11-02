@@ -4,20 +4,31 @@ using System.Collections;
 using System.Collections.Generic;
 using Miniatures;
 using UnityEngine;
+using Mirror;
 
 namespace Render
 {
-    public class MiniatureRender : MonoBehaviour
+    public class MiniatureRender : NetworkBehaviour
     {
-        public static GameObject KingRender((int y, int x) position, GameObject prefab)
-        {
-            var instance = Instantiate(prefab);
-            instance.GetComponent<Miniature>().Create(position);
+        private GameObject _prefab;
+        private GameObject _instance;
 
-            return instance;
+        public GameObject KingRender(GameObject prefab)
+        {
+            _prefab = prefab;
+
+            SpawnServerRpc();
+            return null; ///instance;
         }
 
-        public static GameObject Render(CardSO card, GameObject prefab)
+        [Command(requiresAuthority = false)]
+        public void SpawnServerRpc(NetworkConnectionToClient sender = null)
+        {
+            _instance = Instantiate(_prefab);
+            NetworkServer.Spawn(_instance, sender.identity.connectionToClient);
+        }
+
+        public GameObject Render(CardSO card, GameObject prefab)
         {
             (int y, int x) pos = (0, 0);
 
@@ -28,7 +39,7 @@ namespace Render
             return instance;
         }
 
-        public static GameObject PreviewRender(CardSO card, int hp, GameObject prefab)
+        public GameObject PreviewRender(CardSO card, int hp, GameObject prefab)
         {
             var instance = Instantiate(prefab);
             instance.GetComponent<MiniaturePreviewHUD>().Render(card, hp);

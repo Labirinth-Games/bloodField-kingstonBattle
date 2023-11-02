@@ -2,29 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Enums;
+using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Managers
 {
-    public class TurnManager : MonoBehaviour
+    public class TurnManager : NetworkBehaviour
     {
         [Header("Settings")]
         [SerializeField] private TurnStageEnum turnStage;
-        
+
         [Header("callback")]
         public UnityEvent OnUseCard;
         public UnityEvent OnDontUseCard;
         public UnityEvent OnStartTurnPlayer;
 
-        private bool _isTurnPlayer = true;
+        [SyncVar] private uint _turnPlayer;
+        private List<uint> _players = new List<uint>();
         private int _amountCardUsed = 0;
         private bool _isAllMiniatureFinish = false;
         private Dictionary<TurnStageEnum, Func<bool>> _rules;
 
         #region Gets/Sets
-        public bool IsMyTurn() => _isTurnPlayer;
-                public TurnStageEnum GetTurnState() => turnStage;
+        public bool IsMyTurn() => _turnPlayer == netId;
+        public TurnStageEnum GetTurnState() => turnStage;
         public bool IsTurnPreparation() => turnStage == TurnStageEnum.Preparation;
 
         public void SetCardUsed()
@@ -54,35 +56,32 @@ namespace Managers
             if (isAllCardsPlayed && isAllMiniaturesHasFinish) EndTurn();
         }
 
+        private uint NextTurn()
+        {
+            int next = _players.FindIndex(f => f == _turnPlayer) + 1;
+
+            if (next >= _players.Count)
+                return _players[0];
+
+            return _players[next];
+        }
+
         public void EndTurn()
         {
-            _isTurnPlayer = !_isTurnPlayer;
-            
+            _turnPlayer = NextTurn();
+
             // when finish the preparation step
             if (turnStage == TurnStageEnum.Preparation)
                 turnStage = TurnStageEnum.GamePlay;
 
             if (IsMyTurn())
             {
-                ResetConfig();
+                _amountCardUsed = 0;
+                _isAllMiniatureFinish = false;
+
+                OnUseCard?.Invoke();
+                OnStartTurnPlayer?.Invoke();
             }
-
-            Invoke(nameof(PlayAgain), 2f);
-        }
-
-        private void ResetConfig()
-        {
-            _amountCardUsed = 0;
-            _isAllMiniatureFinish = false;
-
-            OnUseCard?.Invoke();
-            OnStartTurnPlayer?.Invoke();
-        }
-
-        private void PlayAgain()
-        {
-            if (!IsMyTurn())
-                EndTurn();
         }
 
         public void Load()
@@ -94,6 +93,12 @@ namespace Managers
                 { TurnStageEnum.Preparation, () => _amountCardUsed >= GameManager.Instance.gameSettings.amountPlayCardOnPreparation },
                 { TurnStageEnum.GamePlay, () => _amountCardUsed >= GameManager.Instance.gameSettings.amountPlayCardOnGameplay }
             };
+
+            // add the players on turns
+            foreach (Player player in GameManager.Instance.networkManager.playersInGame)
+            {
+                _players.Add(player.netId);
+            }
         }
     }
 }

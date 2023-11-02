@@ -1,4 +1,5 @@
 using Generators;
+using Mirror;
 using Render;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using UnityEngine;
 
 namespace Managers
 {
-    public class DeckManager : MonoBehaviour
+    public class DeckManager : NetworkBehaviour
     {
         [SerializeField] private Queue<CardSO> deck;
 
@@ -68,12 +69,6 @@ namespace Managers
         {
             deck = deckGenerate.Deck();
             Shuffle(); // shuffle cards
-        }
-
-        private void OnValidate()
-        {
-            if(TryGetComponent(out DeckGenerate deckGenerate))
-                this.deckGenerate = deckGenerate;
         }
     }
 }

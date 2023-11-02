@@ -26,6 +26,7 @@ namespace Managers
         public (int w, int h) Size() => (_sizeWidth, _sizeHeight);
 
         public Vector3 ReflexPosition(Vector3 pos) => new Vector3(pos.x, _sizeHeight - pos.y, pos.y);
+        public (int y, int x) ReflexPosition((int y, int x) pos) => (_sizeHeight - pos.y - 1, pos.x);
 
         public List<Tile>[,] GetMap() => _map;
 
@@ -77,7 +78,7 @@ namespace Managers
                 // if has tile empty joined with tile can remove it
                 var tileEmpty = _map[tile.position.y, tile.position.x].Find(f => f.IsEmpty());
 
-                if (tileEmpty != null)
+                if (tileEmpty is not null)
                 {
                     _map[tile.position.y, tile.position.x].Remove(tileEmpty);
                 }
@@ -105,7 +106,7 @@ namespace Managers
         {
             Tile tile = FindByPosition(position).Find(f => f.type == tileType);
             
-            if(tile == null) return;
+            if(tile is null) return;
 
             if (_map[tile.position.y, tile.position.x].Exists(f => f.position == tile.position))
             {

@@ -23,8 +23,20 @@ public class King : Miniature
     }
     #endregion
 
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        Create((0,0));
+    }
+
     public override void Create((int y, int x) pos)
     {
+        pos = GameManager.Instance.mapManager.GetKingPositions();
+
+        if (!isOwned)
+            pos = GameManager.Instance.mapManager.ReflexPosition(pos);
+
         self = GameManager.Instance.mapManager.Register(new Tile(TileTypeEnum.King, gameObject), pos);
         self.SetPositionOnWorld();
         SetReady();

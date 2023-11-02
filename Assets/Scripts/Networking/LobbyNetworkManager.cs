@@ -5,24 +5,28 @@ using Mirror;
 using System;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using Managers;
+using UnityEngine.Events;
 
 namespace Network
 {
     public class LobbyNetworkManager : NetworkManager
     {
         [Header("References")]
-        [SerializeField] private LobbyPlayer lobbyPlayerPrefab;
         [SerializeField] private GameObject lobbyDisplayNames;
         [SerializeField] private NetworkHud networkHud;
-        [SerializeField] private GamePlayer gamePlayerPrefab;
+        [SerializeField] private LobbyPlayer lobbyPlayerPrefab;
+        [SerializeField] private Player playerGamePrefab;
 
         [Header("Settings")]
         [SerializeField] private int maxPlayers = 2;
         [SerializeField] private int minPlayers = 2;
         [SerializeField] private DiscoveryNetworkManager networkDiscoveryManager;
 
+        public UnityEvent OnStartGame;
+
         private List<LobbyPlayer> _lobbyPlayers = new List<LobbyPlayer>();
-        private List<GamePlayer> _playersInGame = new List<GamePlayer>();
+        public List<Player> playersInGame { get; private set; } = new List<Player>();
 
         private const string _lobbyScene = "LobbyScene";
 
@@ -40,28 +44,46 @@ namespace Network
             base.networkAddress = "127.0.0.1";
             base.StartClient();
         }
+
+        public void StartGame()
+        {
+            if (CanStartGame() && SceneManager.GetActiveScene().name == _lobbyScene)
+            {
+                ServerChangeScene("GameScene");
+                OnStartGame?.Invoke();
+            }
+        }
+
+        public void Disconnect()
+        {
+            if (SceneManager.GetActiveScene().name == "GameScene")
+            {
+                ServerChangeScene(_lobbyScene);
+            }
+        }
         #endregion
 
+        #region Network Actions
         public override void OnStartServer()
         {
             base.OnStartServer();
 
-            NetworkServer.RegisterHandler<KingClientMessage>(OnKingClientAddPlayer);
+            NetworkServer.RegisterHandler<ClientMessage>(OnInstanceClient);
         }
 
         public override void OnClientConnect()
         {
             base.OnClientConnect();
-            
-            string playerName = "Player" + UnityEngine.Random.Range(1000, 10000).ToString();
-            KingClientMessage message = new KingClientMessage
+
+            ClientMessage message = new ClientMessage
             {
-                name = playerName
+                name = "Player" + UnityEngine.Random.Range(1000, 10000).ToString()
             };
 
             NetworkClient.Send(message);
 
-            if(!lobbyDisplayNames.activeSelf)
+            // show area to list names players
+            if (!lobbyDisplayNames.activeSelf)
                 lobbyDisplayNames.SetActive(true);
         }
 
@@ -76,12 +98,13 @@ namespace Network
             }
         }
 
-        public void OnKingClientAddPlayer(NetworkConnectionToClient conn, KingClientMessage message)
+        public void OnInstanceClient(NetworkConnectionToClient conn, ClientMessage message)
         {
             if (SceneManager.GetActiveScene().name == _lobbyScene)
             {
                 LobbyPlayer lobbyPlayer = Instantiate(lobbyPlayerPrefab);
                 lobbyPlayer.displayName = message.name;
+                lobbyPlayer.name = message.name;
 
                 lobbyPlayer.connectionId = conn.connectionId;
 
@@ -104,21 +127,58 @@ namespace Network
             }
         }
 
-        public void StartGame()
+        public override void OnServerChangeScene(string newSceneName)
         {
-            if (CanStartGame() && SceneManager.GetActiveScene().name == _lobbyScene)
+            // load the list player on lobby
+            if (SceneManager.GetActiveScene().name == "lobbyScene" && newSceneName == _lobbyScene)
             {
-                ServerChangeScene("GameScene");
-            }
-        }
+                List<Player> players = new List<Player>(playersInGame);
+                playersInGame.Clear();
 
-        public void Disconnect()
-        {
-            if (SceneManager.GetActiveScene().name == "GameScene")
-            {
-                ServerChangeScene(_lobbyScene);
+                foreach (var player in players)
+                {
+                    var conn = player.connectionToClient;
+                    var instance = Instantiate(lobbyPlayerPrefab);
+
+                    instance.displayName = player.displayName;
+                    instance.connectionId = player.connectionId;
+
+                    _lobbyPlayers.Add(instance);
+
+                    NetworkServer.Destroy(conn.identity.gameObject);
+                    NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject, true);
+                    Debug.Log("Spawned new player.");
+                }
+
             }
+
+            // create all players on game based in lobby list
+            if (SceneManager.GetActiveScene().name == _lobbyScene && newSceneName == "GameScene")
+            {
+                List<LobbyPlayer> players = new List<LobbyPlayer>(_lobbyPlayers);
+                players.Reverse();
+
+                foreach (var player in players)
+                {
+                    var conn = player.connectionToClient;
+                    var instance = Instantiate(playerGamePrefab);
+
+                    instance.displayName = player.displayName;
+                    instance.name = player.displayName;
+                    instance.connectionId = player.connectionId;
+
+                    playersInGame.Add(instance);
+
+                    NetworkServer.Destroy(conn.identity.gameObject);
+                    NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject, true);
+                    Debug.Log("Spawned new GamePlayer.");
+                }
+
+            }
+
+            base.OnServerChangeScene(newSceneName);
         }
+        #endregion
 
         // public void FinishGame()
         // {
@@ -141,61 +201,9 @@ namespace Network
 
             return true;
         }
-
-        public override void OnServerChangeScene(string newSceneName)
-        {
-            // load the list player on lobby
-            if (SceneManager.GetActiveScene().name == "lobbyScene" && newSceneName == _lobbyScene)
-            {
-                List<GamePlayer> players = new List<GamePlayer>(_playersInGame);
-                _playersInGame.Clear();
-
-                foreach (var player in players)
-                {
-                    var conn = player.connectionToClient;
-                    var instance = Instantiate(lobbyPlayerPrefab);
-
-                    instance.displayName = player.displayName;
-                    instance.connectionId = player.connectionId;
-
-                    _lobbyPlayers.Add(instance);
-
-                    NetworkServer.Destroy(conn.identity.gameObject);
-                    NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject, true);
-                    Debug.Log("Spawned new GamePlayer.");
-                }
-
-            }
-
-            // create all players on game based in lobby list
-            if (SceneManager.GetActiveScene().name == _lobbyScene && newSceneName == "GameScene")
-            {
-                List<LobbyPlayer> players = new List<LobbyPlayer>(_lobbyPlayers);
-                players.Reverse();
-
-                foreach (var player in players)
-                {
-                    var conn = player.connectionToClient;
-                    var instance = Instantiate(gamePlayerPrefab);
-
-                    instance.displayName = player.displayName;
-                    instance.connectionId = player.connectionId;
-
-                    _playersInGame.Add(instance);
-
-                    NetworkServer.Destroy(conn.identity
-                        .gameObject);
-                    NetworkServer.ReplacePlayerForConnection(conn, instance.gameObject, true);
-                    Debug.Log("Spawned new GamePlayer.");
-                }
-
-            }
-
-            base.OnServerChangeScene(newSceneName);
-        }
     }
 
-    public struct KingClientMessage : NetworkMessage
+    public struct ClientMessage : NetworkMessage
     {
         public string name;
     }

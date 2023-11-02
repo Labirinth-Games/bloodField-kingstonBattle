@@ -28,7 +28,7 @@ namespace Miniatures
             {
                 DestroyPreview();
 
-                _instancePreview = MiniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
+                _instancePreview = GameManager.Instance.miniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
             }
         }
 

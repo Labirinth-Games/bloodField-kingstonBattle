@@ -1,5 +1,7 @@
 using Controls;
 using Helpers;
+using Mirror;
+using Render;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -25,12 +27,13 @@ namespace Managers
         public MiniatureMouseHelper miniatureMouseHelper;
         public Network.LobbyNetworkManager networkManager;
 
-        private void Start()
-        {
-            mapManager.Load();
-            cameraControl.Center();
+        [Header("Renders")]
+        public MiniatureRender miniatureRender;
 
-            gamePlayManager.StartMatch();
+        protected override void Awake()
+        {
+            base.Awake();
+            DontDestroyOnLoad(gameObject);
         }
 
         private void OnValidate()
@@ -51,8 +54,8 @@ namespace Managers
                 this.gamePlayManager = gamePlay;
 
             if (TryGetComponent(out MiniatureMouseHelper miniatureMouseHelper))
-                this.miniatureMouseHelper = miniatureMouseHelper; 
-            
+                this.miniatureMouseHelper = miniatureMouseHelper;
+
             if (TryGetComponent(out MiniatureManager miniatureManager))
                 this.miniatureManager = miniatureManager;
         }

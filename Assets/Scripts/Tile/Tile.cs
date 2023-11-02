@@ -51,7 +51,7 @@ namespace Tiles
         public void SetPosition((int y, int x) pos) => this.position = pos;
 
         // used to move aposition filtred on map
-        public void MoveTo((int y, int x) position, bool withAnimation = true)
+        public Vector3 MoveTo((int y, int x) position, bool withAnimation = true)
         {
             var lastPosition = this.position;
             var x = position.x - this.position.x;
@@ -59,13 +59,19 @@ namespace Tiles
 
             var tile = GameManager.Instance.mapManager.Register(this, (y, x));
 
-            if (tile == null)
-                return;
+            if (tile is null)
+                return Vector3.zero;
 
-            OnTileMove(lastPosition, tile.position);
+            if (OnTileMove != null)
+                OnTileMove(lastPosition, tile.position);
 
-            if (withAnimation)
-                gameObject.transform.DOMove(GetPositionOnWorld(), .2f);
+            // if (withAnimation)
+            // {
+            //     //CmdMoveDirection();
+            //     //gameObjectTile.transform.DOMove(GetPositionOnWorld(), .2f);
+            // }
+        // TODO - talvez possamos trazer para ca o move da miniatura pelomenos a chamada do gameobject ja que n conseguimos via rede chamar o command e clientRpc aqui
+            return GetPositionOnWorld();
         }
 
         public Vector3 GetPositionOnWorld() => new Vector3(position.x, position.y, 0);

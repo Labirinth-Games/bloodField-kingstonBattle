@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8981973711865775845
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8409911363779713754}
+  - component: {fileID: 6068540755482202608}
+  m_Layer: 0
+  m_Name: CardManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8409911363779713754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8981973711865775845}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6068540755482202608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8981973711865775845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd46b51efe0616144832543db46d62c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cards:
+  - {fileID: 11400000, guid: a713718dbb6a0c74d900584a4982563e, type: 2}
+  - {fileID: 11400000, guid: 07ddd694c0bb3db459e6f772df992757, type: 2}
+  - {fileID: 11400000, guid: 7aaf1c1a4b6f4134a9a3f9f2d4ba3020, type: 2}
+  - {fileID: 11400000, guid: 431a3f411d57c634a9a5fdb59f543d9e, type: 2}
+  - {fileID: 11400000, guid: b34310ad12fd7c24fb91f91ed6d41a99, type: 2}
+  - {fileID: 11400000, guid: adba77cfb5ac3ff4c9ebd5fd8eca3941, type: 2}
+  - {fileID: 11400000, guid: 93c2f3cfc706bba4491bcd28816683bd, type: 2}
+  - {fileID: 11400000, guid: 513fd31921b24c541948e894e8cebcb9, type: 2}
+  - {fileID: 11400000, guid: 12bad58b18b68b44ea2ead9f4255cf91, type: 2}
+  - {fileID: 11400000, guid: d29633978351d534dad0417ee88776e3, type: 2}
+  cardPreviewPrefab: {fileID: 1962485834779004676, guid: 63c09c88b4dcaf44888ed2f6ac2974a7, type: 3}
+  cardPrefab: {fileID: 4955371552990318282, guid: 3329f171027a3a548afb11695a21ed94, type: 3}
