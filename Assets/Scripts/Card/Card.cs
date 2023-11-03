@@ -17,7 +17,7 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void Create(CardSO cardStats)
     {
         cardUI.Render(cardStats);
-        stats = Instantiate(cardStats);
+        stats = cardStats;
 
         GameManager.Instance.turnManager.OnDontUseCard.AddListener(() => _canPlayCard = false);
         GameManager.Instance.turnManager.OnUseCard.AddListener(() => _canPlayCard = true);

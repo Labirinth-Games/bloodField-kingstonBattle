@@ -10,33 +10,32 @@ namespace Render
 {
     public class MiniatureRender : NetworkBehaviour
     {
-        private GameObject _prefab;
         private GameObject _instance;
+        private GameObject _prefab;
 
         public GameObject KingRender(GameObject prefab)
         {
             _prefab = prefab;
 
-            SpawnServerRpc();
-            return null; ///instance;
-        }
+            SpawnServerRpc(new MiniatureCreateMessage()
+            {
+                position = (0, 0)
+            });
 
-        [Command(requiresAuthority = false)]
-        public void SpawnServerRpc(NetworkConnectionToClient sender = null)
-        {
-            _instance = Instantiate(_prefab);
-            NetworkServer.Spawn(_instance, sender.identity.connectionToClient);
+            return null; ///instance;
         }
 
         public GameObject Render(CardSO card, GameObject prefab)
         {
-            (int y, int x) pos = (0, 0);
+            _prefab = prefab;
 
-            var instance = Instantiate(prefab, GameObject.Find("Miniatures").transform);
-            instance.GetComponent<Miniature>().Create(pos, card);
-            instance.GetComponent<SpriteRenderer>().sprite = card.sprite;
+            SpawnServerRpc(new MiniatureCreateMessage()
+            {
+                position = (0, 0),
+                card = card
+            });
 
-            return instance;
+            return null;
         }
 
         public GameObject PreviewRender(CardSO card, int hp, GameObject prefab)
@@ -47,6 +46,19 @@ namespace Render
             instance.transform.SetParent(GameObject.FindGameObjectWithTag("HUD").transform);
 
             return instance;
+        }
+
+        [Command(requiresAuthority = false)]
+        public void SpawnServerRpc(MiniatureCreateMessage miniature, NetworkConnectionToClient sender = null)
+        {
+            _instance = Instantiate(_prefab);
+            NetworkServer.Spawn(_instance, sender.identity.connectionToClient);
+
+            NetworkServer.SendToAll(new MiniatureCreateMessage()
+            {
+                position = miniature.position,
+                card = miniature.card
+            });
         }
     }
 }

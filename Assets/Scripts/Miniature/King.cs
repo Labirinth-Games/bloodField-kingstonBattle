@@ -23,16 +23,13 @@ public class King : Miniature
     }
     #endregion
 
-    public override void OnStartClient()
+    protected override void OnCreate(MiniatureCreateMessage miniature)
     {
-        base.OnStartClient();
+        if(base.self is not null) return;
 
-        Create((0,0));
-    }
+        Debug.Log($"criando king {netId}");
 
-    public override void Create((int y, int x) pos)
-    {
-        pos = GameManager.Instance.mapManager.GetKingPositions();
+        var pos = GameManager.Instance.mapManager.GetKingPositions();
 
         if (!isOwned)
             pos = GameManager.Instance.mapManager.ReflexPosition(pos);

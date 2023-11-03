@@ -14,15 +14,15 @@ namespace Helpers
 
         public void DeckTest()
         {
-            Queue<CardSO> deck = new Queue<CardSO>();
+            List<CardSO> deck = new List<CardSO>();
 
             foreach (var card in cards)
             {
                 for (var i = 0; i < card.Value; i++)
-                    deck.Enqueue(card.Key);
+                    deck.Add(card.Key);
             }
 
-            GetComponent<DeckManager>().SettDeck(deck);
+            GetComponent<DeckManager>().SetDeck(deck);
         }
     }
 }

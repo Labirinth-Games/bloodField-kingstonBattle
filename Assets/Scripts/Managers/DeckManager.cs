@@ -10,7 +10,8 @@ namespace Managers
 {
     public class DeckManager : NetworkBehaviour
     {
-        [SerializeField] private Queue<CardSO> deck;
+        // [SerializeField] private Queue<CardSO> deck;
+        public readonly SyncList<CardSO> deck = new SyncList<CardSO>();
 
         [Header("References")]
         public DeckGenerate deckGenerate;
@@ -19,27 +20,42 @@ namespace Managers
 
         public void Draw(int amount = 1)
         {
-            var cards = new List<CardSO>();
-            _amountCardOnPlayerHand += amount;
+            DrawCardServerRpc(amount);
+        }
 
-            for(int i = 0; i< amount; i++)
+        [Command(requiresAuthority = false)]
+        public void DrawCardServerRpc(int amount, NetworkConnectionToClient sender = null)
+        {
+            List<CardSO> _cardsAux = new List<CardSO>();
+
+            for (int i = 0; i < amount; i++)
             {
-                var card = deck.Dequeue();
+                var card = deck[0];
+                deck.RemoveAt(0);
 
-                cards.Add(card);                
+                _cardsAux.Add(card);
             }
 
-            GameManager.Instance.cardManager.Create(cards);
-            GameManager.Instance.player.SetCardOnHand(cards);
+            DrawCardsClient(new CardDrawSerializerNetwork(_cardsAux), amount);
+        }
+
+        [ClientRpc]
+        public void DrawCardsClient(CardDrawSerializerNetwork cardDraw, int amount)
+        {
+            _amountCardOnPlayerHand += amount;
+
+            Debug.Log($"foram pegas {amount} cartas e sobrou {deck.Count}");
+            
+            GameManager.Instance.cardManager.Create(cardDraw.cards);
+            GameManager.Instance.player.SetCardOnHand(cardDraw.cards);
         }
 
         public void Shuffle()
         {
             CardSO aux;
             List<CardSO> list = deck.ToList();
-            Queue<CardSO> cards = new Queue<CardSO>();
 
-            for(var i = 0; i < list.Count; i++)
+            for (var i = 0; i < list.Count; i++)
             {
                 int id1 = Random.Range(0, list.Count);
                 int id2 = Random.Range(0, list.Count);
@@ -49,9 +65,7 @@ namespace Managers
                 list[id2] = aux;
             }
 
-            list.ForEach(f => cards.Enqueue(f));
-
-            deck = cards;
+            SetDeck(list);
         }
 
         #region Validatior
@@ -59,15 +73,23 @@ namespace Managers
         #endregion
 
         #region Gets/Sets
-        public Queue<CardSO> GetDeck() => deck;
-        public Queue<CardSO> SettDeck(Queue<CardSO> deck) => this.deck = deck;
+        public SyncList<CardSO> GetDeck() => deck;
+        public void SetDeck(List<CardSO> deck)
+        {
+            this.deck.Clear();
+
+            foreach (var item in deck)
+            {
+                this.deck.Add(item);
+            }
+        }
         #endregion
 
         public void UseCardOnPlayerHand() => _amountCardOnPlayerHand--;
 
         public void Load()
         {
-            deck = deckGenerate.Deck();
+            SetDeck(deckGenerate.Deck());
             Shuffle(); // shuffle cards
         }
     }

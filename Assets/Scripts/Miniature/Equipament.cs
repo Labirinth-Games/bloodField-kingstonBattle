@@ -103,12 +103,12 @@ namespace Miniatures
 
         }
 
-        public override void Create((int y, int x) pos, CardSO card)
+        protected override void OnCreate(MiniatureCreateMessage miniature)
         {
-            self = GameManager.Instance.mapManager.Register(new Tile(card.type, gameObject), pos);
+            self = GameManager.Instance.mapManager.Register(new Tile(miniature.card.type, gameObject), miniature.position);
             self.SetPositionOnWorld();
 
-            stats = Instantiate(card);
+            stats = Instantiate(miniature.card);
             _hp = stats.GetDEF();
 
             // remove equipaments of the count to auto finish turn

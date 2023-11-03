@@ -64,12 +64,12 @@ namespace Miniatures
         }
         #endregion
 
-        public override void Create((int y, int x) pos, CardSO card)
+        protected override void OnCreate(MiniatureCreateMessage miniature)
         {
-            self = GameManager.Instance.mapManager.Register(new Tile(CardTypeEnum.Terrain, gameObject), pos);
+            self = GameManager.Instance.mapManager.Register(new Tile(CardTypeEnum.Terrain, gameObject), miniature.position);
             self.SetPositionOnWorld();
 
-            stats = Instantiate(card);
+            stats = Instantiate(miniature.card);
             _position = self.position;
             _lastPosition = _position;
             _canApplyEffectToAllMap = stats.canApplyEffectToAllMap;

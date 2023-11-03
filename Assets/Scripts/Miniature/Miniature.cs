@@ -65,25 +65,25 @@ namespace Miniatures
 
             var pos = self.MoveTo(position);
 
-            CmdMove(new TileSerializeNetwork(self.position));
+            CmdMove(new TileSerializerNetwork(self.position));
 
             FinishAction();
         }
 
         [Command]
-        public void CmdMove(TileSerializeNetwork tile)
+        public void CmdMove(TileSerializerNetwork tile)
         {
             MoveClientRpc(tile);
         }
 
         [ClientRpc]
-        public void MoveClientRpc(TileSerializeNetwork tile)
+        public void MoveClientRpc(TileSerializerNetwork tile)
         {
             var pos = tile.position;
             if (!isOwned)
             {
                 pos = GameManager.Instance.mapManager.ReflexPosition(tile.position);
-                //self.MoveTo(pos);
+                self.MoveTo(pos);
             }
 
             transform.position = new Vector3(pos.x, pos.y, 0);
@@ -203,11 +203,14 @@ namespace Miniatures
         #endregion
 
         #region Network
-        public override void OnStartAuthority()
+        public override void OnStartClient()
         {
-            base.OnStartAuthority();
-
+            base.OnStartClient();
             name = $"{name}-{netId}";
+        }
+
+        private void Awake() {
+            NetworkClient.RegisterHandler<MiniatureCreateMessage>(OnCreate);
         }
         #endregion
 
@@ -219,18 +222,14 @@ namespace Miniatures
                 self.OnTileMove = VerifyLocalEffect; // add listen when tile move
         }
 
-        public virtual void Create((int y, int x) pos, CardSO card)
-        {
-            stats = Instantiate(card);
-            Subscribers();
-        }
-
-        public virtual void Create((int y, int x) pos) { }
-
         public virtual void AddOnBoard((int y, int x) pos)
         {
             self.MoveTo(pos);
+            CmdMove(new TileSerializerNetwork(self.position));
+
             SetReady();
         }
+
+        protected virtual void OnCreate(MiniatureCreateMessage message) { }
     }
 }

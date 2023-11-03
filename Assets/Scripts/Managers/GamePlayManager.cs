@@ -47,13 +47,6 @@ namespace Managers
         {
             yield return new WaitForSeconds(.3f);
 
-            // load deck to start match
-            GameManager.Instance.deckManager.Load();
-
-            // if debug mode active get cards defined on list
-            if (GameManager.Instance.isDebug)
-                GetComponent<DeckDebug>().DeckTest();
-
             // generate map
             GameManager.Instance.mapManager.Load();
             GameManager.Instance.cameraControl.Center();
@@ -62,7 +55,7 @@ namespace Managers
             GameManager.Instance.turnManager.Load();
 
             // get hand initial
-            //GameManager.Instance.deckManager.Draw(GameManager.Instance.gameSettings.initialAmountInHand);
+            GameManager.Instance.deckManager.Draw(GameManager.Instance.gameSettings.initialAmountInHand);
 
             // auto generate to create stats additional for all armys on deck
             // additionalStats = new List<AdditionalStats>();
@@ -88,7 +81,17 @@ namespace Managers
         private void Start()
         {
             // action execute on server when start the game
-            GameManager.Instance.networkManager.OnStartGame.AddListener(() => isStartGame = true);
+            GameManager.Instance.networkManager.OnStartGame.AddListener(() =>
+            {
+                isStartGame = true;
+
+                // load deck to start match
+                GameManager.Instance.deckManager.Load();
+
+                // if debug mode active get cards defined on list
+                if (GameManager.Instance.isDebug)
+                    GetComponent<DeckDebug>().DeckTest();
+            });
         }
     }
 

@@ -2002,6 +2002,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4250467402241681238, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: isDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4250467402241681238, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: mapManager
       value: 
       objectReference: {fileID: 1423650662961454086, guid: b082d5c2eb22d9542beec1abaa4586cd, type: 3}
@@ -2013,6 +2017,26 @@ PrefabInstance:
       propertyPath: miniatureRender
       value: 
       objectReference: {fileID: 1779186121}
+    - target: {fileID: 4758783257067734662, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[0].Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758783257067734662, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[1].Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758783257067734662, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[2].Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758783257067734662, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[3].Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4758783257067734662, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[4].Value
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8286717693622155103, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: m_Name
       value: GameManager

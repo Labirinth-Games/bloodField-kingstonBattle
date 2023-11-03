@@ -33,8 +33,7 @@ namespace Managers
                 return;
             };
 
-            GameObject miniature = GameManager.Instance.miniatureRender.Render(stats, prefab);
-            GameManager.Instance.miniatureMouseHelper.Attachment(miniature);
+            GameManager.Instance.miniatureRender.Render(stats, prefab);            
         }
     }
 }
