@@ -27,6 +27,14 @@ namespace Tiles
             this.gameObject = gameObject;
         }
 
+        public Tile((int y, int x) position, TileTypeEnum tileType = TileTypeEnum.None, GameObject gameObject = null)
+        {
+            this.position = position;
+
+            type = tileType;
+            this.gameObject = gameObject;
+        }
+
         public Tile(TileTypeEnum tileType = TileTypeEnum.None, GameObject gameObject = null)
         {
             type = tileType;

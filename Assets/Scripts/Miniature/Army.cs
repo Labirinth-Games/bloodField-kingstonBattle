@@ -24,7 +24,7 @@ namespace Miniatures
         }
         #endregion
 
-        protected override void OnCreate(MiniatureCreateMessage miniature)
+        public override void OnCreate(MiniatureCreateMessage miniature)
         {
             if (self is not null) return;
             Debug.Log($"criando army {netId}");

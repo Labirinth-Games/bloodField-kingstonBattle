@@ -202,18 +202,6 @@ namespace Miniatures
         }
         #endregion
 
-        #region Network
-        public override void OnStartClient()
-        {
-            base.OnStartClient();
-            name = $"{name}-{netId}";
-        }
-
-        private void Awake() {
-            NetworkClient.RegisterHandler<MiniatureCreateMessage>(OnCreate);
-        }
-        #endregion
-
         protected virtual void Subscribers()
         {
             GameManager.Instance.turnManager.OnStartTurnPlayer.AddListener(MyTurn);
@@ -230,6 +218,6 @@ namespace Miniatures
             SetReady();
         }
 
-        protected virtual void OnCreate(MiniatureCreateMessage message) { }
+        public virtual void OnCreate(MiniatureCreateMessage miniature) { }
     }
 }

@@ -10,16 +10,12 @@ namespace Render
 {
     public class MiniatureRender : NetworkBehaviour
     {
-        private GameObject _instance;
-        private GameObject _prefab;
-
         public GameObject KingRender(GameObject prefab)
         {
-            _prefab = prefab;
-
             SpawnServerRpc(new MiniatureCreateMessage()
             {
-                position = (0, 0)
+                position = (0, 0),
+                prefab = prefab
             });
 
             return null; ///instance;
@@ -27,12 +23,11 @@ namespace Render
 
         public GameObject Render(CardSO card, GameObject prefab)
         {
-            _prefab = prefab;
-
             SpawnServerRpc(new MiniatureCreateMessage()
             {
                 position = (0, 0),
-                card = card
+                card = card,
+                prefab = prefab
             });
 
             return null;
@@ -51,14 +46,16 @@ namespace Render
         [Command(requiresAuthority = false)]
         public void SpawnServerRpc(MiniatureCreateMessage miniature, NetworkConnectionToClient sender = null)
         {
-            _instance = Instantiate(_prefab);
-            NetworkServer.Spawn(_instance, sender.identity.connectionToClient);
+            var instance = Instantiate(miniature.prefab);
+            NetworkServer.Spawn(instance, sender.identity.connectionToClient);
 
-            NetworkServer.SendToAll(new MiniatureCreateMessage()
-            {
-                position = miniature.position,
-                card = miniature.card
-            });
+            SpawnClientRpc(instance, miniature);
+        }
+
+        [ClientRpc]
+        public void SpawnClientRpc(GameObject instance, MiniatureCreateMessage miniature)
+        {
+            instance.GetComponent<Miniature>().OnCreate(miniature);
         }
     }
 }

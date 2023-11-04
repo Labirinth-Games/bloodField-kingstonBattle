@@ -5,6 +5,7 @@ public struct MiniatureCreateMessage : NetworkMessage
 {
     public (int y, int x) position;
     public CardSO card;
+    public GameObject prefab;
 }
 
 public static class CustomReadWriteMiniatureCreateSerializer
@@ -14,6 +15,11 @@ public static class CustomReadWriteMiniatureCreateSerializer
         writer.WriteInt(miniature.position.y);
         writer.WriteInt(miniature.position.x);
 
+        if(miniature.prefab is not null)
+            writer.WriteString($"Miniatures/{miniature.prefab.name}");
+        else
+            writer.WriteString(null);
+
         if (miniature.card is not null)
             writer.WriteString($"Cards/{miniature.card.type}/{miniature.card.name}");
         else
@@ -22,17 +28,23 @@ public static class CustomReadWriteMiniatureCreateSerializer
 
     public static MiniatureCreateMessage ReadMyType(this NetworkReader reader)
     {
-        var position = (reader.ReadInt(), reader.ReadInt());
-        var cardName = reader?.ReadString();
+        (int y, int x) position = (reader.ReadInt(), reader.ReadInt());
+        string prefabPath = reader?.ReadString();
+        string cardPath = reader?.ReadString();
         CardSO card = null;
+        GameObject prefab = null;
 
-        if (cardName != null)
-            card = Resources.Load<CardSO>(cardName);
+        if (prefabPath != null)
+            prefab = Resources.Load<GameObject>(prefabPath);
+
+        if (cardPath != null)
+            card = Resources.Load<CardSO>(cardPath);
 
         return new MiniatureCreateMessage()
         {
             position = position,
-            card = card
+            card = card,
+            prefab = prefab
         };
     }
 }

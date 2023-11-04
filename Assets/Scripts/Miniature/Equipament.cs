@@ -103,10 +103,13 @@ namespace Miniatures
 
         }
 
-        protected override void OnCreate(MiniatureCreateMessage miniature)
+        public override void OnCreate(MiniatureCreateMessage miniature)
         {
+            if (self is not null) return;
+
             self = GameManager.Instance.mapManager.Register(new Tile(miniature.card.type, gameObject), miniature.position);
-            self.SetPositionOnWorld();
+            GetComponent<SpriteRenderer>().sprite = miniature.card.sprite;
+
 
             stats = Instantiate(miniature.card);
             _hp = stats.GetDEF();
@@ -121,6 +124,10 @@ namespace Miniatures
             }
 
             Subscribers();
+
+            // attachment the army on mouse to set position
+            if (isOwned)
+                GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
         }
     }
 }

@@ -66,8 +66,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa2a40887beb69479e8ef835d6faa96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   moveOverlayerSprite: {fileID: 3481968747849857473, guid: b539f03ee35724d4fa01e627444feb9b, type: 3}
   reachOverlayerSprite: {fileID: -8360479188709166652, guid: 4f2396f296783b844b979c23a95b51e9, type: 3}
+  prefabBase: {fileID: 3119071547595005336, guid: a617c4c8787c3044989b76a3b44bc5a9, type: 3}
 --- !u!212 &8992774778030448235
 SpriteRenderer:
   m_ObjectHideFlags: 0

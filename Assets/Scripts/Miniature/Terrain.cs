@@ -64,7 +64,7 @@ namespace Miniatures
         }
         #endregion
 
-        protected override void OnCreate(MiniatureCreateMessage miniature)
+        public override void OnCreate(MiniatureCreateMessage miniature)
         {
             self = GameManager.Instance.mapManager.Register(new Tile(CardTypeEnum.Terrain, gameObject), miniature.position);
             self.SetPositionOnWorld();
