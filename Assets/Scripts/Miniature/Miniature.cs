@@ -1,3 +1,4 @@
+using DG.Tweening;
 using Helpers;
 using Managers;
 using Mirror;
@@ -52,7 +53,6 @@ namespace Miniatures
                 return true;
             }
 
-
             GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
             return false;
         }
@@ -86,7 +86,7 @@ namespace Miniatures
                 self.MoveTo(pos);
             }
 
-            transform.position = new Vector3(pos.x, pos.y, 0);
+            transform.DOMove(new Vector3(pos.x, pos.y, 0), .2f);
         }
 
         public virtual void Attack((int y, int x) position)
