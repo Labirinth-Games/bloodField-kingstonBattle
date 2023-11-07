@@ -51,9 +51,6 @@ namespace Managers
             GameManager.Instance.mapManager.Load();
             GameManager.Instance.cameraControl.Center();
 
-            // prepare turn
-            GameManager.Instance.turnManager.Load();
-
             // get hand initial
             GameManager.Instance.deckManager.Draw(GameManager.Instance.gameSettings.initialAmountInHand);
 
@@ -87,6 +84,9 @@ namespace Managers
 
                 // load deck to start match
                 GameManager.Instance.deckManager.Load();
+
+                // prepare turn
+                GameManager.Instance.turnManager.Load();
 
                 // if debug mode active get cards defined on list
                 if (GameManager.Instance.isDebug)

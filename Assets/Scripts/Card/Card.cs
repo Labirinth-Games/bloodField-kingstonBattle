@@ -12,15 +12,10 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public CardSO stats { get; private set; }
     public string _id { get; private set; } = System.Guid.NewGuid().ToString();
 
-    private bool _canPlayCard = true;
-
     public void Create(CardSO cardStats)
     {
         cardUI.Render(cardStats);
         stats = cardStats;
-
-        GameManager.Instance.turnManager.OnDontUseCard.AddListener(() => _canPlayCard = false);
-        GameManager.Instance.turnManager.OnUseCard.AddListener(() => _canPlayCard = true);
     }
 
     public void PlayingCard() {
@@ -40,7 +35,8 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!_canPlayCard) return;
+        // TODO - sempre pode puxar carta quando tiver no momento de prparacao quando acabar só pode puxar no seu turno.
+        if (!GameManager.Instance.turnManager.CanPlayCard()) return;
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {

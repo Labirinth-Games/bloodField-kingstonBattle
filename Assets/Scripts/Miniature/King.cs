@@ -16,7 +16,7 @@ public class King : Miniature
     public override void MyTurn()
     {
         _isReady = true;
-        _finishAction = false;
+        _isFinishAction = false;
         _isSelected = false;
 
         signageUI.Clear();
@@ -36,7 +36,5 @@ public class King : Miniature
 
         stats = Instantiate(card);
         _hp = stats.GetDEF();
-
-        Subscribers();
     }
 }

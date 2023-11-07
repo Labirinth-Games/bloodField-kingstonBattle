@@ -20,7 +20,7 @@ namespace Miniatures
         public string _id { get; private set; } = System.Guid.NewGuid().ToString();
         public bool finishAction
         {
-            get => _finishAction;
+            get => _isFinishAction;
         }
 
         protected List<Tile> _tilesToMove = new List<Tile>();
@@ -28,7 +28,7 @@ namespace Miniatures
         protected GameObject _instancePreview;
 
         protected bool _isReady = false;
-        protected bool _finishAction = false;
+        protected bool _isFinishAction = false;
         protected bool _isSelected = false;
         protected int _hp;
 
@@ -61,7 +61,7 @@ namespace Miniatures
         {
             var tileMove = ScanHelper.CanMoveToTile(_tilesToMove, position);
 
-            if (_finishAction || !_isSelected || tileMove is null || !isOwned) return;
+            if (_isFinishAction || !_isSelected || tileMove is null || !isOwned) return;
 
             var pos = self.MoveTo(position);
 
@@ -93,7 +93,7 @@ namespace Miniatures
         {
             Tile enemy = ScanHelper.CanAttackTile(_tilesToAttack, position);
 
-            if (_finishAction || !_isSelected || enemy is null || !isOwned) return;
+            if (_isFinishAction || !_isSelected || enemy is null || !isOwned) return;
 
             if (enemy.gameObject.TryGetComponent(out Miniature miniatureEnemy))
                 miniatureEnemy.Hit(stats.GetATK());
@@ -124,6 +124,9 @@ namespace Miniatures
             _isReady = true;
         }
 
+        public void SetInactive() => _isFinishAction = true;
+        public void SetActive() => _isFinishAction = true;
+
         public virtual bool CanAddOnBoard((int y, int x) position) => true;
         #endregion
 
@@ -131,7 +134,7 @@ namespace Miniatures
         public virtual void MyTurn()
         {
             _isReady = true;
-            _finishAction = false;
+            _isFinishAction = false;
             _isSelected = false;
             _hp = stats.GetDEF();
 
@@ -148,7 +151,7 @@ namespace Miniatures
 
         protected virtual void FinishAction()
         {
-            _finishAction = true;
+            _isFinishAction = true;
             signageUI.Clear();
 
             GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
@@ -183,7 +186,7 @@ namespace Miniatures
         {
             if (Input.GetMouseButtonDown(0) && _isReady) // left mouse button
             {
-                if (_finishAction || GameManager.Instance.gamePlayManager.IsOtherMiniature(_id)) return;
+                if (_isFinishAction || GameManager.Instance.gamePlayManager.IsOtherMiniature(_id)) return;
 
                 if (Select()) return;
             }
@@ -218,6 +221,24 @@ namespace Miniatures
             SetReady();
         }
 
-        public virtual void OnCreate(MiniatureCreateMessage miniature) { }
+        public virtual void OnCreate(MiniatureCreateMessage miniature)
+        {
+            // create tile config
+            self = GameManager.Instance.mapManager.Register(new Tile(miniature.card.type, gameObject), miniature.position);
+            GetComponent<SpriteRenderer>().sprite = miniature.card.sprite;
+
+            // setting stats
+            stats = Instantiate(miniature.card);
+            _hp = stats.GetDEF();
+
+            if(!GameManager.Instance.turnManager.IsMyTurn())
+                _isFinishAction = true;
+
+            Subscribers();
+
+            // attachment the army on mouse to set position
+            if (isOwned)
+                GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
+        }
     }
 }

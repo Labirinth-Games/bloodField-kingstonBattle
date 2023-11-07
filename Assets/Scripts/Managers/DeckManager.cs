@@ -85,7 +85,7 @@ namespace Managers
         }
         #endregion
 
-        public void UseCardOnPlayerHand() => _amountCardOnPlayerHand--;
+        public void PlayerUsedACardOnHand() => _amountCardOnPlayerHand--;
 
         public void Load()
         {

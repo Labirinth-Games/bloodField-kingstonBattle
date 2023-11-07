@@ -26,24 +26,8 @@ namespace Miniatures
 
         public override void OnCreate(MiniatureCreateMessage miniature)
         {
-            if (self is not null) return;
-            Debug.Log($"criando army {netId}");
-
-            // create tile config
-            self = GameManager.Instance.mapManager.Register(new Tile(miniature.card.type, gameObject), miniature.position);
-
-            GetComponent<SpriteRenderer>().sprite = miniature.card.sprite;
-
-            // setting stats
-            stats = Instantiate(miniature.card);
-            _hp = stats.GetDEF();
-
+            base.OnCreate(miniature);
             ApplyAdditionalStats();
-            Subscribers();
-
-            // attachment the army on mouse to set position
-            if (isOwned)
-                GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
         }
     }
 }

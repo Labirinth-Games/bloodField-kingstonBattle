@@ -19,7 +19,7 @@ namespace Miniatures
         {
             if (Input.GetMouseButtonDown(0) && stats.equipamentType == EquipamentTypeEnum.Attack) // left mouse button
             {
-                if (GameManager.Instance.gamePlayManager.IsOtherMiniature(_id) || !_isReady || _finishAction) return;
+                if (GameManager.Instance.gamePlayManager.IsOtherMiniature(_id) || !_isReady || _isFinishAction) return;
 
                 if (Select()) return;
             }
@@ -105,14 +105,7 @@ namespace Miniatures
 
         public override void OnCreate(MiniatureCreateMessage miniature)
         {
-            if (self is not null) return;
-
-            self = GameManager.Instance.mapManager.Register(new Tile(miniature.card.type, gameObject), miniature.position);
-            GetComponent<SpriteRenderer>().sprite = miniature.card.sprite;
-
-
-            stats = Instantiate(miniature.card);
-            _hp = stats.GetDEF();
+            base.OnCreate(miniature);
 
             // remove equipaments of the count to auto finish turn
             List<EquipamentTypeEnum> excludeTurn = new List<EquipamentTypeEnum>() { EquipamentTypeEnum.Moral, EquipamentTypeEnum.Defense };
@@ -120,14 +113,8 @@ namespace Miniatures
             if (excludeTurn.Exists(f => f == stats.equipamentType))
             {
                 _isExcludeActionTurn = true;
-                _finishAction = true;
+                _isFinishAction = true;
             }
-
-            Subscribers();
-
-            // attachment the army on mouse to set position
-            if (isOwned)
-                GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
         }
     }
 }

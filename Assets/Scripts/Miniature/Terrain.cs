@@ -64,20 +64,6 @@ namespace Miniatures
         }
         #endregion
 
-        public override void OnCreate(MiniatureCreateMessage miniature)
-        {
-            self = GameManager.Instance.mapManager.Register(new Tile(CardTypeEnum.Terrain, gameObject), miniature.position);
-            self.SetPositionOnWorld();
-
-            stats = Instantiate(miniature.card);
-            _position = self.position;
-            _lastPosition = _position;
-            _canApplyEffectToAllMap = stats.canApplyEffectToAllMap;
-            _stopAttach = false;
-
-            Subscribers();
-        }
-
         public override void AddOnBoard((int y, int x) pos)
         {
             signageUI.Clear();
@@ -108,5 +94,15 @@ namespace Miniatures
             signageUI.OverlayAttack(_tarrainArea);
         }
         #endregion
+
+        public override void OnCreate(MiniatureCreateMessage miniature)
+        {
+            base.OnCreate(miniature);
+
+            _position = self.position;
+            _lastPosition = _position;
+            _canApplyEffectToAllMap = stats.canApplyEffectToAllMap;
+            _stopAttach = false;
+        }
     }
 }
