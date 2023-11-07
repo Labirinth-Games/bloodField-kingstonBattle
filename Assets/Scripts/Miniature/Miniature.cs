@@ -30,6 +30,7 @@ namespace Miniatures
         protected bool _isReady = false;
         protected bool _isFinishAction = false;
         protected bool _isSelected = false;
+        [SyncVar]
         protected int _hp;
 
         #region Actions

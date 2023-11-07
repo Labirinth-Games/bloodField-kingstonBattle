@@ -35,7 +35,6 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        // TODO - sempre pode puxar carta quando tiver no momento de prparacao quando acabar só pode puxar no seu turno.
         if (!GameManager.Instance.turnManager.CanPlayCard()) return;
 
         if (eventData.button == PointerEventData.InputButton.Left)
