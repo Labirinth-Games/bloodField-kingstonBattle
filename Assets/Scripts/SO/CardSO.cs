@@ -5,17 +5,24 @@ using UnityEngine;
 using CustomAttributes;
 using AYellowpaper.SerializedCollections;
 using System.Collections.Generic;
+using Helpers;
 
 [CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
 public class CardSO : ScriptableObject
 {
-    [Header("Settings")]
+    [Space()]
     public string title;
     [TextArea()]
     public string description;
+
+    [Space()]
+    [Header("Skin")]
+    public Color primaryColor;
+    public Color secundaryColor;
     public Sprite sprite;
 
     [Space()]
+    [Header("Setting")]
     public CardTypeEnum type;
 
     [ConditionalItem(nameof(type), CardTypeEnum.Equipament)]
@@ -38,6 +45,9 @@ public class CardSO : ScriptableObject
     [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
     public ParticleSystem effectVFX;
 
+
+    [Space()]
+    [Header("Stats")]
     [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
     public ScanDirectionTypeEnum direction;
 

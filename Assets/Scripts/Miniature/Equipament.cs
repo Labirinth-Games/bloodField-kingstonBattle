@@ -103,7 +103,7 @@ namespace Miniatures
 
         }
 
-        public override void OnCreate(MiniatureCreateMessage miniature)
+        public override void OnCreate(string miniature)
         {
             base.OnCreate(miniature);
 

@@ -23,11 +23,11 @@ public class King : Miniature
     }
     #endregion
 
-    public override void OnCreate(MiniatureCreateMessage miniature)
+    public override void OnCreate(string miniature)
     {
         var pos = GameManager.Instance.mapManager.GetKingPositions();
 
-        if (!isOwned)
+        if (!IsOwner())
             pos = GameManager.Instance.mapManager.ReflexPosition(pos);
 
         self = GameManager.Instance.mapManager.Register(new Tile(TileTypeEnum.King, gameObject), pos);

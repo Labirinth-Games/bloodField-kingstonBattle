@@ -3,25 +3,24 @@ using Enums;
 using Generators;
 using Helpers;
 using Miniatures;
-using Mirror;
-using Mirror.SimpleWeb;
 using Render;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 namespace Managers
 {
-    public class GamePlayManager : NetworkBehaviour
+    public class GamePlayManager : MonoBehaviour
     {
         [SerializeField] private GameObject kingEnemyPrefab;
         [SerializeField] private Miniature currentMiniature = null;
         [SerializeField] private List<AdditionalStats> additionalStats;
 
-        [SyncVar(hook = nameof(LoadResourcesGame))]
         public bool isStartGame = false;
 
         #region Gets/Sets
@@ -43,9 +42,20 @@ namespace Managers
         }
         #endregion
 
-        IEnumerator StartGameMatch()
+        private void Load()
         {
-            yield return new WaitForSeconds(.3f);
+            // action execute on server when start the game
+            isStartGame = true;
+
+            // load deck to start match
+            GameManager.Instance.deckManager.Load();
+
+            // prepare turn
+            GameManager.Instance.turnManager.Load();
+
+            // if debug mode active get cards defined on list
+            if (GameManager.Instance.isDebug)
+                GetComponent<DeckDebug>().DeckTest();
 
             // generate map
             GameManager.Instance.mapManager.Load();
@@ -54,7 +64,7 @@ namespace Managers
             // get hand initial
             GameManager.Instance.deckManager.Draw(GameManager.Instance.gameSettings.initialAmountInHand);
 
-            // auto generate to create stats additional for all armys on deck
+            // auto generate to create stats additional for all armies on deck
             // additionalStats = new List<AdditionalStats>();
             // GameManager.Instance.deckManager.GetDeck()
             //     .ToList()
@@ -69,31 +79,18 @@ namespace Managers
             // subscribers
             GameManager.Instance.turnManager.OnStartTurnPlayer.AddListener(MyTurn);
 
-            yield return new WaitForSeconds(.5f);
-            GameManager.Instance.player.OnStartPlayerToWorld();
+            // GameManager.Instance.player.OnStartPlayerToWorld();
         }
-
-        public void LoadResourcesGame(bool oldValue, bool newValue) => StartCoroutine(StartGameMatch());
-
-        private void Start()
+        public async void StartGame()
         {
-            // action execute on server when start the game
-            GameManager.Instance.networkManager.OnStartGame.AddListener(() =>
-            {
-                isStartGame = true;
+            SceneManager.LoadScene(1);
 
-                // load deck to start match
-                GameManager.Instance.deckManager.Load();
+            await Task.Delay(500);
 
-                // prepare turn
-                GameManager.Instance.turnManager.Load();
-
-                // if debug mode active get cards defined on list
-                if (GameManager.Instance.isDebug)
-                    GetComponent<DeckDebug>().DeckTest();
-            });
+            Load();
         }
     }
+
 
     [System.Serializable]
     public class AdditionalStats

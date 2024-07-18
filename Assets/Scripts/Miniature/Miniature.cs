@@ -1,7 +1,6 @@
 using DG.Tweening;
 using Helpers;
 using Managers;
-using Mirror;
 using Render;
 using System.Collections.Generic;
 using Tiles;
@@ -30,13 +29,15 @@ namespace Miniatures
         protected bool _isReady = false;
         protected bool _isFinishAction = false;
         protected bool _isSelected = false;
-        [SyncVar]
         protected int _hp;
+        protected string _ownerSessionId;
+
+        protected bool IsOwner() => _ownerSessionId != GameManager.Instance.UserId;
 
         #region Actions
         protected virtual bool Select()
         {
-            if (!MiniatureMouseHelper.HasTouchMe(self) || !isOwned) return false;
+            if (!MiniatureMouseHelper.HasTouchMe(self) || !IsOwner()) return false;
 
             signageUI.Clear();
             ToggleSelection();
@@ -62,39 +63,32 @@ namespace Miniatures
         {
             var tileMove = ScanHelper.CanMoveToTile(_tilesToMove, position);
 
-            if (_isFinishAction || !_isSelected || tileMove is null || !isOwned) return;
+            if (_isFinishAction || !_isSelected || tileMove is null || !!IsOwner()) return;
 
             var pos = self.MoveTo(position);
 
-            CmdMove(new TileSerializerNetwork(self.position));
+            // CmdMove(new TileSerializerNetwork(self.position)); // move remote
 
             FinishAction();
         }
 
-        [Command]
-        public void CmdMove(TileSerializerNetwork tile)
-        {
-            MoveClientRpc(tile);
-        }
+        // public void MoveClientRpc(TileSerializerNetwork tile)
+        // {
+        //     var pos = tile.position;
+        //     if (!isOwned)
+        //     {
+        //         pos = GameManager.Instance.mapManager.ReflexPosition(tile.position);
+        //         self.MoveTo(pos);
+        //     }
 
-        [ClientRpc]
-        public void MoveClientRpc(TileSerializerNetwork tile)
-        {
-            var pos = tile.position;
-            if (!isOwned)
-            {
-                pos = GameManager.Instance.mapManager.ReflexPosition(tile.position);
-                self.MoveTo(pos);
-            }
-
-            transform.DOMove(new Vector3(pos.x, pos.y, 0), .2f);
-        }
+        //     transform.DOMove(new Vector3(pos.x, pos.y, 0), .2f);
+        // }
 
         public virtual void Attack((int y, int x) position)
         {
             Tile enemy = ScanHelper.CanAttackTile(_tilesToAttack, position);
 
-            if (_isFinishAction || !_isSelected || enemy is null || !isOwned) return;
+            if (_isFinishAction || !_isSelected || enemy is null || !IsOwner()) return;
 
             if (enemy.gameObject.TryGetComponent(out Miniature miniatureEnemy))
                 miniatureEnemy.Hit(stats.GetATK());
@@ -217,29 +211,29 @@ namespace Miniatures
         public virtual void AddOnBoard((int y, int x) pos)
         {
             self.MoveTo(pos);
-            CmdMove(new TileSerializerNetwork(self.position));
+            // CmdMove(new TileSerializerNetwork(self.position));
 
             SetReady();
         }
 
-        public virtual void OnCreate(MiniatureCreateMessage miniature)
+        public virtual void OnCreate(string miniature)
         {
             // create tile config
-            self = GameManager.Instance.mapManager.Register(new Tile(miniature.card.type, gameObject), miniature.position);
-            GetComponent<SpriteRenderer>().sprite = miniature.card.sprite;
+            // self = GameManager.Instance.mapManager.Register(new Tile(miniature.card.type, gameObject), pos);
+            // GetComponent<SpriteRenderer>().sprite = miniature.card.sprite;
 
-            // setting stats
-            stats = Instantiate(miniature.card);
-            _hp = stats.GetDEF();
+            // // setting stats
+            // stats = Instantiate(miniature.card);
+            // _hp = stats.GetDEF();
 
-            if(!GameManager.Instance.turnManager.IsMyTurn())
-                _isFinishAction = true;
+            // if(!GameManager.Instance.turnManager.IsMyTurn())
+            //     _isFinishAction = true;
 
-            Subscribers();
+            // Subscribers();
 
-            // attachment the army on mouse to set position
-            if (isOwned)
-                GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
+            // // attachment the army on mouse to set position
+            // if (isOwned)
+            //     GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
         }
     }
 }

@@ -55,7 +55,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: 
   transport: {fileID: 5213686546331802830}
-  networkAddress: localhost
+  networkAddress: 172.17.0.2
   maxConnections: 100
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
@@ -91,6 +91,9 @@ MonoBehaviour:
   maxPlayers: 2
   minPlayers: 2
   networkDiscoveryManager: {fileID: 603708589101769296}
+  OnStartGame:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5213686546331802830
 MonoBehaviour:
   m_ObjectHideFlags: 0

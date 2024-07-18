@@ -1,5 +1,4 @@
 using Generators;
-using Mirror;
 using Render;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,10 +7,10 @@ using UnityEngine;
 
 namespace Managers
 {
-    public class DeckManager : NetworkBehaviour
+    public class DeckManager : MonoBehaviour
     {
         // [SerializeField] private Queue<CardSO> deck;
-        public readonly SyncList<CardSO> deck = new SyncList<CardSO>();
+        public readonly List<CardSO> deck = new List<CardSO>();
 
         [Header("References")]
         public DeckGenerate deckGenerate;
@@ -19,12 +18,6 @@ namespace Managers
         private int _amountCardOnPlayerHand;
 
         public void Draw(int amount = 1)
-        {
-            DrawCardServerRpc(amount);
-        }
-
-        [Command(requiresAuthority = false)]
-        public void DrawCardServerRpc(int amount, NetworkConnectionToClient sender = null)
         {
             List<CardSO> _cardsAux = new List<CardSO>();
 
@@ -36,19 +29,18 @@ namespace Managers
                 _cardsAux.Add(card);
             }
 
-            DrawCardsClient(new CardDrawSerializerNetwork(_cardsAux), amount);
+            // DrawCardsClient(new CardDrawSerializerNetwork(_cardsAux), amount);
         }
 
-        [ClientRpc]
-        public void DrawCardsClient(CardDrawSerializerNetwork cardDraw, int amount)
-        {
-            _amountCardOnPlayerHand += amount;
+        // public void DrawCardsClient(CardDrawSerializerNetwork cardDraw, int amount)
+        // {
+        //     _amountCardOnPlayerHand += amount;
 
-            Debug.Log($"foram pegas {amount} cartas e sobrou {deck.Count}");
+        //     Debug.Log($"foram pegas {amount} cartas e sobrou {deck.Count}");
             
-            GameManager.Instance.cardManager.Create(cardDraw.cards);
-            GameManager.Instance.player.SetCardOnHand(cardDraw.cards);
-        }
+        //     GameManager.Instance.cardManager.Create(cardDraw.cards);
+        //     GameManager.Instance.player.SetCardOnHand(cardDraw.cards);
+        // }
 
         public void Shuffle()
         {
@@ -73,7 +65,7 @@ namespace Managers
         #endregion
 
         #region Gets/Sets
-        public SyncList<CardSO> GetDeck() => deck;
+        public List<CardSO> GetDeck() => deck;
         public void SetDeck(List<CardSO> deck)
         {
             this.deck.Clear();

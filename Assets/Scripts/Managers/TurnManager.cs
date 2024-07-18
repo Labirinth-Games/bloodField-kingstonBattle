@@ -3,13 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Enums;
-using Mirror;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace Managers
 {
-    public class TurnManager : NetworkBehaviour
+    public class TurnManager : MonoBehaviour
     {
         [Header("Settings")]
         [SerializeField] private TurnStageEnum turnStage;
@@ -17,16 +16,16 @@ namespace Managers
         [Header("callback")]
         public UnityEvent OnStartTurnPlayer;
 
-        [SyncVar] private uint _turnPlayer;
-        private SyncList<bool> _isAllReady = new SyncList<bool>();
-        private SyncList<uint> _players = new SyncList<uint>();
+        private string _turnPlayer;
+        private List<bool> _isAllReady = new List<bool>();
+        private List<string> _players = new List<string>();
 
         private int _amountCardUsed = 0;
         private bool _isAllMiniatureFinish = false;
         private Dictionary<TurnStageEnum, Func<bool>> _rules;
 
         #region Gets/Sets
-        public bool IsMyTurn() => _turnPlayer == GameManager.Instance.player.netId;
+        public bool IsMyTurn() => _turnPlayer == GameManager.Instance.UserId;
         public bool CanPlayCard() => _rules[turnStage]() && (IsTurnPreparation() || IsMyTurn());
         public TurnStageEnum GetTurnState() => turnStage;
         public bool IsTurnPreparation() => turnStage == TurnStageEnum.Preparation;
@@ -52,23 +51,22 @@ namespace Managers
             _isAllMiniatureFinish = false;
         }
 
-        [Command(requiresAuthority = false)]
         public void SetIsReadyClient() => _isAllReady.Add(true);
         #endregion
 
         private void AutomaticEndTurn()
         {
-            if (CanPlayCard() && _isAllMiniatureFinish) EndTurnServerRpc();
+            if (CanPlayCard() && _isAllMiniatureFinish) EndTurnButtonAction();
         }
 
-        private uint NextTurn()
+        private string NextTurn()
         {
-            int next = _players.FindIndex(f => f == _turnPlayer) + 1;
+            // int next = _players.FindIndex(f => f == _turnPlayer) + 1;
 
-            if (next >= _players.Count)
-                return _players[0];
+            // if (next >= _players.Count)
+            //     return _players[0];
 
-            return _players[next];
+            return ""; //_players[next];
         }
 
         public void EndTurnButtonAction()
@@ -84,31 +82,20 @@ namespace Managers
             }
 
             if (IsAllReadyToInitGame())
-                EndTurnServerRpc();
-        }
-
-        [Command(requiresAuthority = false)]
-        public void EndTurnServerRpc()
-        {
-            EndTurnClientRpc();
-        }
-
-        [ClientRpc]
-        public void EndTurnClientRpc()
-        {
-            _turnPlayer = NextTurn();
-
-            if (IsMyTurn())
             {
-                Reset();
-                OnStartTurnPlayer?.Invoke();
+                _turnPlayer = NextTurn();
+
+                if (IsMyTurn())
+                {
+                    Reset();
+                    OnStartTurnPlayer?.Invoke();
+                }
             }
         }
 
-        public override void OnStartClient()
-        {
-            base.OnStartClient();
 
+        public void OnStartClient()
+        {
             turnStage = TurnStageEnum.Preparation;
 
             _rules = new Dictionary<TurnStageEnum, Func<bool>>
@@ -121,10 +108,10 @@ namespace Managers
         public void Load()
         {
             // add the players on turns
-            if (isServer)
-                foreach (Player player in GameManager.Instance.networkManager.playersInGame)
+            if (GameManager.Instance.IsHost)
+                foreach (string playerSessionId in GameManager.Instance.matchManager.Players)
                 {
-                    _players.Add(player.netId);
+                    _players.Add(playerSessionId);
                 }
 
             // choose a player to start turn

@@ -4,31 +4,32 @@ using System.Collections;
 using System.Collections.Generic;
 using Miniatures;
 using UnityEngine;
-using Mirror;
 
 namespace Render
 {
-    public class MiniatureRender : NetworkBehaviour
+    public class MiniatureRender : MonoBehaviour
     {
         public GameObject KingRender(GameObject prefab)
         {
-            SpawnServerRpc(new MiniatureCreateMessage()
-            {
-                position = (0, 0),
-                prefab = prefab
-            });
+            // SpawnServerRpc(new MiniatureCreateMessage()
+            // {
+            //     position = (0, 0),
+            //     prefab = prefab
+            // });
+            var instance = Instantiate(prefab);
 
             return null; ///instance;
         }
 
         public GameObject Render(CardSO card, GameObject prefab)
         {
-            SpawnServerRpc(new MiniatureCreateMessage()
-            {
-                position = (0, 0),
-                card = card,
-                prefab = prefab
-            });
+            // SpawnServerRpc(new MiniatureCreateMessage()
+            // {
+            //     position = (0, 0),
+            //     card = card,
+            //     prefab = prefab
+            // });
+            var instance = Instantiate(prefab);
 
             return null;
         }
@@ -43,17 +44,7 @@ namespace Render
             return instance;
         }
 
-        [Command(requiresAuthority = false)]
-        public void SpawnServerRpc(MiniatureCreateMessage miniature, NetworkConnectionToClient sender = null)
-        {
-            var instance = Instantiate(miniature.prefab);
-            NetworkServer.Spawn(instance, sender.identity.connectionToClient);
-
-            SpawnClientRpc(instance, miniature);
-        }
-
-        [ClientRpc]
-        public void SpawnClientRpc(GameObject instance, MiniatureCreateMessage miniature)
+        public void SpawnRemote(GameObject instance, string miniature)
         {
             instance.GetComponent<Miniature>().OnCreate(miniature);
         }

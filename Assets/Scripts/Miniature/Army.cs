@@ -1,3 +1,4 @@
+using Helpers;
 using Managers;
 using Render;
 using Tiles;
@@ -24,10 +25,13 @@ namespace Miniatures
         }
         #endregion
 
-        public override void OnCreate(MiniatureCreateMessage miniature)
+        public override void OnCreate(string miniature)
         {
             base.OnCreate(miniature);
+            
             ApplyAdditionalStats();
+
+            GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(GetComponent<SpriteRenderer>().sprite, new SpriteColors() { primary = stats.primaryColor, secundary = stats.secundaryColor });
         }
     }
 }

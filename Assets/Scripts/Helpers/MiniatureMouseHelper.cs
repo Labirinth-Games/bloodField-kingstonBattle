@@ -1,12 +1,11 @@
 using Managers;
 using Miniatures;
-using Mirror;
 using Tiles;
 using UnityEngine;
 
 namespace Helpers
 {
-    public class MiniatureMouseHelper : NetworkBehaviour
+    public class MiniatureMouseHelper : MonoBehaviour
     {
         [SerializeField] private GameObject _miniature;
         private bool _isAttached = false;
@@ -72,7 +71,7 @@ namespace Helpers
 
         private void Update()
         {
-            if(!GameManager.Instance.gamePlayManager.isStartGame && !isLocalPlayer) return;
+            if(!GameManager.Instance.gamePlayManager.isStartGame && !GameManager.Instance.IsLocal) return;
             
             AttachmentOnMouse();
             AddOnBoard();

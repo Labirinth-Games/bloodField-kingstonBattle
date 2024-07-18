@@ -1,10 +1,8 @@
+using BloodField.Managers;
+using BloodField.Network;
 using Controls;
 using Helpers;
-using Mirror;
 using Render;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Managers
@@ -25,15 +23,32 @@ namespace Managers
         public MiniatureManager miniatureManager;
         public Player player;
         public MiniatureMouseHelper miniatureMouseHelper;
-        public Network.LobbyNetworkManager networkManager;
+        public NetworkManager networkManager;
+        public EventManager eventManager;
+        public MatchManager matchManager;
 
         [Header("Renders")]
         public MiniatureRender miniatureRender;
+
+        public string UserId { get; private set; }
+        public bool IsLocal { get; private set; } = false;
+        public bool IsHost { get; private set; } = false;
+
+        #region Gets/Sets
+        public void setSessionId(string userId) => UserId = userId;
+        public void setIsLocal(bool value) => IsLocal = value;
+        public void setIsHost(bool value) => IsHost = value;
+        #endregion
 
         protected override void Awake()
         {
             base.Awake();
             DontDestroyOnLoad(gameObject);
+        }
+
+        void Start()
+        {
+            networkManager.Connect();
         }
 
         private void OnValidate()
@@ -44,8 +59,8 @@ namespace Managers
             if (TryGetComponent(out CameraControl cameraControl))
                 this.cameraControl = cameraControl;
 
-            if (TryGetComponent(out TurnManager matchManager))
-                this.turnManager = matchManager;
+            if (TryGetComponent(out TurnManager turnManager))
+                this.turnManager = turnManager;
 
             if (TryGetComponent(out DeckManager deckManager))
                 this.deckManager = deckManager;
@@ -58,6 +73,9 @@ namespace Managers
 
             if (TryGetComponent(out MiniatureManager miniatureManager))
                 this.miniatureManager = miniatureManager;
+
+            if (TryGetComponent(out NetworkManager networkManager))
+                this.networkManager = networkManager;
         }
     }
 }

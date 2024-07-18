@@ -172,3 +172,9 @@ O rei é como qualquer outro soldado possuindo seus atributos se necessário lut
 | Name | ATK/DEF/MOV | D_ATK |
 | --- | --- | --- |
 | Rei | 2/20/1 | 1 |
+
+# Docker Server
+```
+docker build --no-cache -t blood-field .
+docker run -v .\build\Linux\Servers\:/home -it blood-field bash
+```

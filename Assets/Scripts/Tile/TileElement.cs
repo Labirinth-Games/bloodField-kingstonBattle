@@ -1,9 +1,8 @@
 using UnityEngine;
-using Mirror;
 
 namespace Tiles
 {
-    public class TileElement : NetworkBehaviour
+    public class TileElement : MonoBehaviour
     {
         public Tile self { get; protected set; }
 
