@@ -1,4 +1,4 @@
-using Managers;
+using BloodField.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UI;
@@ -18,8 +18,10 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         stats = cardStats;
     }
 
-    public void PlayingCard() {
+    public void PlayingCard()
+    {
         GameManager.Instance.miniatureManager.Build(stats);
+        GameManager.Instance.player.RemoveCardHand(stats);
     }
 
     #region Mouse Events
@@ -35,14 +37,14 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!GameManager.Instance.turnManager.CanPlayCard()) return;
 
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            GameManager.Instance.turnManager.SetCardUsed();
+            if(!GameManager.Instance.matchManager.CanPlayCard()) return;
+            
             GameManager.Instance.cardManager.ClosePreview();
             cardUI.Click();
-            
+
             PlayingCard();
         }
 

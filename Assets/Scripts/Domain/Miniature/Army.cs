@@ -1,5 +1,5 @@
 using Helpers;
-using Managers;
+using BloodField.Managers;
 using Render;
 using Tiles;
 using UnityEngine;
@@ -15,7 +15,7 @@ namespace Miniatures
         #region Utils
         protected void ApplyAdditionalStats()
         {
-            GameManager.Instance.gamePlayManager.GetAdditionalStats()
+            GameManager.Instance.matchManager.GetAdditionalStats()
                 .FindAll(f => f.type == stats.armyType)
                 .ForEach(additionalStats =>
                 {
@@ -25,13 +25,13 @@ namespace Miniatures
         }
         #endregion
 
-        public override void OnCreate(string miniature)
+        public override void OnCreate(CardSO card, string ownerId, int y, int x)
         {
-            base.OnCreate(miniature);
+            base.OnCreate(card, ownerId, y, x);
             
             ApplyAdditionalStats();
 
-            GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(GetComponent<SpriteRenderer>().sprite, new SpriteColors() { primary = stats.primaryColor, secundary = stats.secundaryColor });
+            // GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(GetComponent<SpriteRenderer>().sprite, new SpriteColors() { primary = stats.primaryColor, secundary = stats.secundaryColor });
         }
     }
 }

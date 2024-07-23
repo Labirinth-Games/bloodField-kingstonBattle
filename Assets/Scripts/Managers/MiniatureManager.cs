@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-namespace Managers
+namespace BloodField.Managers
 {
     public class MiniatureManager : MonoBehaviour
     {
@@ -18,7 +18,9 @@ namespace Managers
         #region Gets/Sets
         public void AddMiniature(Miniature miniature) => _miniatures.Add(miniature);
         public void RemoveMiniature(Miniature miniature) => _miniatures.Remove(miniature);
-        public bool IsAllMiniaturesFinish() => _miniatures.All(f => f.finishAction == true);
+        public bool IsAllMiniaturesFinishAction() => _miniatures.All(f => { 
+            Debug.Log($"info {f.name} foi? {f.finishAction}");
+            return f.finishAction == true; });
         public void SetAllMiniaturesInactive() => _miniatures.ForEach(f => f.SetInactive());
         public void SetAllMiniaturesActive() => _miniatures.ForEach(f => f.SetActive());
         public List<Miniature> GetMiniatures() => _miniatures;
@@ -34,7 +36,7 @@ namespace Managers
                 return;
             };
 
-            GameManager.Instance.miniatureRender.Render(stats, prefab);            
+            MiniatureRender.Render(stats, prefab);            
         }
     }
 }

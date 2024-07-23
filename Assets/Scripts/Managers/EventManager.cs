@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using BloodField.Enums;
+using BloodField.Helpers;
+using BloodField.Network.Entities;
 using Nakama;
 using UnityEngine;
 
@@ -43,6 +46,54 @@ namespace BloodField.Managers
         public void DisplayPlayersOnLobbyHUDEvent(List<string> value)
         {
             if (OnDisplayPlayersOnLobbyHUD != null) OnDisplayPlayersOnLobbyHUD(value);
+        }
+        #endregion
+
+        #region Turn
+        public event Action OnStartMyTurn;
+        public void StartMyTurnEvent()
+        {
+            if (OnStartMyTurn != null) OnStartMyTurn();
+        }
+
+        public event Action OnStartMainPhase;
+        public async void StartMainPhase(bool eventRemote = false)
+        {
+            if (OnStartMainPhase != null) OnStartMainPhase();
+
+            if (eventRemote) await NetworkHelper.Send<MatchNetworkEntity>(
+                OpCodeEnum.MATCH_STATE,
+                new MatchNetworkEntity() { matchState = PhaseEnum.Main }
+            );
+        }
+
+        public event Action OnStartPreparationPhase;
+        public void StartPreparationPhaseEvent()
+        {
+            if (OnStartPreparationPhase != null) OnStartPreparationPhase();
+        }
+
+        public event Action OnFinishedPreparationPhase;
+        public void FinishedPreparationPhaseEvent()
+        {
+            if (OnFinishedPreparationPhase != null) OnFinishedPreparationPhase();
+        }
+        #endregion
+
+        #region Card
+
+        /// <summary>
+        /// When player click on card and generate a miniature to add on board
+        /// </summary>
+        public event Action OnCardUsed;
+        public async void CardUsedEvent(bool eventRemote = false)
+        {
+            if (OnCardUsed != null) OnCardUsed();
+
+            if (eventRemote) await NetworkHelper.Send<TurnNetworkEntity>(
+                OpCodeEnum.TURN_CARD_USED,
+                new TurnNetworkEntity() {}
+            );
         }
         #endregion
     }

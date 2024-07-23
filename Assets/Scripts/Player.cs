@@ -1,44 +1,39 @@
-using Managers;
-using System.Collections;
+using BloodField.Managers;
 using System.Collections.Generic;
 using UnityEngine;
 using Render;
+using BloodField.Helpers;
+using BloodField.Network.Entities;
+using BloodField.Enums;
+using Nakama;
 
 public class Player : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private GameObject kingPrefab;
 
-    [Header("Settings")]
-    public string displayName;
-    public int connectionId;
+    [SerializeField] private List<CardSO> hand;
 
-    [SerializeField] private List<CardSO> hand = new List<CardSO>();
-
-    public void SetCardOnHand(List<CardSO> cards) => hand.AddRange(cards);
-
-    #region Events
-
-    // public void OnStartPlayerToWorld()
-    // {
-    //     Debug.Log($"calling the player set {netId} Im {isLocalPlayer}");
-
-    //     GameManager.Instance.miniatureRender.KingRender(kingPrefab);
-    // }
-
-    // public override void OnStartAuthority()
-    // {
-    //     base.OnStartAuthority();
-
-    //     GameManager.Instance.player = this;
-    // }
-
-    #endregion
-
-    #region Unity Events
-    private void Start()
+    public void RemoveCardHand(CardSO card) => hand.Remove(card);
+    public void AddCardHand(List<CardSO> cards)
     {
-        DontDestroyOnLoad(gameObject);
+        hand.AddRange(cards);
+        GameManager.Instance.cardManager.Create(cards);
+    }
+
+    #region Turn
+    public async void MyTurn()
+    {
+        if (GameManager.Instance.deckManager.CanDraw(hand.Count)) await GameManager.Instance.deckManager.Draw();
     }
     #endregion
+
+    public void Load()
+    {
+        hand.Clear();
+        MiniatureRender.KingRender(kingPrefab);
+
+        // subscribers
+        GameManager.Instance.eventManager.OnStartMyTurn += MyTurn;
+    }
 }

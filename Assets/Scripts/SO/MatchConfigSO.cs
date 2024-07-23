@@ -13,8 +13,11 @@ public class MatchConfigSO : ScriptableObject
     public string title;
     public int initialAmountInHand = 5; // initial number of cards the player has in hand
     public int maxCardOnPlayerHand = 10; // max cards tha a player can has on hand
-    public int amountPlayCardOnGameplay = 1; // amount that the player can play in your turn
-    public int amountPlayCardOnPreparation = 3; // amount that the player can play in preparation stage
+    public int amountDrawCardOnGameplay = 1; // amount that the player can play in your turn
+    public int amountDrawCardOnPreparation = 3; // amount that the player can play in preparation stage
+
+    [Header("Map")]
+    public int MapSize = 16; // size map
 
     [Space()]
     [Header("Settings Deck")]

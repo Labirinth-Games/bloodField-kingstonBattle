@@ -1,10 +1,16 @@
 using DG.Tweening;
 using Helpers;
-using Managers;
+using BloodField.Managers;
 using Render;
 using System.Collections.Generic;
 using Tiles;
 using UnityEngine;
+using Nakama;
+using BloodField.Enums;
+using System.Text;
+using Nakama.TinyJson;
+using BloodField.Helpers;
+using BloodField.Network.Entities;
 
 namespace Miniatures
 {
@@ -30,9 +36,9 @@ namespace Miniatures
         protected bool _isFinishAction = false;
         protected bool _isSelected = false;
         protected int _hp;
-        protected string _ownerSessionId;
+        protected string _ownerId;
 
-        protected bool IsOwner() => _ownerSessionId != GameManager.Instance.UserId;
+        protected bool IsOwner() => _ownerId == GameManager.Instance.UserId;
 
         #region Actions
         protected virtual bool Select()
@@ -44,7 +50,7 @@ namespace Miniatures
 
             if (_isSelected)
             {
-                GameManager.Instance.gamePlayManager.SetCurrentMiniature(this);
+                GameManager.Instance.matchManager.SetCurrentMiniature(this);
 
                 _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.GetD_ATK(), true);
                 signageUI.OverlayAttack(_tilesToAttack);
@@ -55,34 +61,29 @@ namespace Miniatures
                 return true;
             }
 
-            GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
+            GameManager.Instance.matchManager.SetCurrentMiniature(null);
             return false;
         }
 
-        public virtual void Move((int y, int x) position)
+        public virtual async void Move((int y, int x) position)
         {
             var tileMove = ScanHelper.CanMoveToTile(_tilesToMove, position);
 
-            if (_isFinishAction || !_isSelected || tileMove is null || !!IsOwner()) return;
+            if (_isFinishAction || !_isSelected || tileMove is null || !IsOwner()) return;
 
             var pos = self.MoveTo(position);
 
-            // CmdMove(new TileSerializerNetwork(self.position)); // move remote
+            await NetworkHelper.Send<MiniatureNetworkEntity>(
+                OpCodeEnum.MINIATURE_MOVE,
+                new MiniatureNetworkEntity
+                {
+                    x = (int)pos.x,
+                    y = (int)pos.y
+                }
+            );
 
             FinishAction();
         }
-
-        // public void MoveClientRpc(TileSerializerNetwork tile)
-        // {
-        //     var pos = tile.position;
-        //     if (!isOwned)
-        //     {
-        //         pos = GameManager.Instance.mapManager.ReflexPosition(tile.position);
-        //         self.MoveTo(pos);
-        //     }
-
-        //     transform.DOMove(new Vector3(pos.x, pos.y, 0), .2f);
-        // }
 
         public virtual void Attack((int y, int x) position)
         {
@@ -99,6 +100,8 @@ namespace Miniatures
         public virtual void Hit(int damage)
         {
             _hp -= damage;
+
+            transform.DOScale(1.4f, .1f).SetLoops(2, LoopType.Yoyo);
 
             if (_hp <= 0)
                 Die();
@@ -131,7 +134,6 @@ namespace Miniatures
             _isReady = true;
             _isFinishAction = false;
             _isSelected = false;
-            _hp = stats.GetDEF();
 
             signageUI.Clear();
         }
@@ -149,7 +151,7 @@ namespace Miniatures
             _isFinishAction = true;
             signageUI.Clear();
 
-            GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
+            GameManager.Instance.matchManager.SetCurrentMiniature(null);
             GameManager.Instance.turnManager.SetMiniatureFinishAction();
             _tilesToAttack?.Clear();
             _tilesToMove?.Clear();
@@ -176,12 +178,37 @@ namespace Miniatures
         }
         #endregion
 
+        #region Network Events
+        private void OnReceivedMatchState(IMatchState matchState)
+        {
+            var jsonUtf8 = Encoding.UTF8.GetString(matchState.State);
+            var content = JsonParser.FromJson<Dictionary<string, string>>(jsonUtf8);
+            var isOwner = content.ContainsKey("userId") && content["userId"] == GameManager.Instance.UserId;
+
+            switch (matchState.OpCode)
+            {
+                case OpCodeEnum.MINIATURE_MOVE:
+                    if (!isOwner)
+                    {
+                        MiniatureNetworkEntity miniature = JsonParser.FromJson<MiniatureNetworkEntity>(jsonUtf8);
+
+                        if (miniature.id == _id)
+                        {
+                            var pos = GameManager.Instance.mapManager.ReflexPosition((miniature.y, miniature.x));
+                            self.MoveTo(pos);
+                        }
+                    }
+                    break;
+            }
+        }
+        #endregion
+
         #region Mouse Actions
         protected virtual void OnMouseOver()
         {
-            if (Input.GetMouseButtonDown(0) && _isReady) // left mouse button
+            if (Input.GetMouseButtonDown(0) && _isReady && GameManager.Instance.turnManager.IsMyTurn() && GameManager.Instance.matchManager.IsMainPhase()) // left mouse button
             {
-                if (_isFinishAction || GameManager.Instance.gamePlayManager.IsOtherMiniature(_id)) return;
+                if (_isFinishAction || GameManager.Instance.matchManager.IsOtherMiniature(_id)) return;
 
                 if (Select()) return;
             }
@@ -190,7 +217,7 @@ namespace Miniatures
             {
                 DestroyPreview();
 
-                _instancePreview = GameManager.Instance.miniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
+                _instancePreview = MiniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
             }
         }
 
@@ -202,7 +229,8 @@ namespace Miniatures
 
         protected virtual void Subscribers()
         {
-            GameManager.Instance.turnManager.OnStartTurnPlayer.AddListener(MyTurn);
+            GameManager.Instance.eventManager.OnStartMyTurn += MyTurn;
+            GameManager.Instance.eventManager.OnReceivedMatchState += OnReceivedMatchState;
 
             if (self != null)
                 self.OnTileMove = VerifyLocalEffect; // add listen when tile move
@@ -211,29 +239,28 @@ namespace Miniatures
         public virtual void AddOnBoard((int y, int x) pos)
         {
             self.MoveTo(pos);
-            // CmdMove(new TileSerializerNetwork(self.position));
-
             SetReady();
         }
 
-        public virtual void OnCreate(string miniature)
+        public virtual void OnCreate(CardSO card, string ownerId, int y, int x)
         {
             // create tile config
-            // self = GameManager.Instance.mapManager.Register(new Tile(miniature.card.type, gameObject), pos);
-            // GetComponent<SpriteRenderer>().sprite = miniature.card.sprite;
+            self = GameManager.Instance.mapManager.Register(new Tile(card.type, gameObject), (y, x));
+            GetComponent<SpriteRenderer>().sprite = card.sprite;
 
-            // // setting stats
-            // stats = Instantiate(miniature.card);
-            // _hp = stats.GetDEF();
+            _ownerId = ownerId;
 
-            // if(!GameManager.Instance.turnManager.IsMyTurn())
-            //     _isFinishAction = true;
+            // setting stats
+            stats = Instantiate(card);
+            _hp = stats.GetDEF();
 
-            // Subscribers();
+            if (!GameManager.Instance.turnManager.IsMyTurn())
+                _isFinishAction = true;
 
-            // // attachment the army on mouse to set position
-            // if (isOwned)
-            //     GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
+            Subscribers();
+
+            // attachment the army on mouse to set position
+            GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
         }
     }
 }

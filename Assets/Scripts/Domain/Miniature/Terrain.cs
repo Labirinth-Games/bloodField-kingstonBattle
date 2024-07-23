@@ -1,6 +1,6 @@
 using Enums;
 using Helpers;
-using Managers;
+using BloodField.Managers;
 using Render;
 using System.Collections;
 using System.Collections.Generic;
@@ -95,9 +95,9 @@ namespace Miniatures
         }
         #endregion
 
-        public override void OnCreate(string miniature)
+        public override void OnCreate(CardSO card, string ownerId, int y, int x)
         {
-            base.OnCreate(miniature);
+            base.OnCreate(card, ownerId, y, x);
 
             _position = self.position;
             _lastPosition = _position;

@@ -28,8 +28,8 @@ MonoBehaviour:
   effectVFX: {fileID: 0}
   direction: 2
   ATK: 2
-  DEF: 4
-  MOV: 10
+  DEF: 3
+  MOV: 4
   D_ATK: 1
   isGroup: 0
   commandScript: {fileID: 0}

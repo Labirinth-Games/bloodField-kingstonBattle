@@ -1,6 +1,6 @@
 using Enums;
 using Helpers;
-using Managers;
+using BloodField.Managers;
 using Miniatures;
 using System.Collections;
 using System.Collections.Generic;

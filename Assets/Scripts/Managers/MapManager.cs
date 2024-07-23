@@ -1,12 +1,11 @@
 ﻿using Enums;
 using Generators;
 using Render;
-using System.Collections;
 using System.Collections.Generic;
 using Tiles;
 using UnityEngine;
 
-namespace Managers
+namespace BloodField.Managers
 {
     public class MapManager : MonoBehaviour
     {
@@ -16,17 +15,16 @@ namespace Managers
         [SerializeField] private List<Sprite> baseSpawnSprites;
 
         [Header("Settings")]
-        [SerializeField] private int _sizeWidth;
-        [SerializeField] private int _sizeHeight;
         [SerializeField] private int spawnAreaScale;
 
         private List<Tile>[,] _map;
+        private int _size;
 
         #region Gets/Sets
-        public (int w, int h) Size() => (_sizeWidth, _sizeHeight);
+        public (int w, int h) Size() => (_size, _size);
 
-        public Vector3 ReflexPosition(Vector3 pos) => new Vector3(pos.x, _sizeHeight - pos.y, pos.y);
-        public (int y, int x) ReflexPosition((int y, int x) pos) => (_sizeHeight - pos.y - 1, pos.x);
+        public Vector3 ReflexPosition(Vector3 pos) => new Vector3(pos.x, _size - pos.y, pos.y);
+        public (int y, int x) ReflexPosition((int y, int x) pos) => (_size - pos.y - 1, pos.x);
 
         public List<Tile>[,] GetMap() => _map;
 
@@ -40,22 +38,24 @@ namespace Managers
 
         public (int y, int x) GetKingPositions()
         {
-            var h_position = Mathf.FloorToInt(_sizeWidth / 2);
+            var h_position = Mathf.FloorToInt(_size / 2);
 
             return (0, h_position);
         }
 
         public (int y, int x) GetKingEnemyPositions()
         {
-            var h_position = Mathf.FloorToInt(_sizeWidth / 2);
+            var h_position = Mathf.FloorToInt(_size / 2);
 
-            return (_sizeHeight - 1, h_position);
+            return (_size - 1, h_position);
         }
         #endregion
 
         public void Load()
         {
-            _map = mapGenerate.Build(_sizeWidth, _sizeHeight);
+            _size = GameManager.Instance.gameSettings.MapSize;
+            _map = mapGenerate.Build(_size, _size);
+
             MapRender.FloorRender(_map, floorPrefabs, baseSpawnSprites, spawnAreaScale);
         }
 
@@ -87,7 +87,6 @@ namespace Managers
             }
 
             return null;
-
         }
 
         public void Unregister(Tile tile)
@@ -152,9 +151,9 @@ namespace Managers
             return false;
         }
 
-        public bool IsInsideMap((int y, int x) dir) => dir.x >= 0 && dir.x < _sizeWidth && dir.y >= 0 && dir.y < _sizeHeight;
-        public bool IsInsideSpawnMap((int y, int x) dir) => dir.x >= 0 && dir.x < _sizeWidth && dir.y >= 0 && dir.y < spawnAreaScale;
-        public bool IsInsideSpawnUntilMiddleMap((int y, int x) dir) => dir.x >= 0 && dir.x < _sizeWidth && dir.y >= 0 && dir.y < _sizeHeight - spawnAreaScale;
+        public bool IsInsideMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= 0 && dir.y < _size;
+        public bool IsInsideSpawnMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= 0 && dir.y < spawnAreaScale;
+        public bool IsInsideSpawnUntilMiddleMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= 0 && dir.y < _size - spawnAreaScale;
         #endregion
 
         private void OnValidate()

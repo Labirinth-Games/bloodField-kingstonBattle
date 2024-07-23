@@ -1,122 +1,98 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using BloodField.DTO;
+using BloodField.Enums;
+using BloodField.Helpers;
+using BloodField.Network.Entities;
 using Enums;
+using Nakama;
+using Nakama.TinyJson;
 using UnityEngine;
-using UnityEngine.Events;
 
-namespace Managers
+namespace BloodField.Managers
 {
     public class TurnManager : MonoBehaviour
     {
-        [Header("Settings")]
-        [SerializeField] private TurnStageEnum turnStage;
-
-        [Header("callback")]
-        public UnityEvent OnStartTurnPlayer;
-
-        private string _turnPlayer;
-        private List<bool> _isAllReady = new List<bool>();
-        private List<string> _players = new List<string>();
-
-        private int _amountCardUsed = 0;
-        private bool _isAllMiniatureFinish = false;
-        private Dictionary<TurnStageEnum, Func<bool>> _rules;
+        private PlayerMatchDTO _player;
 
         #region Gets/Sets
-        public bool IsMyTurn() => _turnPlayer == GameManager.Instance.UserId;
-        public bool CanPlayCard() => _rules[turnStage]() && (IsTurnPreparation() || IsMyTurn());
-        public TurnStageEnum GetTurnState() => turnStage;
-        public bool IsTurnPreparation() => turnStage == TurnStageEnum.Preparation;
-        public bool IsAllReadyToInitGame() => _isAllReady.Count == _players.Count;
+        public bool IsMyTurn() => _player.isMyTurn;
+        public bool CanPlayCard() => _player.amountUsedCards < GameManager.Instance.gameSettings.amountDrawCardOnGameplay && IsMyTurn();
+        public bool HasMiniatureToPlay() => !_player.isAllMiniatureFinishActions;
 
-        public void SetCardUsed()
+        private void OnCardUsed()
         {
-            _amountCardUsed++;
-            GameManager.Instance.deckManager.PlayerUsedACardOnHand();
+            if (GameManager.Instance.matchManager.IsPreparationPhase()) return;
 
+            _player.amountUsedCards++;
             AutomaticEndTurn();
         }
         public void SetMiniatureFinishAction()
         {
-            _isAllMiniatureFinish = GameManager.Instance.miniatureManager.IsAllMiniaturesFinish();
+            _player.isAllMiniatureFinishActions = GameManager.Instance.miniatureManager.IsAllMiniaturesFinishAction();
 
             AutomaticEndTurn();
         }
-
-        private void Reset()
-        {
-            _amountCardUsed = 0;
-            _isAllMiniatureFinish = false;
-        }
-
-        public void SetIsReadyClient() => _isAllReady.Add(true);
         #endregion
 
         private void AutomaticEndTurn()
         {
-            if (CanPlayCard() && _isAllMiniatureFinish) EndTurnButtonAction();
+            if (!CanPlayCard() && !HasMiniatureToPlay()) EndTurn();
         }
 
-        private string NextTurn()
+        public async void EndTurn()
         {
-            // int next = _players.FindIndex(f => f == _turnPlayer) + 1;
-
-            // if (next >= _players.Count)
-            //     return _players[0];
-
-            return ""; //_players[next];
-        }
-
-        public void EndTurnButtonAction()
-        {
-            // when finish the preparation step
-            if (turnStage == TurnStageEnum.Preparation)
+            if (IsMyTurn())
             {
-                SetIsReadyClient();
-                turnStage = TurnStageEnum.GamePlay;
-                Reset();
+                _player.isMyTurn = false;
 
-                return;
-            }
-
-            if (IsAllReadyToInitGame())
-            {
-                _turnPlayer = NextTurn();
-
-                if (IsMyTurn())
-                {
-                    Reset();
-                    OnStartTurnPlayer?.Invoke();
-                }
+                await NetworkHelper.Send<TurnNetworkEntity>(
+                    OpCodeEnum.NEW_TURN,
+                    new TurnNetworkEntity() { }
+                );
             }
         }
 
-
-        public void OnStartClient()
+        #region Network Events
+        private void OnReceiveMatchState(IMatchState matchState)
         {
-            turnStage = TurnStageEnum.Preparation;
-
-            _rules = new Dictionary<TurnStageEnum, Func<bool>>
+            NetworkHelper.Listen<TurnNetworkEntity>(matchState, OpCodeEnum.NEW_TURN, (content, isHost, isOwner) =>
             {
-                { TurnStageEnum.Preparation, () => _amountCardUsed < GameManager.Instance.gameSettings.amountPlayCardOnPreparation },
-                { TurnStageEnum.GamePlay, () => _amountCardUsed < GameManager.Instance.gameSettings.amountPlayCardOnGameplay }
-            };
+                if (isOwner) return;
+
+                _player.Reset();
+                _player.isMyTurn = true;
+
+                GameManager.Instance.eventManager.StartMyTurnEvent();
+            });
+        }
+        #endregion
+
+        public void Load(PlayerMatchDTO myPlayer, PlayerMatchDTO firstPlayer)
+        {
+            _player = myPlayer;
+
+            if (_player.userId == firstPlayer.userId) _player.isMyTurn = true;
+
+            if (GameManager.Instance.networkManager.Socket is not null)
+                GameManager.Instance.networkManager.Socket.ReceivedMatchState += OnReceiveMatchState;
+
+            GameManager.Instance.eventManager.OnCardUsed += OnCardUsed;
         }
 
-        public void Load()
+        // TODO - remover depois
+        void Update()
         {
-            // add the players on turns
-            if (GameManager.Instance.IsHost)
-                foreach (string playerSessionId in GameManager.Instance.matchManager.Players)
-                {
-                    _players.Add(playerSessionId);
-                }
+            if (Input.GetKeyDown(KeyCode.N))
+            {
+                _player.Reset();
+                _player.isMyTurn = true;
 
-            // choose a player to start turn
-            int randomPlayerStartTurn = (int)MathF.Round(UnityEngine.Random.value);
-            _turnPlayer = _players[randomPlayerStartTurn];
+                GameManager.Instance.eventManager.StartMyTurnEvent();
+            }
         }
     }
 }

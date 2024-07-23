@@ -1,5 +1,5 @@
 using HUD;
-using Managers;
+using BloodField.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using Miniatures;
@@ -9,32 +9,24 @@ namespace Render
 {
     public class MiniatureRender : MonoBehaviour
     {
-        public GameObject KingRender(GameObject prefab)
+        public static GameObject KingRender(GameObject prefab)
         {
-            // SpawnServerRpc(new MiniatureCreateMessage()
-            // {
-            //     position = (0, 0),
-            //     prefab = prefab
-            // });
+            var kingSO = Resources.Load<CardSO>("Cards/King");
             var instance = Instantiate(prefab);
+            instance.GetComponent<King>().OnCreate(kingSO, GameManager.Instance.UserId, 0, 0);
 
-            return null; ///instance;
+            return instance;
         }
 
-        public GameObject Render(CardSO card, GameObject prefab)
+        public static GameObject Render(CardSO card, GameObject prefab)
         {
-            // SpawnServerRpc(new MiniatureCreateMessage()
-            // {
-            //     position = (0, 0),
-            //     card = card,
-            //     prefab = prefab
-            // });
             var instance = Instantiate(prefab);
+            instance.GetComponent<Miniature>().OnCreate(card, GameManager.Instance.UserId, 0, 0);
 
-            return null;
+            return instance;
         }
 
-        public GameObject PreviewRender(CardSO card, int hp, GameObject prefab)
+        public static GameObject PreviewRender(CardSO card, int hp, GameObject prefab)
         {
             var instance = Instantiate(prefab);
             instance.GetComponent<MiniaturePreviewHUD>().Render(card, hp);
@@ -44,9 +36,13 @@ namespace Render
             return instance;
         }
 
-        public void SpawnRemote(GameObject instance, string miniature)
-        {
-            instance.GetComponent<Miniature>().OnCreate(miniature);
+        public void SpawnRemote(string miniature, string card, int y, int x)
+        {   
+            var prefab = Resources.Load<GameObject>(miniature);
+            var cardSO = Resources.Load<CardSO>(card);
+            var instance = Instantiate(prefab);
+            
+            instance.GetComponent<Miniature>().OnCreate(cardSO, GameManager.Instance.UserId, y, x);
         }
     }
 }

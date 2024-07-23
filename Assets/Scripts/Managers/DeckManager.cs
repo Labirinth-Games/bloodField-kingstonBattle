@@ -1,88 +1,119 @@
+using BloodField.Enums;
+using BloodField.Helpers;
+using BloodField.Network.Entities;
 using Generators;
-using Render;
-using System.Collections;
+using Helpers;
+using Nakama;
+using Nakama.TinyJson;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
-namespace Managers
+namespace BloodField.Managers
 {
     public class DeckManager : MonoBehaviour
     {
-        // [SerializeField] private Queue<CardSO> deck;
-        public readonly List<CardSO> deck = new List<CardSO>();
+        [SerializeField] private Queue<CardSO> deck = new Queue<CardSO>();
 
         [Header("References")]
         public DeckGenerate deckGenerate;
 
-        private int _amountCardOnPlayerHand;
-
-        public void Draw(int amount = 1)
+        public async Task Draw(int amount = 1)
         {
-            List<CardSO> _cardsAux = new List<CardSO>();
-
-            for (int i = 0; i < amount; i++)
+            if (!GameManager.Instance.IsHost)
             {
-                var card = deck[0];
-                deck.RemoveAt(0);
+                await NetworkHelper.Send<DeckNetworkEntity>(
+                    OpCodeEnum.DECK_DRAW_CARD,
+                    new DeckNetworkEntity() { AmountCardsDraw = amount }
+                );
 
-                _cardsAux.Add(card);
+                return;
             }
 
-            // DrawCardsClient(new CardDrawSerializerNetwork(_cardsAux), amount);
-        }
+            var cards = GetCardsOnDeck(amount);
 
-        // public void DrawCardsClient(CardDrawSerializerNetwork cardDraw, int amount)
-        // {
-        //     _amountCardOnPlayerHand += amount;
-
-        //     Debug.Log($"foram pegas {amount} cartas e sobrou {deck.Count}");
-            
-        //     GameManager.Instance.cardManager.Create(cardDraw.cards);
-        //     GameManager.Instance.player.SetCardOnHand(cardDraw.cards);
-        // }
-
-        public void Shuffle()
-        {
-            CardSO aux;
-            List<CardSO> list = deck.ToList();
-
-            for (var i = 0; i < list.Count; i++)
-            {
-                int id1 = Random.Range(0, list.Count);
-                int id2 = Random.Range(0, list.Count);
-
-                aux = list[id1];
-                list[id1] = list[id2];
-                list[id2] = aux;
-            }
-
-            SetDeck(list);
+            // add cards diretly on hand to player
+            GameManager.Instance.player.AddCardHand(cards);
         }
 
         #region Validatior
-        public bool CanDraw() => deck.Count > 0 && _amountCardOnPlayerHand <= GameManager.Instance.gameSettings.maxCardOnPlayerHand;
+        public bool CanDraw(int amountCardOnPlayerHand) => deck.Count > 0 && amountCardOnPlayerHand <= GameManager.Instance.gameSettings.maxCardOnPlayerHand;
         #endregion
 
         #region Gets/Sets
-        public List<CardSO> GetDeck() => deck;
-        public void SetDeck(List<CardSO> deck)
+        public void SetDeck(List<CardSO> cards)
         {
-            this.deck.Clear();
+            deck.Clear();
 
-            foreach (var item in deck)
+            foreach (var item in cards)
             {
-                this.deck.Add(item);
+                deck.Enqueue(item);
             }
+        }
+
+        private List<CardSO> GetCardsOnDeck(int amount)
+        {
+            List<CardSO> cards = new List<CardSO>();
+
+            for (int i = 0; i < amount; i++)
+            {
+                var card = deck.Dequeue();
+                cards.Add(card);
+            }
+
+            return cards;
         }
         #endregion
 
-        public void PlayerUsedACardOnHand() => _amountCardOnPlayerHand--;
+        #region Network Events
+        private void OnReceiveMatchState(IMatchState matchState)
+        {
+            NetworkHelper.Listen<DeckNetworkEntity>(matchState, OpCodeEnum.DECK_DRAW_CARD, async (content, isHost, isOwner) =>
+            {
+                if (isOwner) return;
+
+                var cards = GetCardsOnDeck(content.AmountCardsDraw);
+                var cardsPaths = cards.Select(s => $"Cards/{s.type}/{s.name}").ToArray();
+
+                await NetworkHelper.Send<DeckNetworkEntity>(OpCodeEnum.DECK_RECEIVE_CARDS, new DeckNetworkEntity() { Cards = cardsPaths });
+            });
+
+            NetworkHelper.Listen<DeckNetworkEntity>(matchState, OpCodeEnum.DECK_RECEIVE_CARDS, (content, isHost, isOwner) =>
+            {
+                if (isOwner) return;
+                
+                var cards = content.GetCards();
+
+                // add cards diretly on hand to player
+                GameManager.Instance.player.AddCardHand(cards);
+            });
+        }
+
+        #endregion
 
         public void Load()
         {
-            SetDeck(deckGenerate.Deck());
-            Shuffle(); // shuffle cards
+            var cards = deckGenerate.Deck();
+
+            // if debug mode active get cards defined on list
+            if (GameManager.Instance.isDebug)
+                GetComponent<DeckDebug>().DeckTest();
+            else
+                SetDeck(cards);
+
+            var cardsShaffled = DeckHelper.Shuffle(deck);
+            SetDeck(cardsShaffled);
+
+            // subscribers
+            Subscribers();
+        }
+
+        public void Subscribers()
+        {
+            if (GameManager.Instance.networkManager.Socket is not null)
+                GameManager.Instance.networkManager.Socket.ReceivedMatchState += OnReceiveMatchState;
         }
     }
 }

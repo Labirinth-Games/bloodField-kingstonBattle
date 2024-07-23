@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 using BloodField.SO;
-using Managers;
+using BloodField.Managers;
 using Nakama;
 using UnityEngine;
 
@@ -53,7 +53,7 @@ namespace BloodField.Network
             Socket.ReceivedStatusPresence += GameManager.Instance.eventManager.ReceivedStatusPresenceEvent;
             Socket.ReceivedMatchState += GameManager.Instance.eventManager.ReceivedMatchStateEvent;
 
-            GameManager.Instance.setSessionId(Session.UserId);
+            GameManager.Instance.SetUserId(Session.UserId);
         }
 
         public async Task ExitMatch()

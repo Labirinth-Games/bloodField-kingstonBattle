@@ -5,7 +5,7 @@ using Helpers;
 using Render;
 using UnityEngine;
 
-namespace Managers
+namespace BloodField.Managers
 {
     public class GameManager : Utils.Singleton<GameManager>
     {
@@ -16,34 +16,46 @@ namespace Managers
         [Header("References")]
         public MapManager mapManager;
         public TurnManager turnManager;
+        public TurnPreparationManager turnPreparationManager;
         public CameraControl cameraControl;
         public CardManager cardManager;
         public DeckManager deckManager;
-        public GamePlayManager gamePlayManager;
+        public MatchManager matchManager;
         public MiniatureManager miniatureManager;
         public Player player;
         public MiniatureMouseHelper miniatureMouseHelper;
         public NetworkManager networkManager;
         public EventManager eventManager;
-        public MatchManager matchManager;
-
-        [Header("Renders")]
-        public MiniatureRender miniatureRender;
+        public LobbyManager lobbyManager;
+        public ScreenManager screenManager;
 
         public string UserId { get; private set; }
         public bool IsLocal { get; private set; } = false;
         public bool IsHost { get; private set; } = false;
 
         #region Gets/Sets
-        public void setSessionId(string userId) => UserId = userId;
-        public void setIsLocal(bool value) => IsLocal = value;
-        public void setIsHost(bool value) => IsHost = value;
+        public void SetUserId(string userId) => UserId = userId;
+        public void SetIsLocal(bool value) => IsLocal = value;
+        public void SetIsHost(bool value) => IsHost = value;
         #endregion
 
         protected override void Awake()
         {
             base.Awake();
             DontDestroyOnLoad(gameObject);
+        }
+
+        async void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                await networkManager.Logoff();
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
+            }
         }
 
         void Start()
@@ -64,9 +76,6 @@ namespace Managers
 
             if (TryGetComponent(out DeckManager deckManager))
                 this.deckManager = deckManager;
-
-            if (TryGetComponent(out GamePlayManager gamePlay))
-                this.gamePlayManager = gamePlay;
 
             if (TryGetComponent(out MiniatureMouseHelper miniatureMouseHelper))
                 this.miniatureMouseHelper = miniatureMouseHelper;

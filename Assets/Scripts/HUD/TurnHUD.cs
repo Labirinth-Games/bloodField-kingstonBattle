@@ -1,4 +1,4 @@
-using Managers;
+using BloodField.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -16,26 +16,34 @@ namespace HUD
         {
             if (label != null)
             {
-                if (GameManager.Instance.turnManager.IsTurnPreparation())
+                if (!GameManager.Instance.matchManager.IsPlayerLocalReady())
                 {
                     label.text = "Preparation Stage";
                     button.GetComponentInChildren<TextMeshProUGUI>().text = "Ready!";
                     return;
                 }
 
-                if (!GameManager.Instance.turnManager.IsAllReadyToInitGame())
+                if (GameManager.Instance.matchManager.IsPlayerLocalReady() && !GameManager.Instance.matchManager.IsMainPhase())
                 {
                     label.text = "Wait players is ready";
                     button.GetComponentInChildren<TextMeshProUGUI>().text = "End";
                     return;
                 }
 
-                label.text = GameManager.Instance.turnManager.IsMyTurn() ? "You Turn" : "Wait...";
+                if (GameManager.Instance.matchManager.IsMainPhase())
+                {
+                    label.text = GameManager.Instance.turnManager.IsMyTurn() ? "You Turn" : "Wait...";
+                    return;
+                }
+
+                label.text = "Loading...";
             }
         }
 
-        private void Start() {
-            button.onClick.AddListener(GameManager.Instance.turnManager.EndTurnButtonAction);
+        public void TurnActionButton()
+        {
+            if (GameManager.Instance.matchManager.IsPreparationPhase()) GameManager.Instance.turnPreparationManager.EndTurnPreparation();
+            if (GameManager.Instance.matchManager.IsMainPhase()) GameManager.Instance.turnManager.EndTurn();
         }
     }
 

@@ -1,4 +1,4 @@
-using Managers;
+using BloodField.Managers;
 using UI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,9 +21,10 @@ public class CardPreview : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
+        if (!GameManager.Instance.matchManager.CanPlayCard()) return;
+
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            GameManager.Instance.turnManager.SetCardUsed();
             GameManager.Instance.cardManager.ClosePreview();
             parent.GetComponent<Card>().PlayingCard();
 

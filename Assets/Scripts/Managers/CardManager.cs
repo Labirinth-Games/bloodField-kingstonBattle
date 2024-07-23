@@ -1,11 +1,9 @@
 using Enums;
 using Render;
-using System.Collections;
 using System.Collections.Generic;
-using UI;
 using UnityEngine;
 
-namespace Managers
+namespace BloodField.Managers
 {
     public class CardManager : MonoBehaviour
     {

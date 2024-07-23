@@ -1,6 +1,6 @@
 using Enums;
 using Helpers;
-using Managers;
+using BloodField.Managers;
 using Render;
 using System;
 using System.Collections;
@@ -19,7 +19,7 @@ namespace Miniatures
         {
             if (Input.GetMouseButtonDown(0) && stats.equipamentType == EquipamentTypeEnum.Attack) // left mouse button
             {
-                if (GameManager.Instance.gamePlayManager.IsOtherMiniature(_id) || !_isReady || _isFinishAction) return;
+                if (GameManager.Instance.matchManager.IsOtherMiniature(_id) || !_isReady || _isFinishAction) return;
 
                 if (Select()) return;
             }
@@ -28,7 +28,7 @@ namespace Miniatures
             {
                 DestroyPreview();
 
-                _instancePreview = GameManager.Instance.miniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
+                _instancePreview = MiniatureRender.PreviewRender(stats, _hp, miniaturePreviewHUDPrefab);
             }
         }
 
@@ -41,7 +41,7 @@ namespace Miniatures
 
             if (_isSelected)
             {
-                GameManager.Instance.gamePlayManager.SetCurrentMiniature(this);
+                GameManager.Instance.matchManager.SetCurrentMiniature(this);
 
                 _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.GetD_ATK(), true);
                 signageUI.OverlayAttack(_tilesToAttack);
@@ -49,7 +49,7 @@ namespace Miniatures
                 return true;
             }
 
-            GameManager.Instance.gamePlayManager.SetCurrentMiniature(null);
+            GameManager.Instance.matchManager.SetCurrentMiniature(null);
             return false;
         }
         #endregion
@@ -98,14 +98,14 @@ namespace Miniatures
 
                 // update reference to new miniatures
                 foreach (var additionalStats in stats.additionalStats)
-                    GameManager.Instance.gamePlayManager.UpdateAddionalStats(armyType, additionalStats.Key, additionalStats.Value * multiply);
+                    GameManager.Instance.matchManager.UpdateAddionalStats(armyType, additionalStats.Key, additionalStats.Value * multiply);
             }
 
         }
 
-        public override void OnCreate(string miniature)
+        public override void OnCreate(CardSO card, string ownerId, int y, int x)
         {
-            base.OnCreate(miniature);
+            base.OnCreate(card, ownerId, y, x);
 
             // remove equipaments of the count to auto finish turn
             List<EquipamentTypeEnum> excludeTurn = new List<EquipamentTypeEnum>() { EquipamentTypeEnum.Moral, EquipamentTypeEnum.Defense };

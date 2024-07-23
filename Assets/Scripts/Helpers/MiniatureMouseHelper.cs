@@ -1,4 +1,4 @@
-using Managers;
+using BloodField.Managers;
 using Miniatures;
 using Tiles;
 using UnityEngine;
@@ -51,6 +51,8 @@ namespace Helpers
                 int y = (int)_miniature.transform.position.y;
                 _miniature.GetComponent<Miniature>().AddOnBoard((y, x));
 
+                GameManager.Instance.eventManager.CardUsedEvent();
+
                 _miniature = null;
                 _isAttached = false;
             }
@@ -58,7 +60,7 @@ namespace Helpers
 
         private void Actions()
         {
-            var miniature = GameManager.Instance.gamePlayManager.GetCurrentMiniature();
+            var miniature = GameManager.Instance.matchManager.GetCurrentMiniature();
 
             if (Input.GetButtonDown("Fire1") && miniature != null) // left mouse button
             {
@@ -71,8 +73,8 @@ namespace Helpers
 
         private void Update()
         {
-            if(!GameManager.Instance.gamePlayManager.isStartGame && !GameManager.Instance.IsLocal) return;
-            
+            if (!GameManager.Instance.matchManager.CanPlayCard()) return;
+
             AttachmentOnMouse();
             AddOnBoard();
             Actions();

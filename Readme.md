@@ -178,3 +178,55 @@ O rei é como qualquer outro soldado possuindo seus atributos se necessário lut
 docker build --no-cache -t blood-field .
 docker run -v .\build\Linux\Servers\:/home -it blood-field bash
 ```
+
+# Diagrama de fluxo
+Esse diagrama tem como objetivo desenhar o fluxo do inicio do jogo com match e como vai funcionar os turnos no multiplayer.
+
+```mermaid
+sequenceDiagram
+    participant Client
+    participant Host
+    participant Lobby
+    participant Match
+    participant PreTurn
+    participant Turn
+    participant Deck
+
+    Client->>Lobby: Join match (client)
+    Host->>Lobby: Join match (host)
+    Note over Lobby: Chamada por client e host
+    Lobby->>Match: Loads (host)
+    Note over Match: Faz load inicial incluindo deck
+    Note over Match: Escolhe o primeiro a jogar
+
+    Match->>PreTurn: Inicia Pre turno(host)
+    Match-->>Client: [Network] Sinalizando para abrir preTurn (host)
+    Client->>Match: Recebe a mensagem e chama Pre turno (client)
+    Match->>PreTurn: Iniciando Pre turno (client)
+    Note over PreTurn: Class usada por client/host
+
+    PreTurn->>Deck: Pega Mão inicial(host)
+    Deck->>PreTurn: Retorna Mão inicial(host)
+    PreTurn->>Deck: Pega Mão inicial(Client)
+    Note left of Deck: Quando cliente ele solicia via rede
+    Deck-->>Deck: [network] Pede Mão inicial(host)
+    Deck->>PreTurn: Retorna Mão inicial(Client)
+
+    PreTurn->>Match: Finaliza turno de preparação(host)
+    PreTurn->>Match: Finaliza turno de preparação(Client)
+    Match-->>Match: [network] sinaliza que terminou o pre turno
+
+    Note over Match: Quando tudo tiver ok vamos iniciar os turnos
+    Match->>Turn: Faz o load informando qual o primeiro(host)
+    Match-->>Match: [network] Sinaliza que vai inicar o turno(host)
+    Match->>Turn: Faz o load informando qual o primeiro(client)
+
+loop Fica assim até final da partida
+    Turn->>Deck: Puxa uma carta(host)
+    Deck->>Turn: Retorna a carta(host)
+    Turn->>Deck: Puxa uma carta(Client)
+    Note left of Deck: Quando cliente ele solicia via rede
+    Deck-->>Deck: [network] Solicita uma carta(host)
+    Deck->>Turn: Retorna uma carta(Client)
+end
+```

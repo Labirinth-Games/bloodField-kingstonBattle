@@ -1,6 +1,6 @@
 using Enums;
 using DG.Tweening;
-using Managers;
+using BloodField.Managers;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -59,7 +59,7 @@ namespace Tiles
         public void SetPosition((int y, int x) pos) => this.position = pos;
 
         // used to move aposition filtred on map
-        public Vector3 MoveTo((int y, int x) position, bool withAnimation = true)
+        public Vector3 MoveTo((int y, int x) position)
         {
             var lastPosition = this.position;
             var x = position.x - this.position.x;
@@ -73,12 +73,8 @@ namespace Tiles
             if (OnTileMove != null)
                 OnTileMove(lastPosition, tile.position);
 
-            // if (withAnimation)
-            // {
-            //     //CmdMoveDirection();
-            //     //gameObjectTile.transform.DOMove(GetPositionOnWorld(), .2f);
-            // }
-        // TODO - talvez possamos trazer para ca o move da miniatura pelomenos a chamada do gameobject ja que n conseguimos via rede chamar o command e clientRpc aqui
+            gameObject.transform.DOMove(GetPositionOnWorld(), .2f);
+
             return GetPositionOnWorld();
         }
 
