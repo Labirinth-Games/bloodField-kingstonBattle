@@ -60,7 +60,7 @@ namespace Helpers
 
         private void Actions()
         {
-            var miniature = GameManager.Instance.matchManager.GetCurrentMiniature();
+            var miniature = GameManager.Instance.miniatureManager.GetCurrentMiniature();
 
             if (Input.GetButtonDown("Fire1") && miniature != null) // left mouse button
             {
@@ -73,10 +73,12 @@ namespace Helpers
 
         private void Update()
         {
-            if (!GameManager.Instance.matchManager.CanPlayCard()) return;
+            if (GameManager.Instance.matchManager.CanPlayCard())
+            {
+                AttachmentOnMouse();
+                AddOnBoard();
+            }
 
-            AttachmentOnMouse();
-            AddOnBoard();
             Actions();
         }
 

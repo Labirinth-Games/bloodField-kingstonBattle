@@ -1,15 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using BloodField.DTO;
 using BloodField.Enums;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
-using Enums;
 using Nakama;
-using Nakama.TinyJson;
 using UnityEngine;
 
 namespace BloodField.Managers

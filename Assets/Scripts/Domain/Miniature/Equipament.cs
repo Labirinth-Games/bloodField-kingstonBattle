@@ -2,10 +2,7 @@ using Enums;
 using Helpers;
 using BloodField.Managers;
 using Render;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using Tiles;
 using UnityEngine;
 
 namespace Miniatures
@@ -19,7 +16,7 @@ namespace Miniatures
         {
             if (Input.GetMouseButtonDown(0) && stats.equipamentType == EquipamentTypeEnum.Attack) // left mouse button
             {
-                if (GameManager.Instance.matchManager.IsOtherMiniature(_id) || !_isReady || _isFinishAction) return;
+                if (GameManager.Instance.miniatureManager.IsOtherMiniature(_id) || !_isReady || _isFinishAction) return;
 
                 if (Select()) return;
             }
@@ -41,7 +38,7 @@ namespace Miniatures
 
             if (_isSelected)
             {
-                GameManager.Instance.matchManager.SetCurrentMiniature(this);
+                GameManager.Instance.miniatureManager.SetCurrentMiniature(this);
 
                 _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.GetD_ATK(), true);
                 signageUI.OverlayAttack(_tilesToAttack);
@@ -49,7 +46,7 @@ namespace Miniatures
                 return true;
             }
 
-            GameManager.Instance.matchManager.SetCurrentMiniature(null);
+            GameManager.Instance.miniatureManager.SetCurrentMiniature(null);
             return false;
         }
         #endregion
@@ -98,7 +95,7 @@ namespace Miniatures
 
                 // update reference to new miniatures
                 foreach (var additionalStats in stats.additionalStats)
-                    GameManager.Instance.matchManager.UpdateAddionalStats(armyType, additionalStats.Key, additionalStats.Value * multiply);
+                    GameManager.Instance.miniatureManager.UpdateAddionalStats(armyType, additionalStats.Key, additionalStats.Value * multiply);
             }
 
         }

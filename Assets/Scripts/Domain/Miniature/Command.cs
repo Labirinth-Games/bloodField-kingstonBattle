@@ -1,10 +1,4 @@
-using Helpers;
 using BloodField.Managers;
-using Render;
-using System.Collections;
-using System.Collections.Generic;
-using Tiles;
-using UnityEngine;
 
 namespace Miniatures
 {

@@ -37,14 +37,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3992945214950551121}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3291753801974470400}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &5186345006264250590
 MonoBehaviour:
@@ -62,7 +62,7 @@ MonoBehaviour:
   isDebug: 1
   mapManager: {fileID: 1423650662961454086, guid: b082d5c2eb22d9542beec1abaa4586cd, type: 3}
   turnManager: {fileID: 9206476916903781374}
-  turnPreparationManager: {fileID: 0}
+  turnPreparationManager: {fileID: 7500425473678580111}
   cameraControl: {fileID: 5138143739483719528}
   cardManager: {fileID: 6068540755482202608, guid: 8b37f3ddd76e10d448c4c9723efe01bb, type: 3}
   deckManager: {fileID: 7457503334884905875}
@@ -72,7 +72,7 @@ MonoBehaviour:
   miniatureMouseHelper: {fileID: 1431904305427718468}
   networkManager: {fileID: 7813025172142089290}
   eventManager: {fileID: 6377356033146715734}
-  lobbyManager: {fileID: 0}
+  lobbyManager: {fileID: 5175225173370690399}
   screenManager: {fileID: 0}
 --- !u!114 &5138143739483719528
 MonoBehaviour:
@@ -152,8 +152,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14da06255bebb164ba839910f665014d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentMiniature: {fileID: 0}
-  additionalStats: []
 --- !u!114 &7689217508399417058
 MonoBehaviour:
   m_ObjectHideFlags: 0

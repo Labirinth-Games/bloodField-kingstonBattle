@@ -50,7 +50,7 @@ namespace Miniatures
 
             if (_isSelected)
             {
-                GameManager.Instance.matchManager.SetCurrentMiniature(this);
+                GameManager.Instance.miniatureManager.SetCurrentMiniature(this);
 
                 _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.GetD_ATK(), true);
                 signageUI.OverlayAttack(_tilesToAttack);
@@ -61,7 +61,7 @@ namespace Miniatures
                 return true;
             }
 
-            GameManager.Instance.matchManager.SetCurrentMiniature(null);
+            GameManager.Instance.miniatureManager.SetCurrentMiniature(null);
             return false;
         }
 
@@ -151,7 +151,7 @@ namespace Miniatures
             _isFinishAction = true;
             signageUI.Clear();
 
-            GameManager.Instance.matchManager.SetCurrentMiniature(null);
+            GameManager.Instance.miniatureManager.SetCurrentMiniature(null);
             GameManager.Instance.turnManager.SetMiniatureFinishAction();
             _tilesToAttack?.Clear();
             _tilesToMove?.Clear();
@@ -208,7 +208,7 @@ namespace Miniatures
         {
             if (Input.GetMouseButtonDown(0) && _isReady && GameManager.Instance.turnManager.IsMyTurn() && GameManager.Instance.matchManager.IsMainPhase()) // left mouse button
             {
-                if (_isFinishAction || GameManager.Instance.matchManager.IsOtherMiniature(_id)) return;
+                if (_isFinishAction || GameManager.Instance.miniatureManager.IsOtherMiniature(_id)) return;
 
                 if (Select()) return;
             }

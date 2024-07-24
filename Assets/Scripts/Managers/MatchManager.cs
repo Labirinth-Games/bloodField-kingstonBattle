@@ -13,9 +13,6 @@ namespace BloodField.Managers
 {
     public class MatchManager : MonoBehaviour
     {
-        [SerializeField] private Miniature currentMiniature = null;
-        [SerializeField] private List<AdditionalStatsDTO> additionalStats;
-
         public List<PlayerMatchDTO> Players { get; private set; } = new List<PlayerMatchDTO>();
         public PhaseEnum MatchPhase { get; private set; }
         public string MatchId { get; private set; }
@@ -23,42 +20,26 @@ namespace BloodField.Managers
         #region Gets/Sets
         public bool IsPreparationPhase() => MatchPhase == PhaseEnum.Preparation;
         public bool IsMainPhase() => MatchPhase == PhaseEnum.Main;
+        public bool IsReadyPreparationPhasePlayer() => Players.Exists(e => e.isFinishPreparation && e.userId == GameManager.Instance.UserId);
 
-        public bool IsOtherMiniature(string id) => currentMiniature != null && currentMiniature?._id != id;
-        public void SetCurrentMiniature(Miniature miniature) => currentMiniature = miniature;
-        public Miniature GetCurrentMiniature() => currentMiniature;
-        public List<AdditionalStatsDTO> GetAdditionalStats() => additionalStats;
-        public void UpdateAddionalStats(ArmyTypeEnum armyType, StatsTypeEnum statsType, int value) =>
-            additionalStats
-                .FindAll(f => f.type == armyType)
-                .ForEach(f => f.stats[statsType] += value);
-
-        public bool IsPlayerLocalReady() => Players.Exists(e => e.isFinishPreparation && e.userId == GameManager.Instance.UserId);
         public bool CanPlayCard()
         {
-            if (IsPreparationPhase() && GameManager.Instance.matchManager.IsPlayerLocalReady()) return false;
+            if (IsPreparationPhase() && GameManager.Instance.matchManager.IsReadyPreparationPhasePlayer()) return false;
             if (IsMainPhase() && !GameManager.Instance.turnManager.IsMyTurn()) return false;
-            if (IsMainPhase() && !GameManager.Instance.turnManager.CanPlayCard() && !GameManager.Instance.turnManager.HasMiniatureToPlay()) return false;
+            if (IsMainPhase() && !GameManager.Instance.turnManager.CanPlayCard()) return false;
+
+            return true;
+        }
+
+        public bool CanActionMiniature()
+        {
+            if (IsPreparationPhase() && GameManager.Instance.matchManager.IsReadyPreparationPhasePlayer()) return false;
+            if (IsMainPhase() && !GameManager.Instance.turnManager.IsMyTurn()) return false;
+            if (IsMainPhase() && !GameManager.Instance.turnManager.HasMiniatureToPlay()) return false;
 
             return true;
         }
         #endregion
-
-        // private void LoadHost()
-        // {
-
-
-        //     // auto generate to create stats additional for all armies on deck
-        //     // additionalStats = new List<AdditionalStats>();
-        //     // GameManager.Instance.deckManager.GetDeck()
-        //     //     .ToList()
-        //     //     .FindAll(f => f.type == CardTypeEnum.Army)
-        //     //     .ForEach(f =>
-        //     //     {
-        //     //         if (!additionalStats.Exists(e => e.type == f.armyType))
-        //     //             additionalStats.Add(new AdditionalStats(f.armyType));
-        //     //     });
-        // }
 
         #region Network Events
         private void OnReceiveMatchState(IMatchState matchState)

@@ -1,8 +1,4 @@
-using Helpers;
 using BloodField.Managers;
-using Render;
-using Tiles;
-using UnityEngine;
 
 namespace Miniatures
 {
@@ -15,7 +11,7 @@ namespace Miniatures
         #region Utils
         protected void ApplyAdditionalStats()
         {
-            GameManager.Instance.matchManager.GetAdditionalStats()
+            GameManager.Instance.miniatureManager.GetAdditionalStats()
                 .FindAll(f => f.type == stats.armyType)
                 .ForEach(additionalStats =>
                 {

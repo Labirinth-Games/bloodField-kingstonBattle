@@ -21,9 +21,7 @@ public class CardPreview : MonoBehaviour, IPointerDownHandler
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (!GameManager.Instance.matchManager.CanPlayCard()) return;
-
-        if (eventData.button == PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left && GameManager.Instance.matchManager.CanPlayCard())
         {
             GameManager.Instance.cardManager.ClosePreview();
             parent.GetComponent<Card>().PlayingCard();
@@ -31,6 +29,11 @@ public class CardPreview : MonoBehaviour, IPointerDownHandler
             cardUI.Click();
             Destroy(parent, .2f);
         }
+        else if ((eventData.button == PointerEventData.InputButton.Left && !GameManager.Instance.matchManager.CanPlayCard()) || eventData.button == PointerEventData.InputButton.Right)
+        {
+            GameManager.Instance.cardManager.ClosePreview();
+        }
+
     }
 
     #region Unity Event

@@ -38,10 +38,9 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
     public void OnPointerDown(PointerEventData eventData)
     {
 
-        if (eventData.button == PointerEventData.InputButton.Left)
+        if (eventData.button == PointerEventData.InputButton.Left && GameManager.Instance.matchManager.CanPlayCard())
         {
-            if(!GameManager.Instance.matchManager.CanPlayCard()) return;
-            
+
             GameManager.Instance.cardManager.ClosePreview();
             cardUI.Click();
 
@@ -49,7 +48,9 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IP
         }
 
         if (eventData.button == PointerEventData.InputButton.Right)
+        {
             GameManager.Instance.cardManager.Preview(this);
+        }
     }
     #endregion
 
