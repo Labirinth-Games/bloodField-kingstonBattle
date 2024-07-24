@@ -124,7 +124,16 @@ namespace Miniatures
 
         public void SetInactive() => _isFinishAction = true;
         public void SetActive() => _isFinishAction = true;
+        public void AddHP(int val)
+        {
+            _hp += val;
 
+            if (_hp <= 0)
+            {
+                transform.DOScale(1.4f, .1f).SetLoops(2, LoopType.Yoyo);
+                Die();
+            }
+        }
         public virtual bool CanAddOnBoard((int y, int x) position) => true;
         #endregion
 

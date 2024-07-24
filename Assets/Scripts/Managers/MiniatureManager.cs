@@ -30,11 +30,26 @@ namespace BloodField.Managers
         public void SetCurrentMiniature(Miniature miniature) => _currentMiniature = miniature;
         public Miniature GetCurrentMiniature() => _currentMiniature;
 
+        /// <summary>
+        /// this additional stats is used when create a new miniature, is used like references
+        /// to receive same stats than the others
+        /// </summary>
         public List<AdditionalStatsDTO> GetAdditionalStats() => _additionalStats;
-        public void UpdateAddionalStats(ArmyTypeEnum armyType, StatsTypeEnum statsType, int value) =>
-            _additionalStats
-                .FindAll(f => f.type == armyType)
-                .ForEach(f => f.stats[statsType] += value);
+        public void UpdateAddionalStats(ArmyTypeEnum armyType, StatsTypeEnum statsType, int value)
+        {
+            var armyStats = _additionalStats.Find(f => f.type == armyType);
+
+            if (armyStats is null)
+            {
+                var dictStats = new AdditionalStatsDTO(armyType);
+                dictStats.stats[statsType] += value;
+
+                _additionalStats.Add(dictStats);
+                return;
+            }
+
+            armyStats.stats[statsType] += value;
+        }
         #endregion
 
         public void Build(CardSO stats)
@@ -47,7 +62,7 @@ namespace BloodField.Managers
                 return;
             };
 
-            MiniatureRender.Render(stats, prefab);            
+            MiniatureRender.Render(stats, prefab);
         }
 
         // private void LoadHost()

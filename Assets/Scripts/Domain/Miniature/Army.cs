@@ -16,7 +16,10 @@ namespace Miniatures
                 .ForEach(additionalStats =>
                 {
                     foreach (var stat in additionalStats.stats)
+                    {
                         stats.additionalStats[stat.Key] = stat.Value;
+                        if(stat.Key == Enums.StatsTypeEnum.DEF) AddHP(stat.Value);
+                    }
                 });
         }
         #endregion
@@ -24,7 +27,6 @@ namespace Miniatures
         public override void OnCreate(CardSO card, string ownerId, int y, int x)
         {
             base.OnCreate(card, ownerId, y, x);
-            
             ApplyAdditionalStats();
 
             // GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(GetComponent<SpriteRenderer>().sprite, new SpriteColors() { primary = stats.primaryColor, secundary = stats.secundaryColor });

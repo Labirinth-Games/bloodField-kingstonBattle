@@ -86,12 +86,16 @@ namespace Miniatures
             {
                 // update all miniatures that already stay on table
                 GameManager.Instance.miniatureManager.GetMiniatures()
-                .FindAll(f => f.stats.type == CardTypeEnum.Army && f.stats.armyType == armyType)
-                .ForEach(miniature =>
-                {
-                    foreach (var additionalStats in stats.additionalStats)
-                        miniature.stats.additionalStats[additionalStats.Key] += additionalStats.Value * multiply;
-                });
+                    .FindAll(f => f.stats.type == CardTypeEnum.Army && f.stats.armyType == armyType)
+                    .ForEach(miniature =>
+                    {
+                        foreach (var additionalStats in stats.additionalStats)
+                        {
+                            miniature.stats.additionalStats[additionalStats.Key] += additionalStats.Value * multiply;
+
+                            if (additionalStats.Key == StatsTypeEnum.DEF) miniature.AddHP(additionalStats.Value * multiply);
+                        }
+                    });
 
                 // update reference to new miniatures
                 foreach (var additionalStats in stats.additionalStats)
