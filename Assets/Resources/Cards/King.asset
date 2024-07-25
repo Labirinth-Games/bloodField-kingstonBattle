@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: King
   description: 
-  sprite: {fileID: -1724822148711148119, guid: ed4ab417e5d66294086dcc2f4e694020, type: 3}
+  primaryColor: {r: 0, g: 0, b: 0, a: 0}
+  secundaryColor: {r: 0, g: 0, b: 0, a: 0}
+  sprite: {fileID: 4865833193461296498, guid: 4393ae89fbf96254083e2a197f152a98, type: 3}
   type: 4
   equipamentType: 0
   armyType: 0

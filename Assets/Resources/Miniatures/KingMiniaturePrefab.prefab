@@ -27,13 +27,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5962164758390590720}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &9116393756366684401
 SpriteRenderer:
@@ -52,6 +52,9 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -76,7 +79,7 @@ SpriteRenderer:
   m_SortingLayerID: 249345543
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1724822148711148119, guid: ed4ab417e5d66294086dcc2f4e694020, type: 3}
+  m_Sprite: {fileID: 4865833193461296498, guid: 4393ae89fbf96254083e2a197f152a98, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -102,7 +105,6 @@ MonoBehaviour:
   miniaturePreviewHUDPrefab: {fileID: 7020397068233471694, guid: 31d2f22400416a4488c4a4a761c14b68, type: 3}
   signageUI: {fileID: 1564620221473730945}
   stats: {fileID: 11400000, guid: 68b054dc9705b034d8062c17ca674598, type: 2}
-  card: {fileID: 11400000, guid: 68b054dc9705b034d8062c17ca674598, type: 2}
 --- !u!114 &1564620221473730945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -155,7 +157,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.875, y: 1.0625}
+    oldSize: {x: 1.1875, y: 1.3125}
     newSize: {x: 0.875, y: 1.0625}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
