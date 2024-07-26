@@ -10,6 +10,7 @@ namespace HUD
     {
         [Header("References")]
         [SerializeField] private TextMeshProUGUI Title;
+        [SerializeField] private TextMeshProUGUI Description;
         [SerializeField] private Image image;
         [SerializeField] private TextMeshProUGUI ATKField;
         [SerializeField] private TextMeshProUGUI DEFField;
@@ -19,11 +20,16 @@ namespace HUD
         public void Render(CardSO cardStats, int hp)
         {
             Title.text = cardStats.title;
-            ATKField.text =   $"ATK   ---- {cardStats.GetATK()}";
-            DEFField.text =   $"DEF   ---- {hp}";
-            MOVField.text =   $"MOV   ---- {cardStats.GetMOV()}";
-            D_ATKField.text = $"D_ATK ---- {cardStats.GetD_ATK()}";
+            ATKField.text =     $"ATK   ---- {cardStats.GetATK()}";
+            DEFField.text =     $"DEF   ---- {hp}";
+            MOVField.text =     $"MOV   ---- {cardStats.GetMOV()}";
+            D_ATKField.text =   $"D_ATK ---- {cardStats.GetD_ATK()}";
             image.sprite = cardStats.sprite;
+
+            if (cardStats.type == Enums.CardTypeEnum.Equipament)
+            {
+                Description.text = cardStats.description;
+            }
         }
 
     }

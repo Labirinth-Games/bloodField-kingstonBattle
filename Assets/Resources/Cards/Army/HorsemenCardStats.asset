@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Cavaleiro que tem otima movimentacao e boa defesa.
   primaryColor: {r: 0.65882355, g: 0.24705884, b: 0.28235295, a: 1}
   secundaryColor: {r: 0.16470589, g: 0.1254902, b: 0.16470589, a: 1}
-  sprite: {fileID: -5334307125324478943, guid: 54f5933341bc646459f6c78a5ece8584, type: 3}
+  sprite: {fileID: -5352670390854010123, guid: 131407c1b4872434494ae3399183b178, type: 3}
   type: 0
   equipamentType: 0
   armyType: 3

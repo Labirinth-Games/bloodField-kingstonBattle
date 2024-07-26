@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6e20f3e2b68907042bb6ca9869b1b772
+guid: 5cbb53b643ee40a4dacf81ea6e091f64
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5415861628333400638
-    second: soldier-v2_0
+      213: 656662681236632824
+    second: lancer-v2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,23 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: soldier-v2_0
+      name: lancer-v2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 21
-        height: 19
+        height: 21
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2cdd4822b8ef6d4b0800000000000000
-      internalID: -5415861628333400638
+      spriteID: 8f47d5cba3fec1900800000000000000
+      internalID: 656662681236632824
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6562958a48d569943b3ff3cf9f267d2f
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      soldier-v2_0: -5415861628333400638
+      lancer-v2_0: 656662681236632824
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

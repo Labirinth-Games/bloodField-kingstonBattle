@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6e20f3e2b68907042bb6ca9869b1b772
+guid: 131407c1b4872434494ae3399183b178
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5415861628333400638
-    second: soldier-v2_0
+      213: -5352670390854010123
+    second: horseman-v2_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: soldier-v2_0
+      name: horseman-v2_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 21
-        height: 19
+        width: 23
+        height: 25
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2cdd4822b8ef6d4b0800000000000000
-      internalID: -5415861628333400638
+      spriteID: 5fa3561a3ae77b5b0800000000000000
+      internalID: -5352670390854010123
       vertices: []
       indices: 
       edges: []
@@ -125,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 6562958a48d569943b3ff3cf9f267d2f
+    spriteID: 7c92b50e2e49afe448e58747be15dc3a
     internalID: 0
     vertices: []
     indices: 
@@ -135,7 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      soldier-v2_0: -5415861628333400638
+      horseman-v2_0: -5352670390854010123
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: BlacksmithCardStats
   m_EditorClassIdentifier: 
   title: Blacksmith
-  description: Tenda de ferreiro
+  description: Soldado e Lanceiro recebe ATK +1 DEF +1
+  primaryColor: {r: 0, g: 0, b: 0, a: 0}
+  secundaryColor: {r: 0, g: 0, b: 0, a: 0}
   sprite: {fileID: -8337281393119725202, guid: fa4fcfc80dcda6d48bc63437f330cadd, type: 3}
   type: 3
   equipamentType: 3

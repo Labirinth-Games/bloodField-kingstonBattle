@@ -96,5 +96,19 @@ namespace BloodField.Managers
             );
         }
         #endregion
+
+        #region Game
+        public event Action OnGameLose;
+        public void GameLoseEvent()
+        {
+            if (OnGameLose != null) OnGameLose();
+        }
+
+        public event Action OnGameWin;
+        public void GameWinEvent()
+        {
+            if (OnGameWin != null) OnGameWin();
+        }
+        #endregion
     }
 }

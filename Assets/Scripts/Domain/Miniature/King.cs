@@ -2,6 +2,7 @@ using Enums;
 using BloodField.Managers;
 using Miniatures;
 using Tiles;
+using UnityEngine;
 
 public class King : Miniature
 {
@@ -15,10 +16,20 @@ public class King : Miniature
 
         self = GameManager.Instance.mapManager.Register(new Tile(TileTypeEnum.King, gameObject), pos);
         self.SetPositionOnWorld();
-        SetReady();
-        Subscribers();
 
         stats = Instantiate(card);
         _hp = stats.GetDEF();
+        
+        GetComponent<SpriteRenderer>().sprite = card.sprite;
+        
+        SetReady();
+        Subscribers();
+    }
+
+    public override void Die()
+    {
+        base.Die();
+
+        GameManager.Instance.eventManager.GameLoseEvent();
     }
 }

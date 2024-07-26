@@ -6,6 +6,8 @@ namespace BloodField.Managers
     {
         [SerializeField] private GameObject ScreenLobby;
         [SerializeField] private GameObject ScreenGame;
+        [SerializeField] private GameObject ScreenGameLose;
+        [SerializeField] private GameObject ScreenGameWin;
 
         public void GameScreenShow()
         {
@@ -16,6 +18,23 @@ namespace BloodField.Managers
         {
             ScreenLobby.SetActive(true);
             ScreenGame.SetActive(false);
+        }
+
+        #region Events
+        private void OnGameLose()
+        {
+            ScreenGameLose.SetActive(true);
+        }
+        private void OnGameWin()
+        {
+            ScreenGameWin.SetActive(true);
+        }
+        #endregion
+
+        void Start()
+        {
+            GameManager.Instance.eventManager.OnGameLose += OnGameLose;
+            GameManager.Instance.eventManager.OnGameWin += OnGameWin;
         }
     }
 }

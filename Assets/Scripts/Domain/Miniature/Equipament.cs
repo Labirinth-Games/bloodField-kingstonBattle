@@ -4,6 +4,8 @@ using BloodField.Managers;
 using Render;
 using System.Collections.Generic;
 using UnityEngine;
+using BloodField.Helpers;
+using System.Linq;
 
 namespace Miniatures
 {
@@ -63,6 +65,21 @@ namespace Miniatures
 
         public override void AddOnBoard((int y, int x) pos)
         {
+            // apply ui when add equipament with status to player show
+            if (stats.equipamentType == EquipamentTypeEnum.Moral)
+            {
+                var i = 0;
+
+                foreach (var status in stats.additionalStats)
+                {
+                    if (status.Value != 0)
+                    {
+                        UIHelper.AdditionalStatsUIRender($"{status.Key} +{status.Value}", gameObject, i);
+                        i++;
+                    }
+                }
+            }
+
             base.AddOnBoard(pos);
             ApplyEffects();
         }

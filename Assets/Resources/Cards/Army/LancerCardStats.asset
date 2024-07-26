@@ -16,7 +16,7 @@ MonoBehaviour:
   description: "Esse \xE9 um guerreiro com ataques de media distancia."
   primaryColor: {r: 0.65882355, g: 0.24705884, b: 0.28235295, a: 1}
   secundaryColor: {r: 0, g: 0, b: 0, a: 1}
-  sprite: {fileID: 6060888893177541482, guid: 34a8cae984f64d24d8abe2cde2e457dd, type: 3}
+  sprite: {fileID: 656662681236632824, guid: 5cbb53b643ee40a4dacf81ea6e091f64, type: 3}
   type: 0
   equipamentType: 0
   armyType: 2
