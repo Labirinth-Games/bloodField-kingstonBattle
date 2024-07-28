@@ -1,3 +1,4 @@
+using BloodField.HUD;
 using BloodField.Managers;
 using BloodField.Network;
 using Controls;
@@ -10,7 +11,8 @@ namespace BloodField.Managers
     public class GameManager : Utils.Singleton<GameManager>
     {
         [Header("Settings")]
-        public MatchConfigSO gameSettings;
+        public MatchConfigSO MatchSettings;
+        public GameConfigSO GameSettings;
         public bool isDebug = false;
 
         [Header("References")]
@@ -28,6 +30,7 @@ namespace BloodField.Managers
         public EventManager eventManager;
         public LobbyManager lobbyManager;
         public ScreenManager screenManager;
+        public LogHUD logHUD;
 
         public string UserId { get; private set; }
         public bool IsLocal { get; private set; } = false;

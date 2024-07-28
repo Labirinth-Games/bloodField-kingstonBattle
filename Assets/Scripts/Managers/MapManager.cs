@@ -53,7 +53,7 @@ namespace BloodField.Managers
 
         public void Load()
         {
-            _size = GameManager.Instance.gameSettings.MapSize;
+            _size = GameManager.Instance.MatchSettings.MapSize;
             _map = mapGenerate.Build(_size, _size);
 
             MapRender.FloorRender(_map, floorPrefabs, baseSpawnSprites, spawnAreaScale);

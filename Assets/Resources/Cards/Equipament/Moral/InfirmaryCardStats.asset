@@ -14,10 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Infirmary
   description: Soldados recebem DEF +1
-  sprite: {fileID: 4146719202606272858, guid: b2d0b186982651e459bd7aec72fdd058, type: 3}
+  primaryColor: {r: 0, g: 0, b: 0, a: 0}
+  secundaryColor: {r: 0, g: 0, b: 0, a: 0}
+  sprite: {fileID: 4146719202606272858, guid: 932a1b2f6b6302149992655c6e5dcf62, type: 3}
   type: 3
   equipamentType: 3
   armyType: 0
+  canApplyEffectToAllMap: 0
+  width: 0
+  height: 0
+  turnDuration: 0
+  effectSprite: {fileID: 0}
+  effectVFX: {fileID: 0}
   direction: 0
   ATK: 0
   DEF: 2

@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Catapult
   description: "Catapulta lan\xE7adora de pedras"
-  sprite: {fileID: -154139334052807852, guid: 695df40f83950ac458e24ab658cbe56c, type: 3}
+  primaryColor: {r: 0, g: 0, b: 0, a: 0}
+  secundaryColor: {r: 0, g: 0, b: 0, a: 0}
+  sprite: {fileID: 2077522812486260945, guid: f702e63d8be48a041bd2791346fa0c4c, type: 3}
   type: 3
   equipamentType: 1
   armyType: 0

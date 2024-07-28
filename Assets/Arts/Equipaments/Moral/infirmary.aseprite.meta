@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e5b7208aa66eba543ad81bb8917ffbfb
+guid: 097a18f12aafe1e41a5627a735b3d454
 ScriptedImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -122,9 +122,9 @@ ScriptedImporter:
     tessellationDetail: 0
     uvTransform: {x: 0, y: 0}
   animatedSpriteImportData:
-  - name: blacksmith
+  - name: infirmary
     originalName: 
-    pivot: {x: 0.4666667, y: 0}
+    pivot: {x: 0.5, y: 0}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -132,9 +132,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 15
-      height: 12
-    spriteID: 1e1ef7fd62330314bbf787caff8e9406
+      width: 16
+      height: 15
+    spriteID: 7862e2c0988c1dd46bffe55b42366364
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -146,21 +146,21 @@ ScriptedImporter:
   spriteSheetImportData: []
   asepriteLayers:
   - layerIndex: 0
-    guid: -445788580
-    name: blacksmith
+    guid: 189731901
+    name: infirmary
     layerFlags: 0
     layerType: 0
     blendMode: 0
     cells:
-    - name: blacksmith
+    - name: infirmary
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 1
+        x: 0
         y: 0
-        width: 15
-        height: 12
-      spriteId: 1e1ef7fd62330314bbf787caff8e9406
+        width: 16
+        height: 15
+      spriteId: 7862e2c0988c1dd46bffe55b42366364
     linkedCells: []
     parentIndex: -1
   platformSettings: []

@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Soldado e Lanceiro recebe ATK +1 DEF +1
   primaryColor: {r: 0, g: 0, b: 0, a: 0}
   secundaryColor: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: -8337281393119725202, guid: fa4fcfc80dcda6d48bc63437f330cadd, type: 3}
+  sprite: {fileID: -8337281393119725202, guid: 79bd55c6481145f4fb16f017336ad987, type: 3}
   type: 3
   equipamentType: 3
   armyType: 0

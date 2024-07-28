@@ -78,6 +78,9 @@ namespace Miniatures
                         i++;
                     }
                 }
+
+                // show message on log
+                GameManager.Instance.logHUD.AddMessage(stats.description);
             }
 
             base.AddOnBoard(pos);

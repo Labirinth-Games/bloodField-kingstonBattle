@@ -12,7 +12,7 @@ namespace BloodField.Managers
     {
         private PlayerMatchDTO _player;
 
-        public bool CanPlayCardPrepadation() => _player?.amountUsedCards < GameManager.Instance.gameSettings.amountDrawCardOnPreparation;
+        public bool CanPlayCardPrepadation() => _player?.amountUsedCards < GameManager.Instance.MatchSettings.amountDrawCardOnPreparation;
 
         public void EndTurnPreparation()
         {
@@ -38,7 +38,7 @@ namespace BloodField.Managers
         {
             _player = GameManager.Instance.matchManager.Players.Find(f => f.userId == GameManager.Instance.UserId);
 
-            await GameManager.Instance.deckManager.Draw(GameManager.Instance.gameSettings.initialAmountInHand);
+            await GameManager.Instance.deckManager.Draw(GameManager.Instance.MatchSettings.initialAmountInHand);
 
             GameManager.Instance.player.Load();
             

@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Estabulo para os cavalos, toda cavalaria recebe MOV +1
   primaryColor: {r: 0, g: 0, b: 0, a: 0}
   secundaryColor: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: 986900826726659170, guid: 90be3cacd3fa8f34f8616fbda4660c80, type: 3}
+  sprite: {fileID: -6268145101336051208, guid: e64719ee1217b2c43a98d708e4c3b3f1, type: 3}
   type: 3
   equipamentType: 3
   armyType: 0

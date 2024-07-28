@@ -11,7 +11,7 @@ namespace Generators
         public List<CardSO> Deck()
         {
             List<CardSO> deck = new List<CardSO>();
-            MatchConfigSO matchConfig = GameManager.Instance.gameSettings;
+            MatchConfigSO matchConfig = GameManager.Instance.MatchSettings;
 
             foreach (var card in matchConfig.DeckCardTypeAmount)
             {

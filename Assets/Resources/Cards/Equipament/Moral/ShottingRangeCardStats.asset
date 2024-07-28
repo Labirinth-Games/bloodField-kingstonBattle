@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Arqueiros recebem D-ATK +1
   primaryColor: {r: 0, g: 0, b: 0, a: 0}
   secundaryColor: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: -8166646595793821193, guid: bf52831781573674883a7b1e00eaf72f, type: 3}
+  sprite: {fileID: -8166646595793821193, guid: 3a365a2292dbdce459e5af858d44b5b0, type: 3}
   type: 3
   equipamentType: 3
   armyType: 0

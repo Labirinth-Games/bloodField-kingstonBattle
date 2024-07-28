@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Mesa com comida para o exercito, aumenta ATK +1 para os soldados.
   primaryColor: {r: 0, g: 0, b: 0, a: 0}
   secundaryColor: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: -5018212588140289544, guid: 83ee9c82bfb193e478709d462d731b17, type: 3}
+  sprite: {fileID: -5018212588140289544, guid: 72f6908c35333bc43b0bde16cb6313e5, type: 3}
   type: 3
   equipamentType: 3
   armyType: 0

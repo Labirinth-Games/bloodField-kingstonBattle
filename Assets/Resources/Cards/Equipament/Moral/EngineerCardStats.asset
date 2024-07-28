@@ -16,7 +16,7 @@ MonoBehaviour:
   description: Equipamentos de ataque recebem ATK +1
   primaryColor: {r: 0, g: 0, b: 0, a: 0}
   secundaryColor: {r: 0, g: 0, b: 0, a: 0}
-  sprite: {fileID: 2835228289332977979, guid: 8f882be917af9f242983c3efb172789d, type: 3}
+  sprite: {fileID: 2835228289332977979, guid: c09b8dd89ac12434e8926897e0a0b475, type: 3}
   type: 3
   equipamentType: 3
   armyType: 0

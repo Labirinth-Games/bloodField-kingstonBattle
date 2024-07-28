@@ -13,7 +13,7 @@ namespace BloodField.Managers
 
         #region Gets/Sets
         public bool IsMyTurn() => _player.isMyTurn;
-        public bool CanPlayCard() => _player.amountUsedCards < GameManager.Instance.gameSettings.amountDrawCardOnGameplay && IsMyTurn();
+        public bool CanPlayCard() => _player.amountUsedCards < GameManager.Instance.MatchSettings.amountDrawCardOnGameplay && IsMyTurn();
         public bool HasMiniatureToPlay() => !_player.isAllMiniatureFinishActions;
 
         private void OnCardUsed()
