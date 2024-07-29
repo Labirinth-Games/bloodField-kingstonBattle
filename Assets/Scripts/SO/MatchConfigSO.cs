@@ -1,5 +1,5 @@
 using AYellowpaper.SerializedCollections;
-using Enums;
+using BloodField.Types;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,7 +22,7 @@ public class MatchConfigSO : ScriptableObject
     [Space()]
     [Header("Settings Deck")]
     [SerializedDictionary("Card Type", "Amount")]
-    public SerializedDictionary<CardTypeEnum, int> DeckCardTypeAmount;
+    public SerializedDictionary<CardType, int> DeckCardTypeAmount;
 
     public int deckAmount = 0;
 

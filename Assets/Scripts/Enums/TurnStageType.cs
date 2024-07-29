@@ -1,5 +1,6 @@
-namespace Enums {
-    public enum TurnStageEnum
+namespace BloodField.Types
+{
+    public enum TurnStageType
     {
         None,
         Preparation,

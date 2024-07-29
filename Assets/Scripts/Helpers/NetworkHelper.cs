@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
-using BloodField.Enums;
+using BloodField.Types;
 using BloodField.Managers;
 using BloodField.Network.Entities;
 using Nakama;

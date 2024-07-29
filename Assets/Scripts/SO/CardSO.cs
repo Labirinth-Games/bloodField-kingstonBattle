@@ -1,5 +1,5 @@
 using System;
-using Enums;
+using BloodField.Types;
 using Commands;
 using UnityEngine;
 using CustomAttributes;
@@ -23,80 +23,80 @@ public class CardSO : ScriptableObject
 
     [Space()]
     [Header("Setting")]
-    public CardTypeEnum type;
+    public CardType type;
 
 
     // settings to equipaments
 
-    [ConditionalItem(nameof(type), CardTypeEnum.Equipament)]
-    public EquipamentTypeEnum equipamentType;
+    [ConditionalItem(nameof(type), CardType.Equipament)]
+    public EquipamentType equipamentType;
 
-    [ConditionalItem(nameof(type), CardTypeEnum.Equipament)]
+    [ConditionalItem(nameof(type), CardType.Equipament)]
     public bool isIndestructible = false;
 
     // settings to armary
 
-    [ConditionalItem(nameof(type), CardTypeEnum.Army)]
-    public ArmyTypeEnum armyType;
+    [ConditionalItem(nameof(type), CardType.Army)]
+    public ArmyType armyType;
 
     // settings to terrain
     
-    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    [ConditionalItem(nameof(type), CardType.Terrain)]
     public bool canApplyEffectToAllMap;
-    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    [ConditionalItem(nameof(type), CardType.Terrain)]
     public int width;
-    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    [ConditionalItem(nameof(type), CardType.Terrain)]
     public int height;
-    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    [ConditionalItem(nameof(type), CardType.Terrain)]
     public int turnDuration;
-    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    [ConditionalItem(nameof(type), CardType.Terrain)]
     public Sprite effectSprite;
-    [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
+    [ConditionalItem(nameof(type), CardType.Terrain)]
     public ParticleSystem effectVFX;
 
 
     [Space()]
     [Header("Stats")]
-    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
-    public ScanDirectionTypeEnum direction;
+    [ConditionalItem(nameof(type), new object[] { CardType.Army, CardType.Equipament, CardType.King })]
+    public ScanDirectionType direction;
 
-    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
+    [ConditionalItem(nameof(type), new object[] { CardType.Army, CardType.Equipament, CardType.King })]
     public int ATK;
-    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
+    [ConditionalItem(nameof(type), new object[] { CardType.Army, CardType.Equipament, CardType.King })]
     public int DEF;
-    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
+    [ConditionalItem(nameof(type), new object[] { CardType.Army, CardType.Equipament, CardType.King })]
     public int MOV;
-    [ConditionalItem(nameof(type), new object[] { CardTypeEnum.Army, CardTypeEnum.Equipament, CardTypeEnum.King })]
+    [ConditionalItem(nameof(type), new object[] { CardType.Army, CardType.Equipament, CardType.King })]
     public int D_ATK;
 
-    [ConditionalItem(nameof(type), CardTypeEnum.Army)]
+    [ConditionalItem(nameof(type), CardType.Army)]
     public bool isGroup;
 
-    [ConditionalItem(nameof(type), CardTypeEnum.Command)]
+    [ConditionalItem(nameof(type), CardType.Command)]
     public ActionCommand commandScript;
 
     [Space()]
     [Header("Effects")]
     [Space()]
     [SerializedDictionary("Prop Name", "value")]
-    public SerializedDictionary<StatsTypeEnum, int> additionalStats = new SerializedDictionary<StatsTypeEnum, int>() {
-        {StatsTypeEnum.ATK, 0},
-        {StatsTypeEnum.DEF, 0},
-        {StatsTypeEnum.MOV, 0},
-        {StatsTypeEnum.D_ATK, 0},
+    public SerializedDictionary<StatsType, int> additionalStats = new SerializedDictionary<StatsType, int>() {
+        {StatsType.ATK, 0},
+        {StatsType.DEF, 0},
+        {StatsType.MOV, 0},
+        {StatsType.D_ATK, 0},
     };
-    public List<ArmyTypeEnum> targets;
+    public List<ArmyType> targets;
 
-    private int GetValue(StatsTypeEnum statsType, int baseValue)
+    private int GetValue(StatsType statsType, int baseValue)
     {
         int value;
-        if (additionalStats.TryGetValue(statsType, out value) && type == CardTypeEnum.Army)
+        if (additionalStats.TryGetValue(statsType, out value) && type == CardType.Army)
             return baseValue + value;
 
         return baseValue;
     }
-    public int GetATK() => GetValue(StatsTypeEnum.ATK, ATK);
-    public int GetDEF() => GetValue(StatsTypeEnum.DEF, DEF);
-    public int GetMOV() => GetValue(StatsTypeEnum.MOV, MOV);
-    public int GetD_ATK() => GetValue(StatsTypeEnum.D_ATK, D_ATK);
+    public int GetATK() => GetValue(StatsType.ATK, ATK);
+    public int GetDEF() => GetValue(StatsType.DEF, DEF);
+    public int GetMOV() => GetValue(StatsType.MOV, MOV);
+    public int GetD_ATK() => GetValue(StatsType.D_ATK, D_ATK);
 }

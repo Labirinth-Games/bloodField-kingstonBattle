@@ -1,5 +1,6 @@
-namespace Enums {
-    public enum ScanDirectionTypeEnum
+namespace BloodField.Types
+{
+    public enum ScanDirectionType
     {
         None,
         Ring,

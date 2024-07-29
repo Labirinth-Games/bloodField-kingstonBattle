@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using CustomAttributes;
 using UnityEditor.Rendering;
-using Enums;
+using BloodField.Types;
 using System;
 using System.Linq;
 

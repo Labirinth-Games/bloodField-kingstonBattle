@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using Enums;
+using BloodField.Types;
 
 namespace BloodField.Network.Entities
 {
     [Serializable]
     public class TurnNetworkEntity : AuthorityNetworkEntity
     {
-        public TurnStageEnum turnStage;
+        public TurnStageType turnStage;
         public string currentTurnPlayerId;
     }
 }

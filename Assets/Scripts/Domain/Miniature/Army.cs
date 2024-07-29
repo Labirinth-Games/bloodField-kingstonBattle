@@ -18,7 +18,7 @@ namespace Miniatures
                     foreach (var stat in additionalStats.stats)
                     {
                         stats.additionalStats[stat.Key] = stat.Value;
-                        if(stat.Key == Enums.StatsTypeEnum.DEF) AddHP(stat.Value);
+                        if(stat.Key == BloodField.Types.StatsType.DEF) AddHP(stat.Value);
                     }
                 });
         }

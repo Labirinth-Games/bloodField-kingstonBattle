@@ -1,4 +1,4 @@
-﻿using Enums;
+﻿using BloodField.Types;
 using Generators;
 using Render;
 using System.Collections.Generic;
@@ -97,11 +97,11 @@ namespace BloodField.Managers
 
                 // idealmente sempre deixar um tile none para referencia de vazio
                 if (_map[tile.position.y, tile.position.x].Count == 0)
-                    _map[tile.position.y, tile.position.x].Add(new Tile(tile.position.y, tile.position.x, TileTypeEnum.None));
+                    _map[tile.position.y, tile.position.x].Add(new Tile(tile.position.y, tile.position.x, TileType.None));
             }
         }
 
-        public void Unregister(TileTypeEnum tileType, (int y, int x) position)
+        public void Unregister(TileType tileType, (int y, int x) position)
         {
             Tile tile = FindByPosition(position).Find(f => f.type == tileType);
             
@@ -113,7 +113,7 @@ namespace BloodField.Managers
 
                 // idealmente sempre deixar um tile none para referencia de vazio
                 if (_map[tile.position.y, tile.position.x].Count == 0)
-                    _map[tile.position.y, tile.position.x].Add(new Tile(tile.position.y, tile.position.x, TileTypeEnum.None));
+                    _map[tile.position.y, tile.position.x].Add(new Tile(tile.position.y, tile.position.x, TileType.None));
             }
         }
 

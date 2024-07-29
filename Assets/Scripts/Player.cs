@@ -4,7 +4,7 @@ using UnityEngine;
 using Render;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
-using BloodField.Enums;
+using BloodField.Types;
 using Nakama;
 
 public class Player : MonoBehaviour

@@ -2,29 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using BloodField.Managers;
+using BloodField.SO;
+using BloodField.Types;
 using Tiles;
 using UnityEngine;
 
 public class SignageUI : MonoBehaviour
 {
-    [SerializeField] private Sprite moveOverlayerSprite;
-    [SerializeField] private Sprite reachOverlayerSprite;
+    [SerializeField] private OverlayerConfigSO overlayerSprite;
 
     private List<GameObject> _instances = new List<GameObject>();
 
-    public void OverlayAttack(List<Tile> tiles) {
-        MarkUI(tiles, reachOverlayerSprite, true);
+    public void Overlay(List<Tile> tiles, OverlayerType overlayerType, bool isOpacity = false) {
+        MarkUI(tiles, overlayerSprite.GetSprite(overlayerType), isOpacity);
     }
 
-    public void OverlayAttack(List<(int y, int x)> positions)
+    public void Overlay(List<(int y, int x)> positions, OverlayerType overlayerType, bool isOpacity = false)
     {
         List<Tile> tiles = positions.Select(f => new Tile(f.y, f.x)).ToList();
-        MarkUI(tiles, reachOverlayerSprite, true);
-    }
-
-    public void OverlayMove(List<Tile> tiles)
-    {
-        MarkUI(tiles, moveOverlayerSprite);
+        MarkUI(tiles, overlayerSprite.GetSprite(overlayerType), isOpacity);
     }
 
     private void MarkUI(List<Tile> tiles, Sprite sprite, bool isOpacity = false)

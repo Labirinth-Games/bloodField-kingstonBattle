@@ -1,6 +1,6 @@
-namespace Enums
+namespace BloodField.Types
 {
-    public enum ArmyTypeEnum
+    public enum ArmyType
     {
         Soldier,
         Archer,

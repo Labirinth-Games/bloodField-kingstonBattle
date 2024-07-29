@@ -1,4 +1,4 @@
-using Enums;
+using BloodField.Types;
 using BloodField.Managers;
 using Miniatures;
 using Tiles;
@@ -14,7 +14,7 @@ public class King : Miniature
         if (!IsOwner())
             pos = GameManager.Instance.mapManager.ReflexPosition(pos);
 
-        self = GameManager.Instance.mapManager.Register(new Tile(TileTypeEnum.King, gameObject), pos);
+        self = GameManager.Instance.mapManager.Register(new Tile(TileType.King, gameObject), pos);
         self.SetPositionOnWorld();
 
         stats = Instantiate(card);

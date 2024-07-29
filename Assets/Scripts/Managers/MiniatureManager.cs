@@ -1,6 +1,6 @@
 using AYellowpaper.SerializedCollections;
 using BloodField.DTO;
-using Enums;
+using BloodField.Types;
 using Miniatures;
 using Render;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ namespace BloodField.Managers
     public class MiniatureManager : MonoBehaviour
     {
         [SerializedDictionary("Card Type", "prefab")]
-        public SerializedDictionary<CardTypeEnum, GameObject> miniaturePrefabs;
+        public SerializedDictionary<CardType, GameObject> miniaturePrefabs;
 
         private List<Miniature> _miniatures = new List<Miniature>();
         private Miniature _currentMiniature = null;
@@ -35,7 +35,7 @@ namespace BloodField.Managers
         /// to receive same stats than the others
         /// </summary>
         public List<AdditionalStatsDTO> GetAdditionalStats() => _additionalStats;
-        public void UpdateAddionalStats(ArmyTypeEnum armyType, StatsTypeEnum statsType, int value)
+        public void UpdateAddionalStats(ArmyType armyType, StatsType statsType, int value)
         {
             var armyStats = _additionalStats.Find(f => f.type == armyType);
 

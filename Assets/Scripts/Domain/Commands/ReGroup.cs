@@ -1,4 +1,4 @@
-using Enums;
+using BloodField.Types;
 using Helpers;
 using BloodField.Managers;
 using Miniatures;
@@ -16,10 +16,10 @@ namespace Commands
         #region Strategy
         private void MoveArmy((int y, int x) pos)
         {
-            _miniatures = GameManager.Instance.miniatureManager.GetMiniatures().FindAll(f => f.stats.type == CardTypeEnum.Army);
+            _miniatures = GameManager.Instance.miniatureManager.GetMiniatures().FindAll(f => f.stats.type == CardType.Army);
             int miniatureIndex = 0;
 
-            var tiles = ScanHelper.Scan(new Tile(pos.y, pos.x, TileTypeEnum.None), ScanDirectionTypeEnum.Ring, 1);
+            var tiles = ScanHelper.Scan(new Tile(pos.y, pos.x, TileType.None), ScanDirectionType.Ring, 1);
             tiles.Reverse();
 
             RegrupmentRecursive(tiles, miniatureIndex);
@@ -42,7 +42,7 @@ namespace Commands
             }
 
             var randomTile = tiles[Random.Range(0, tiles.Count)];
-            RegrupmentRecursive(ScanHelper.Scan(new Tile(randomTile.position.y, randomTile.position.x), ScanDirectionTypeEnum.Ring, 1), miniatureIndex);
+            RegrupmentRecursive(ScanHelper.Scan(new Tile(randomTile.position.y, randomTile.position.x), ScanDirectionType.Ring, 1), miniatureIndex);
         }
         #endregion
 

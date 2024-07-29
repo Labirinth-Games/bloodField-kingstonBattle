@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using Tiles;
 using UnityEngine;
 using Nakama;
-using BloodField.Enums;
+using BloodField.Types;
 using System.Text;
 using Nakama.TinyJson;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
 using UnityEngine.UIElements;
+using System;
 
 namespace Miniatures
 {
@@ -54,10 +55,10 @@ namespace Miniatures
                 GameManager.Instance.miniatureManager.SetCurrentMiniature(this);
 
                 _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.GetD_ATK(), true);
-                signageUI.OverlayAttack(_tilesToAttack);
+                signageUI.Overlay(_tilesToAttack, OverlayerType.Attack, true);
 
                 _tilesToMove = ScanHelper.Scan(self, stats.direction, stats.GetMOV());
-                signageUI.OverlayMove(_tilesToMove);
+                signageUI.Overlay(_tilesToMove, OverlayerType.Move);
 
                 return true;
             }
@@ -75,7 +76,7 @@ namespace Miniatures
             var pos = self.MoveTo(position);
 
             await NetworkHelper.Send<MiniatureNetworkEntity>(
-                OpCodeEnum.MINIATURE_MOVE,
+                OpCodeType.MINIATURE_MOVE,
                 new MiniatureNetworkEntity
                 {
                     x = (int)pos.x,
@@ -179,9 +180,14 @@ namespace Miniatures
                     {
                         var terrainStats = terrain.gameObject.GetComponent<Miniature>().stats.additionalStats;
                         var myStats = stats.additionalStats;
+                        int i = 0;
 
                         foreach (var stat in terrainStats)
+                        {
                             myStats[stat.Key] += stat.Value * multiply;
+                            UIHelper.AdditionalStatsUIRender($"{stat.Key} {(multiply<0?"+":"-")}{Math.Abs(stat.Value)}", gameObject, i);
+                            i++;
+                        }
                     });
 
             Debuff(lastPosition, -1); // verify and remove debuff when exit lastTile
@@ -198,7 +204,7 @@ namespace Miniatures
 
             switch (matchState.OpCode)
             {
-                case OpCodeEnum.MINIATURE_MOVE:
+                case OpCodeType.MINIATURE_MOVE:
                     if (!isOwner)
                     {
                         MiniatureNetworkEntity miniature = JsonParser.FromJson<MiniatureNetworkEntity>(jsonUtf8);
@@ -251,6 +257,12 @@ namespace Miniatures
         {
             self.MoveTo(pos);
             SetReady();
+        }
+
+        void OnDestroy()
+        {
+            GameManager.Instance.eventManager.OnStartMyTurn -= MyTurn;
+            GameManager.Instance.eventManager.OnReceivedMatchState -= OnReceivedMatchState;
         }
 
         public virtual void OnCreate(CardSO card, string ownerId, int y, int x)

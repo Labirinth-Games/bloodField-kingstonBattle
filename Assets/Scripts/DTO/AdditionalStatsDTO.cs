@@ -1,24 +1,24 @@
 using System;
 using System.Collections.Generic;
-using Enums;
+using BloodField.Types;
 
 namespace BloodField.DTO
 {
     [System.Serializable]
     public class AdditionalStatsDTO
     {
-        public ArmyTypeEnum type;
-        public Dictionary<StatsTypeEnum, int> stats;
+        public ArmyType type;
+        public Dictionary<StatsType, int> stats;
 
-        public AdditionalStatsDTO(ArmyTypeEnum type)
+        public AdditionalStatsDTO(ArmyType type)
         {
             this.type = type;
-            stats = new Dictionary<StatsTypeEnum, int>();
+            stats = new Dictionary<StatsType, int>();
 
-            var enumValues = Enum.GetValues(typeof(StatsTypeEnum));
+            var enumValues = Enum.GetValues(typeof(StatsType));
             for (var i = 0; i < enumValues.GetLength(0); i++)
             {
-                stats.Add((StatsTypeEnum)enumValues.GetValue(i), 0);
+                stats.Add((StatsType)enumValues.GetValue(i), 0);
             }
         }
     }

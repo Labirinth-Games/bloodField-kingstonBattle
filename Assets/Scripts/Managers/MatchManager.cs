@@ -1,5 +1,5 @@
 using BloodField.DTO;
-using BloodField.Enums;
+using BloodField.Types;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
 using Nakama;
@@ -12,14 +12,14 @@ namespace BloodField.Managers
     public class MatchManager : MonoBehaviour
     {
         public List<PlayerMatchDTO> Players { get; private set; } = new List<PlayerMatchDTO>();
-        public PhaseEnum MatchPhase { get; private set; }
+        public PhaseType MatchPhase { get; private set; }
         public string MatchId { get; private set; }
         public bool IsFinishGame { get; private set; } = false;
 
         #region Gets/Sets
         public void SetIsFinishGame(bool val) => IsFinishGame = val;
-        public bool IsPreparationPhase() => MatchPhase == PhaseEnum.Preparation;
-        public bool IsMainPhase() => MatchPhase == PhaseEnum.Main;
+        public bool IsPreparationPhase() => MatchPhase == PhaseType.Preparation;
+        public bool IsMainPhase() => MatchPhase == PhaseType.Main;
         public bool IsReadyPreparationPhasePlayer() => Players.Exists(e => e.isFinishPreparation && e.userId == GameManager.Instance.UserId);
 
         public bool CanPlayCard()
@@ -46,18 +46,18 @@ namespace BloodField.Managers
         #region Network Events
         private void OnReceiveMatchState(IMatchState matchState)
         {
-            NetworkHelper.Listen<TurnNetworkEntity>(matchState, OpCodeEnum.TURN_PHASE_PREPARATION_READY, (content, isHost, isOwner) =>
+            NetworkHelper.Listen<TurnNetworkEntity>(matchState, OpCodeType.TURN_PHASE_PREPARATION_READY, (content, isHost, isOwner) =>
             {
                 if (isOwner) return;
 
                 var index = Players.FindIndex(f => f.userId == content.userId);
                 Players[index].isFinishPreparation = true;
-                Players[index].turnStage = PhaseEnum.Main;
+                Players[index].turnStage = PhaseType.Main;
 
                 ValidateAllPlayerFinishPreparationStage();
             });
 
-            NetworkHelper.Listen<MatchNetworkEntity>(matchState, OpCodeEnum.MATCH_LOAD, (content, isHost, isOwner) =>
+            NetworkHelper.Listen<MatchNetworkEntity>(matchState, OpCodeType.MATCH_LOAD, (content, isHost, isOwner) =>
             {
                 if (isOwner) return;
 
@@ -72,21 +72,21 @@ namespace BloodField.Managers
                 var myPlayer = Players.Find(f => f.userId == GameManager.Instance.UserId);
                 GameManager.Instance.turnManager.Load(myPlayer, Players.First());
 
-                MatchPhase = PhaseEnum.Preparation;
+                MatchPhase = PhaseType.Preparation;
             });
 
-            NetworkHelper.Listen<MatchNetworkEntity>(matchState, OpCodeEnum.MATCH_STATE, (content, isHost, isOwner) =>
+            NetworkHelper.Listen<MatchNetworkEntity>(matchState, OpCodeType.MATCH_STATE, (content, isHost, isOwner) =>
             {
                 if (isHost) return;
 
-                if (content.matchState == PhaseEnum.Main)
+                if (content.matchState == PhaseType.Main)
                 {
-                    MatchPhase = PhaseEnum.Main;
+                    MatchPhase = PhaseType.Main;
                     GameManager.Instance.eventManager.StartMainPhase();
                 }
             });
 
-            NetworkHelper.Listen<MatchNetworkEntity>(matchState, OpCodeEnum.MATCH_FINISH, (content, isHost, isOwner) =>
+            NetworkHelper.Listen<MatchNetworkEntity>(matchState, OpCodeType.MATCH_FINISH, (content, isHost, isOwner) =>
             {
                 if (isOwner) return;
 
@@ -100,8 +100,8 @@ namespace BloodField.Managers
         {
             if (!Players.All(p => p.isFinishPreparation)) return;
 
-            MatchPhase = PhaseEnum.Main;
-            await NetworkHelper.Send<MatchNetworkEntity>(OpCodeEnum.MATCH_STATE, new MatchNetworkEntity() { matchState = PhaseEnum.Main });
+            MatchPhase = PhaseType.Main;
+            await NetworkHelper.Send<MatchNetworkEntity>(OpCodeType.MATCH_STATE, new MatchNetworkEntity() { matchState = PhaseType.Main });
 
             GameManager.Instance.eventManager.StartMainPhase();
         }
@@ -111,7 +111,7 @@ namespace BloodField.Managers
         private async void OnFinishedPreparationPhase()
         {
             if (GameManager.Instance.IsHost) ValidateAllPlayerFinishPreparationStage();
-            else await NetworkHelper.Send<TurnNetworkEntity>(OpCodeEnum.TURN_PHASE_PREPARATION_READY, new TurnNetworkEntity() { });
+            else await NetworkHelper.Send<TurnNetworkEntity>(OpCodeType.TURN_PHASE_PREPARATION_READY, new TurnNetworkEntity() { });
         }
         #endregion
 
@@ -134,9 +134,9 @@ namespace BloodField.Managers
             var myPlayer = Players.Find(f => f.userId == GameManager.Instance.UserId);
 
             GameManager.Instance.turnManager.Load(myPlayer, Players.First());
-            MatchPhase = PhaseEnum.Preparation;
+            MatchPhase = PhaseType.Preparation;
 
-            await NetworkHelper.Send<MatchNetworkEntity>(OpCodeEnum.MATCH_LOAD, new MatchNetworkEntity() { Players = Players.Select(s => s.userId).ToList() });
+            await NetworkHelper.Send<MatchNetworkEntity>(OpCodeType.MATCH_LOAD, new MatchNetworkEntity() { Players = Players.Select(s => s.userId).ToList() });
         }
 
         public void InitialPhaseRemote(string matchId)

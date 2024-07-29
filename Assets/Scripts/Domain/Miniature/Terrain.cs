@@ -1,10 +1,12 @@
-using Enums;
+using BloodField.Types;
 using Helpers;
 using BloodField.Managers;
 using Render;
 using System.Collections.Generic;
 using Tiles;
 using UnityEngine;
+using BloodField.Helpers;
+using System;
 
 namespace Miniatures
 {
@@ -33,9 +35,14 @@ namespace Miniatures
                 if (target != null)
                 {
                     var targetStats = target.gameObject.GetComponent<Miniature>().stats.additionalStats;
+                    int i = 0;
 
                     foreach (var terrainStats in stats.additionalStats)
+                    {
                         targetStats[terrainStats.Key] += terrainStats.Value * multiply; // mulyiply is used to add or remove value added
+                        UIHelper.AdditionalStatsUIRender($"{terrainStats.Key} {(multiply < 0 ? "+" : "-")}{Math.Abs(terrainStats.Value)}", target.gameObject, i);
+                        i++;
+                    }
                 }
             });
         }
@@ -44,11 +51,11 @@ namespace Miniatures
         {
             ApplyDebuff(-1);
             signageUI.Clear();
-            _tarrainArea.ForEach(position => GameManager.Instance.mapManager.Unregister(TileTypeEnum.Terrain, position));
+            _tarrainArea.ForEach(position => GameManager.Instance.mapManager.Unregister(TileType.Terrain, position));
             _floorInstances.ForEach(f => Destroy(f.gameObject));
             Destroy(_vfxInstance);
 
-            Destroy(gameObject, .2f);
+            Destroy(gameObject, .5f);
         }
         #endregion
 
@@ -89,7 +96,7 @@ namespace Miniatures
             signageUI.Clear();
 
             _tarrainArea = ScanHelper.ScanFixed(new Tile(_position.y, _position.x), stats.width, stats.height, true);
-            signageUI.OverlayAttack(_tarrainArea);
+            signageUI.Overlay(_tarrainArea, OverlayerType.Terrain, true);
         }
         #endregion
 

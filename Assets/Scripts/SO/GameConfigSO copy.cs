@@ -1,5 +1,5 @@
 using AYellowpaper.SerializedCollections;
-using Enums;
+using BloodField.Types;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,4 +1,4 @@
-using BloodField.Enums;
+using BloodField.Types;
 
 namespace BloodField.DTO
 {
@@ -7,7 +7,7 @@ namespace BloodField.DTO
     {
         public string userId;
 
-        public PhaseEnum turnStage = PhaseEnum.Preparation;
+        public PhaseType turnStage = PhaseType.Preparation;
         public bool isFinishPreparation = false; // when player finish stage preparation
 
         // gameplay

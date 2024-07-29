@@ -1,4 +1,4 @@
-using Enums;
+using BloodField.Types;
 using BloodField.Managers;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,7 +15,7 @@ namespace Generators
 
             foreach (var card in matchConfig.DeckCardTypeAmount)
             {
-                CardTypeEnum CardType = card.Key;
+                CardType CardType = card.Key;
 
                 for (var i = 0; i < card.Value; i++)
                 {

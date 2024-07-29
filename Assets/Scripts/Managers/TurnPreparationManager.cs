@@ -1,8 +1,8 @@
 using BloodField.DTO;
-using BloodField.Enums;
+using BloodField.Types;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
-using Enums;
+using BloodField.Types;
 using Nakama;
 using UnityEngine;
 
@@ -16,7 +16,7 @@ namespace BloodField.Managers
 
         public void EndTurnPreparation()
         {
-            _player.turnStage = PhaseEnum.Main;
+            _player.turnStage = PhaseType.Main;
             _player.isFinishPreparation = true;
             _player.Reset();
 

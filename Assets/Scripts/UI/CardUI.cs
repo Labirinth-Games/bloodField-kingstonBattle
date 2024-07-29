@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
-using Enums;
+using BloodField.Types;
 
 namespace UI
 {
@@ -38,7 +38,7 @@ namespace UI
 
             transform.DOScale(0, .3f).From();
 
-            if (cardStats.type == CardTypeEnum.Command)
+            if (cardStats.type == CardType.Command)
                 icons.SetActive(false);
         }
 

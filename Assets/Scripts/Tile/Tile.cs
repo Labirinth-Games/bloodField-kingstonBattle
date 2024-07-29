@@ -1,4 +1,4 @@
-using Enums;
+using BloodField.Types;
 using DG.Tweening;
 using BloodField.Managers;
 using System.Collections;
@@ -13,12 +13,12 @@ namespace Tiles
     public class Tile
     {
         public (int y, int x) position;
-        public TileTypeEnum type;
+        public TileType type;
         public GameObject gameObject;
 
         public Action<(int y, int x), (int y, int x)> OnTileMove;
 
-        public Tile(int y, int x, TileTypeEnum tileType = TileTypeEnum.None, GameObject gameObject = null)
+        public Tile(int y, int x, TileType tileType = TileType.None, GameObject gameObject = null)
         {
             position.x = x;
             position.y = y;
@@ -27,7 +27,7 @@ namespace Tiles
             this.gameObject = gameObject;
         }
 
-        public Tile((int y, int x) position, TileTypeEnum tileType = TileTypeEnum.None, GameObject gameObject = null)
+        public Tile((int y, int x) position, TileType tileType = TileType.None, GameObject gameObject = null)
         {
             this.position = position;
 
@@ -35,13 +35,13 @@ namespace Tiles
             this.gameObject = gameObject;
         }
 
-        public Tile(TileTypeEnum tileType = TileTypeEnum.None, GameObject gameObject = null)
+        public Tile(TileType tileType = TileType.None, GameObject gameObject = null)
         {
             type = tileType;
             this.gameObject = gameObject;
         }
 
-        public Tile(CardTypeEnum tileType, GameObject gameObject = null)
+        public Tile(CardType tileType, GameObject gameObject = null)
         {
             type = TranslateTypes(tileType);
             this.gameObject = gameObject;
@@ -81,21 +81,21 @@ namespace Tiles
         public Vector3 GetPositionOnWorld() => new Vector3(position.x, position.y, 0);
         public Vector3 SetPositionOnWorld() => gameObject.transform.position = GetPositionOnWorld();
 
-        public bool IsEmpty() => type == TileTypeEnum.None;
-        public bool IsTerrain() => type == TileTypeEnum.Terrain;
-        public bool AnyElement() => type != TileTypeEnum.None;
-        public bool CanMove() => new TileTypeEnum[] { TileTypeEnum.None, TileTypeEnum.Terrain }.Contains(type);
-        public bool IsATarget() => new TileTypeEnum[] { TileTypeEnum.Army, TileTypeEnum.Equipament, TileTypeEnum.King }.Contains(type);
+        public bool IsEmpty() => type == TileType.None;
+        public bool IsTerrain() => type == TileType.Terrain;
+        public bool AnyElement() => type != TileType.None;
+        public bool CanMove() => new TileType[] { TileType.None, TileType.Terrain }.Contains(type);
+        public bool IsATarget() => new TileType[] { TileType.Army, TileType.Equipament, TileType.King }.Contains(type);
 
-        private TileTypeEnum TranslateTypes(CardTypeEnum cardType)
+        private TileType TranslateTypes(CardType cardType)
         {
             switch (cardType)
             {
-                case CardTypeEnum.Army: return TileTypeEnum.Army;
-                case CardTypeEnum.Equipament: return TileTypeEnum.Equipament;
-                case CardTypeEnum.Terrain: return TileTypeEnum.Terrain;
-                case CardTypeEnum.King: return TileTypeEnum.King;
-                default: return TileTypeEnum.None;
+                case CardType.Army: return TileType.Army;
+                case CardType.Equipament: return TileType.Equipament;
+                case CardType.Terrain: return TileType.Terrain;
+                case CardType.King: return TileType.King;
+                default: return TileType.None;
             }
         }
     }

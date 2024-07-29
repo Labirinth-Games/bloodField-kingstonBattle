@@ -28,6 +28,8 @@ namespace Render
 
         public static GameObject PreviewRender(CardSO card, int hp, GameObject prefab)
         {
+            if(prefab is null) return null;
+
             var instance = Instantiate(prefab);
             instance.GetComponent<MiniaturePreviewHUD>().Render(card, hp);
 

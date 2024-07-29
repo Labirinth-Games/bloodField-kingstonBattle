@@ -1,4 +1,4 @@
-using Enums;
+using BloodField.Types;
 using Helpers;
 using BloodField.Managers;
 using Render;
@@ -16,7 +16,7 @@ namespace Miniatures
         #region Mouse Actions
         protected override void OnMouseOver()
         {
-            if (Input.GetMouseButtonDown(0) && stats.equipamentType == EquipamentTypeEnum.Attack) // left mouse button
+            if (Input.GetMouseButtonDown(0) && stats.equipamentType == EquipamentType.Attack) // left mouse button
             {
                 if (GameManager.Instance.miniatureManager.IsOtherMiniature(_id) || !_isReady || _isFinishAction) return;
 
@@ -43,7 +43,7 @@ namespace Miniatures
                 GameManager.Instance.miniatureManager.SetCurrentMiniature(this);
 
                 _tilesToAttack = ScanHelper.Scan(self, stats.direction, stats.GetD_ATK(), true);
-                signageUI.OverlayAttack(_tilesToAttack);
+                signageUI.Overlay(_tilesToAttack, OverlayerType.Attack, true);
 
                 return true;
             }
@@ -66,7 +66,7 @@ namespace Miniatures
         public override void AddOnBoard((int y, int x) pos)
         {
             // apply ui when add equipament with status to player show
-            if (stats.equipamentType == EquipamentTypeEnum.Moral)
+            if (stats.equipamentType == EquipamentType.Moral)
             {
                 var i = 0;
 
@@ -106,7 +106,7 @@ namespace Miniatures
 
         private void ApplyEffects(int multiply = 1)
         {
-            if (stats.equipamentType != EquipamentTypeEnum.Moral) return;
+            if (stats.equipamentType != EquipamentType.Moral) return;
 
             /**
             *    Quando for um equipamento de moral ele vai pegar os status e baseado no targets
@@ -117,14 +117,14 @@ namespace Miniatures
             {
                 // update all miniatures that already stay on table
                 GameManager.Instance.miniatureManager.GetMiniatures()
-                    .FindAll(f => f.stats.type == CardTypeEnum.Army && f.stats.armyType == armyType)
+                    .FindAll(f => f.stats.type == CardType.Army && f.stats.armyType == armyType)
                     .ForEach(miniature =>
                     {
                         foreach (var additionalStats in stats.additionalStats)
                         {
                             miniature.stats.additionalStats[additionalStats.Key] += additionalStats.Value * multiply;
 
-                            if (additionalStats.Key == StatsTypeEnum.DEF) miniature.AddHP(additionalStats.Value * multiply);
+                            if (additionalStats.Key == StatsType.DEF) miniature.AddHP(additionalStats.Value * multiply);
                         }
                     });
 
@@ -140,7 +140,7 @@ namespace Miniatures
             base.OnCreate(card, ownerId, y, x);
 
             // remove equipaments of the count to auto finish turn
-            List<EquipamentTypeEnum> excludeTurn = new List<EquipamentTypeEnum>() { EquipamentTypeEnum.Moral, EquipamentTypeEnum.Defense };
+            List<EquipamentType> excludeTurn = new List<EquipamentType>() { EquipamentType.Moral, EquipamentType.Defense };
 
             if (excludeTurn.Exists(f => f == stats.equipamentType))
             {

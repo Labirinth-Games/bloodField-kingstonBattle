@@ -1,6 +1,6 @@
-namespace Enums
+namespace BloodField.Types
 {
-    public enum StatsTypeEnum
+    public enum StatsType
     {
         ATK,
         DEF,

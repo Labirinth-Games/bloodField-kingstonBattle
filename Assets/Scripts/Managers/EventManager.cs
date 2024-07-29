@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using BloodField.Enums;
+using BloodField.Types;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
 using Nakama;
@@ -62,8 +62,8 @@ namespace BloodField.Managers
             if (OnStartMainPhase != null) OnStartMainPhase();
 
             if (eventRemote) await NetworkHelper.Send<MatchNetworkEntity>(
-                OpCodeEnum.MATCH_STATE,
-                new MatchNetworkEntity() { matchState = PhaseEnum.Main }
+                OpCodeType.MATCH_STATE,
+                new MatchNetworkEntity() { matchState = PhaseType.Main }
             );
         }
 
@@ -91,7 +91,7 @@ namespace BloodField.Managers
             if (OnCardUsed != null) OnCardUsed();
 
             if (eventRemote) await NetworkHelper.Send<TurnNetworkEntity>(
-                OpCodeEnum.TURN_CARD_USED,
+                OpCodeType.TURN_CARD_USED,
                 new TurnNetworkEntity() { }
             );
         }

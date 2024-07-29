@@ -1,5 +1,5 @@
 using BloodField.DTO;
-using BloodField.Enums;
+using BloodField.Types;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
 using Nakama;
@@ -43,7 +43,7 @@ namespace BloodField.Managers
                 _player.isMyTurn = false;
 
                 await NetworkHelper.Send<TurnNetworkEntity>(
-                    OpCodeEnum.NEW_TURN,
+                    OpCodeType.NEW_TURN,
                     new TurnNetworkEntity() { }
                 );
             }
@@ -52,7 +52,7 @@ namespace BloodField.Managers
         #region Network Events
         private void OnReceiveMatchState(IMatchState matchState)
         {
-            NetworkHelper.Listen<TurnNetworkEntity>(matchState, OpCodeEnum.NEW_TURN, (content, isHost, isOwner) =>
+            NetworkHelper.Listen<TurnNetworkEntity>(matchState, OpCodeType.NEW_TURN, (content, isHost, isOwner) =>
             {
                 if (isOwner) return;
 

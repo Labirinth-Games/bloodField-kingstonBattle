@@ -1,4 +1,4 @@
-using Enums;
+using BloodField.Types;
 using Render;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +14,7 @@ namespace BloodField.Managers
         private Dictionary<string, GameObject> _instances = new Dictionary<string, GameObject>();
         private GameObject _instancePreview;
 
-        public List<CardSO> GetCardByType(CardTypeEnum type) => cards.FindAll(f => f.type == type);
+        public List<CardSO> GetCardByType(CardType type) => cards.FindAll(f => f.type == type);
 
         public void Create(List<CardSO> cards)
         {

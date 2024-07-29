@@ -1,10 +1,10 @@
-namespace Enums
+namespace BloodField.Types
 {
-    public enum TileTypeEnum
+    public enum CardType
     {
-        None,
         Army,
         Terrain,
+        Command,
         Equipament,
         King
     }

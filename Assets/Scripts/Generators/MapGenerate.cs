@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Enums;
+using BloodField.Types;
 using Tiles;
 using UnityEngine;
 
@@ -15,7 +15,7 @@ namespace Generators
             for (var y = 0; y < height; y++)
                 for (var x = 0; x < width; x++)
                 {
-                    grid[y, x] = new List<Tile>() { new Tile(y, x, TileTypeEnum.None) };
+                    grid[y, x] = new List<Tile>() { new Tile(y, x, TileType.None) };
                 }
 
             return grid;

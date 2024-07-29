@@ -1,6 +1,6 @@
-namespace BloodField.Enums
+namespace BloodField.Types
 {
-    static class OpCodeEnum
+    static class OpCodeType
     {
         // In Game
         public const long GAME_START = 11;

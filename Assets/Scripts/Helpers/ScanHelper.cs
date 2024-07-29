@@ -1,7 +1,7 @@
 using BloodField.Managers;
 using System;
 using System.Collections.Generic;
-using Enums;
+using BloodField.Types;
 using Tiles;
 using UnityEngine;
 
@@ -10,7 +10,7 @@ namespace Helpers
 {
     public class ScanHelper : MonoBehaviour
     {
-        public static List<Tile> Scan(Tile tile, ScanDirectionTypeEnum scanDirectionType = ScanDirectionTypeEnum.Ring, float amplitude = 1, bool overcomeObstacles = false)
+        public static List<Tile> Scan(Tile tile, ScanDirectionType scanDirectionType = ScanDirectionType.Ring, float amplitude = 1, bool overcomeObstacles = false)
         {
             List<Tile> tileList = new List<Tile>();
 
@@ -54,14 +54,14 @@ namespace Helpers
          *                             
          * com base nessa info ele vai buscar quem ele quer encontrar dentro da area.
          * **/
-        private static (int y, int x)[] GetPositionByScanDirection(ScanDirectionTypeEnum scanDirectionType, Tile tile, float amplitude, bool overcomeObstacles)
+        private static (int y, int x)[] GetPositionByScanDirection(ScanDirectionType scanDirectionType, Tile tile, float amplitude, bool overcomeObstacles)
         {
-            Dictionary<ScanDirectionTypeEnum, Func<Tile, float, bool, (int y, int x)[]>> ScanStrategy = new Dictionary<ScanDirectionTypeEnum, Func<Tile, float, bool, (int y, int x)[]>>()
+            Dictionary<ScanDirectionType, Func<Tile, float, bool, (int y, int x)[]>> ScanStrategy = new Dictionary<ScanDirectionType, Func<Tile, float, bool, (int y, int x)[]>>()
             {
-                { ScanDirectionTypeEnum.Cross,              ScanCrossDirection},
-                { ScanDirectionTypeEnum.Ring,               ScanRingDirection},
-                { ScanDirectionTypeEnum.Horizontal_Line,    ScanHorizontalLineDirection},
-                { ScanDirectionTypeEnum.Vertical_Line,      ScanVerticalLineDirection}
+                { ScanDirectionType.Cross,              ScanCrossDirection},
+                { ScanDirectionType.Ring,               ScanRingDirection},
+                { ScanDirectionType.Horizontal_Line,    ScanHorizontalLineDirection},
+                { ScanDirectionType.Vertical_Line,      ScanVerticalLineDirection}
             };
 
             return ScanStrategy[scanDirectionType](tile, amplitude, overcomeObstacles);

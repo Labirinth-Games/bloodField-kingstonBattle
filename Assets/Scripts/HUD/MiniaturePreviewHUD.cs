@@ -26,7 +26,7 @@ namespace HUD
             D_ATKField.text =   $"D_ATK ---- {cardStats.GetD_ATK()}";
             image.sprite = cardStats.sprite;
 
-            if (cardStats.type == Enums.CardTypeEnum.Equipament)
+            if (cardStats.type == BloodField.Types.CardType.Equipament)
             {
                 Description.text = cardStats.description;
             }

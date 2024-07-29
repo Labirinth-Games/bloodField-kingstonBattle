@@ -1,4 +1,4 @@
-using BloodField.Enums;
+using BloodField.Types;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
 using Generators;
@@ -25,7 +25,7 @@ namespace BloodField.Managers
             if (!GameManager.Instance.IsHost)
             {
                 await NetworkHelper.Send<DeckNetworkEntity>(
-                    OpCodeEnum.DECK_DRAW_CARD,
+                    OpCodeType.DECK_DRAW_CARD,
                     new DeckNetworkEntity() { AmountCardsDraw = amount }
                 );
 
@@ -70,17 +70,17 @@ namespace BloodField.Managers
         #region Network Events
         private void OnReceiveMatchState(IMatchState matchState)
         {
-            NetworkHelper.Listen<DeckNetworkEntity>(matchState, OpCodeEnum.DECK_DRAW_CARD, async (content, isHost, isOwner) =>
+            NetworkHelper.Listen<DeckNetworkEntity>(matchState, OpCodeType.DECK_DRAW_CARD, async (content, isHost, isOwner) =>
             {
                 if (isOwner) return;
 
                 var cards = GetCardsOnDeck(content.AmountCardsDraw);
                 var cardsPaths = cards.Select(s => $"Cards/{s.type}/{s.name}").ToArray();
 
-                await NetworkHelper.Send<DeckNetworkEntity>(OpCodeEnum.DECK_RECEIVE_CARDS, new DeckNetworkEntity() { Cards = cardsPaths });
+                await NetworkHelper.Send<DeckNetworkEntity>(OpCodeType.DECK_RECEIVE_CARDS, new DeckNetworkEntity() { Cards = cardsPaths });
             });
 
-            NetworkHelper.Listen<DeckNetworkEntity>(matchState, OpCodeEnum.DECK_RECEIVE_CARDS, (content, isHost, isOwner) =>
+            NetworkHelper.Listen<DeckNetworkEntity>(matchState, OpCodeType.DECK_RECEIVE_CARDS, (content, isHost, isOwner) =>
             {
                 if (isOwner) return;
                 

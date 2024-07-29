@@ -1,4 +1,4 @@
-using Enums;
+using BloodField.Types;
 using BloodField.Managers;
 using System.Collections.Generic;
 using Tiles;
@@ -18,9 +18,9 @@ namespace Render
                 var spriteRender = instance.AddComponent<SpriteRenderer>();
                 spriteRender.sprite = sprite;
                 spriteRender.sortingOrder = 1;
-                spriteRender.color = new Color(1, 1, 1, .5f);
+                spriteRender.color = new Color(1, 1, 1, .2f);
 
-                var newTile = GameManager.Instance.mapManager.Register(new Tile(TileTypeEnum.Terrain, gameObject), position, true);
+                var newTile = GameManager.Instance.mapManager.Register(new Tile(TileType.Terrain, gameObject), position, true);
                 instance.AddComponent<TileElement>().SetTile(newTile);
 
                 instance.transform.position = newTile.GetPositionOnWorld();
