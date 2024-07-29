@@ -4609,7 +4609,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.size
-      value: 7
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[2].Key
@@ -4622,18 +4622,58 @@ PrefabInstance:
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[4].Key
       value: 
-      objectReference: {fileID: 11400000, guid: 431a3f411d57c634a9a5fdb59f543d9e, type: 2}
+      objectReference: {fileID: 11400000, guid: bbf6b2dd671f8494b8af3dbe18bca802, type: 2}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[5].Key
       value: 
-      objectReference: {fileID: 11400000, guid: adba77cfb5ac3ff4c9ebd5fd8eca3941, type: 2}
+      objectReference: {fileID: 11400000, guid: 431a3f411d57c634a9a5fdb59f543d9e, type: 2}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[6].Key
       value: 
-      objectReference: {fileID: 11400000, guid: 12bad58b18b68b44ea2ead9f4255cf91, type: 2}
+      objectReference: {fileID: 11400000, guid: adba77cfb5ac3ff4c9ebd5fd8eca3941, type: 2}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[8].Key
+      value: 
+      objectReference: {fileID: 11400000, guid: d29633978351d534dad0417ee88776e3, type: 2}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[9].Key
+      value: 
+      objectReference: {fileID: 11400000, guid: b987ea839a6e965418a4858b8121ec3a, type: 2}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[10].Key
+      value: 
+      objectReference: {fileID: 11400000, guid: 93c2f3cfc706bba4491bcd28816683bd, type: 2}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[11].Key
+      value: 
+      objectReference: {fileID: 11400000, guid: b987ea839a6e965418a4858b8121ec3a, type: 2}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[12].Key
+      value: 
+      objectReference: {fileID: 11400000, guid: b987ea839a6e965418a4858b8121ec3a, type: 2}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[4].Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[8].Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[9].Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[10].Value
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[11].Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[12].Value
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1648700243365558439, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: m_LocalPosition.x

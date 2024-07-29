@@ -10,31 +10,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7254bc9ebb8147a4085925e570d8c221, type: 3}
-  m_Name: WoodFenceCardStats
+  m_Name: HoleCardStats
   m_EditorClassIdentifier: 
-  title: Wood Fence
-  description: "Barreira que impede a movimenta\xE7\xE3o do inimigo tamanho 2x1"
-  sprite: {fileID: 4863581883393038788, guid: b7a7d3df21d57d04c88155e5a4d6de5b, type: 3}
+  title: Trincheira
+  description: "Barreira cavada no ch\xE3o que impede a movimenta\xE7\xE3o inimiga."
+  sprite: {fileID: -7955819631750886615, guid: ee2a30bf733eed94f885fd44241142dc, type: 3}
   type: 3
   equipamentType: 2
+  isIndestructible: 1
   armyType: 0
+  canApplyEffectToAllMap: 0
+  width: 0
+  height: 0
+  turnDuration: 0
+  effectSprite: {fileID: 0}
+  effectVFX: {fileID: 0}
   direction: 0
   ATK: 0
-  DEF: 1
+  DEF: 0
   MOV: 0
   D_ATK: 0
-  stats:
+  isGroup: 0
+  commandScript: {fileID: 0}
+  additionalStats:
     _serializedList:
     - Key: 0
       Value: 0
     - Key: 1
-      Value: 1
+      Value: 0
     - Key: 2
       Value: 0
     - Key: 3
       Value: 0
-  isGroup: 0
-  commandScript: {fileID: 0}
-  aditionalStats:
-    _serializedList: []
   targets: 

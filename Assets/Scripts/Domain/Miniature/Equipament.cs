@@ -87,6 +87,17 @@ namespace Miniatures
             ApplyEffects();
         }
 
+        public override void Hit(int damage)
+        {
+            if (stats.isIndestructible)
+            {
+                UIHelper.HitUIRender("indestructible", gameObject);
+                return;
+            }
+
+            base.Hit(damage);
+        }
+
         public override void Die()
         {
             base.Die();

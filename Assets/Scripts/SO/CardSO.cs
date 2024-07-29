@@ -17,21 +17,30 @@ public class CardSO : ScriptableObject
 
     [Space()]
     [Header("Skin")]
-    public Color primaryColor;
-    public Color secundaryColor;
+    // public Color primaryColor;
+    // public Color secundaryColor;
     public Sprite sprite;
 
     [Space()]
     [Header("Setting")]
     public CardTypeEnum type;
 
+
+    // settings to equipaments
+
     [ConditionalItem(nameof(type), CardTypeEnum.Equipament)]
     public EquipamentTypeEnum equipamentType;
+
+    [ConditionalItem(nameof(type), CardTypeEnum.Equipament)]
+    public bool isIndestructible = false;
+
+    // settings to armary
 
     [ConditionalItem(nameof(type), CardTypeEnum.Army)]
     public ArmyTypeEnum armyType;
 
     // settings to terrain
+    
     [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
     public bool canApplyEffectToAllMap;
     [ConditionalItem(nameof(type), CardTypeEnum.Terrain)]
@@ -77,18 +86,6 @@ public class CardSO : ScriptableObject
         {StatsTypeEnum.D_ATK, 0},
     };
     public List<ArmyTypeEnum> targets;
-
-    // public CardSO() {
-    //     if (type != CardTypeEnum.Army || type != CardTypeEnum.King) return;
-
-    //     additionalStats = new SerializedDictionary<StatsTypeEnum, int>();
-
-    //     var enumValues = Enum.GetValues(typeof(StatsTypeEnum));
-    //     for (var i = 0; i < enumValues.GetLength(0); i++)
-    //     {
-    //         additionalStats.Add((StatsTypeEnum)enumValues.GetValue(i), 0);
-    //     }
-    // }
 
     private int GetValue(StatsTypeEnum statsType, int baseValue)
     {
