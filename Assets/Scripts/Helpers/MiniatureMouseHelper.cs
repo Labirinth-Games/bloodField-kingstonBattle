@@ -1,5 +1,5 @@
 using BloodField.Managers;
-using Miniatures;
+using BloodField.Miniatures;
 using Tiles;
 using UnityEngine;
 

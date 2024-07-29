@@ -2,8 +2,8 @@ using HUD;
 using BloodField.Managers;
 using System.Collections;
 using System.Collections.Generic;
-using Miniatures;
 using UnityEngine;
+using BloodField.Miniatures;
 
 namespace Render
 {

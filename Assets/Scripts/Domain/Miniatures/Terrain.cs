@@ -8,7 +8,7 @@ using UnityEngine;
 using BloodField.Helpers;
 using System;
 
-namespace Miniatures
+namespace BloodField.Miniatures
 {
     public class Terrain : Miniature
     {
@@ -51,8 +51,8 @@ namespace Miniatures
         {
             ApplyDebuff(-1);
             signageUI.Clear();
-            _tarrainArea.ForEach(position => GameManager.Instance.mapManager.Unregister(TileType.Terrain, position));
-            _floorInstances.ForEach(f => Destroy(f.gameObject));
+            _tarrainArea?.ForEach(position => GameManager.Instance.mapManager.Unregister(TileType.Terrain, position));
+            _floorInstances?.ForEach(f => Destroy(f.gameObject));
             Destroy(_vfxInstance);
 
             Destroy(gameObject, .5f);
@@ -78,9 +78,12 @@ namespace Miniatures
             GetComponent<SpriteRenderer>().sprite = null;
 
             ApplyDebuff();
-
             _floorInstances = TerrainRender.Render(_tarrainArea, gameObject, stats.effectSprite);
-            _vfxInstance = TerrainRender.VfxRender(stats.effectVFX);
+            
+            stats.customTerrainScript?.Action(_tarrainArea, Remove); // call the command specific
+
+            if (stats.effectVFX)
+                _vfxInstance = TerrainRender.VfxRender(stats.effectVFX);
         }
 
         #region Unity Event

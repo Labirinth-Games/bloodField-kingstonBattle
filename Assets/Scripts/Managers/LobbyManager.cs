@@ -8,8 +8,6 @@ namespace BloodField.Managers
 {
     public class LobbyManager : MonoBehaviour
     {
-        [SerializeField] private bool isHost = false;
-
         private List<string> _players;
         private string _playerName;
         private string _matchId;

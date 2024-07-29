@@ -1,12 +1,13 @@
-using Miniatures;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Commands
+namespace BloodField.Domain.Commands
 {
     public class ActionCommand : MonoBehaviour, ICommand
     {
         public virtual void Action((int y, int x) pos) { }
+        public virtual void Action(List<(int y, int x)> pos) { }
+        public virtual void Action(List<(int y, int x)> pos, Action finishCallback) { }
     }
 }

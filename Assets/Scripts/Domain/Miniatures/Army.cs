@@ -1,6 +1,6 @@
 using BloodField.Managers;
 
-namespace Miniatures
+namespace BloodField.Miniatures
 {
     public class Army : Miniature
     {

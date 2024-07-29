@@ -36,6 +36,19 @@ namespace BloodField.Managers
             return null;
         }
 
+        public List<Tile> FindByPosition(List<(int y, int x)> positions)
+        {
+            var tiles = new List<Tile>() { };
+
+            foreach (var position in positions)
+            {
+                if (IsInsideMap(position))
+                    _map[position.y, position.x].ForEach(f => tiles.Add(f));
+            }
+
+            return tiles;
+        }
+
         public (int y, int x) GetKingPositions()
         {
             var h_position = Mathf.FloorToInt(_size / 2);
@@ -104,8 +117,8 @@ namespace BloodField.Managers
         public void Unregister(TileType tileType, (int y, int x) position)
         {
             Tile tile = FindByPosition(position).Find(f => f.type == tileType);
-            
-            if(tile is null) return;
+
+            if (tile is null) return;
 
             if (_map[tile.position.y, tile.position.x].Exists(f => f.position == tile.position))
             {

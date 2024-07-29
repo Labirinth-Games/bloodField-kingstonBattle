@@ -1,11 +1,10 @@
 using System;
 using BloodField.Types;
-using Commands;
+using BloodField.Domain.Commands;
 using UnityEngine;
 using CustomAttributes;
 using AYellowpaper.SerializedCollections;
 using System.Collections.Generic;
-using Helpers;
 
 [CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
 public class CardSO : ScriptableObject
@@ -30,6 +29,9 @@ public class CardSO : ScriptableObject
 
     [ConditionalItem(nameof(type), CardType.Equipament)]
     public EquipamentType equipamentType;
+
+    [ConditionalItem(nameof(type), CardType.Equipament)]
+    public WeightEquipamentType weightEquipamentType;
 
     [ConditionalItem(nameof(type), CardType.Equipament)]
     public bool isIndestructible = false;
@@ -74,6 +76,9 @@ public class CardSO : ScriptableObject
 
     [ConditionalItem(nameof(type), CardType.Command)]
     public ActionCommand commandScript;
+
+    [ConditionalItem(nameof(type), CardType.Terrain)]
+    public ActionCommand customTerrainScript;
 
     [Space()]
     [Header("Effects")]

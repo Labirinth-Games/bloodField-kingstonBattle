@@ -11,10 +11,8 @@ using System.Text;
 using Nakama.TinyJson;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
-using UnityEngine.UIElements;
-using System;
 
-namespace Miniatures
+namespace BloodField.Miniatures
 {
     public class Miniature : TileElement, ITurn
     {
@@ -185,7 +183,7 @@ namespace Miniatures
                         foreach (var stat in terrainStats)
                         {
                             myStats[stat.Key] += stat.Value * multiply;
-                            UIHelper.AdditionalStatsUIRender($"{stat.Key} {(multiply<0?"+":"-")}{Math.Abs(stat.Value)}", gameObject, i);
+                            UIHelper.AdditionalStatsUIRender($"{stat.Key} {(multiply<0?"+":"-")}{System.Math.Abs(stat.Value)}", gameObject, i);
                             i++;
                         }
                     });

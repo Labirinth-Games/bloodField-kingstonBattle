@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using BloodField.Types;
-using BloodField.Types;
 
 namespace BloodField.Network.Entities
 {

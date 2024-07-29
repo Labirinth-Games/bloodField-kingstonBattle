@@ -78,11 +78,17 @@ namespace Tiles
             return GetPositionOnWorld();
         }
 
+        public void MoveBack(int value)
+        {
+            MoveTo((position.y - value, position.x));
+        }
+
         public Vector3 GetPositionOnWorld() => new Vector3(position.x, position.y, 0);
         public Vector3 SetPositionOnWorld() => gameObject.transform.position = GetPositionOnWorld();
 
         public bool IsEmpty() => type == TileType.None;
         public bool IsTerrain() => type == TileType.Terrain;
+        public bool IsArmy() => type == TileType.Army;
         public bool AnyElement() => type != TileType.None;
         public bool CanMove() => new TileType[] { TileType.None, TileType.Terrain }.Contains(type);
         public bool IsATarget() => new TileType[] { TileType.Army, TileType.Equipament, TileType.King }.Contains(type);

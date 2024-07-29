@@ -1,11 +1,11 @@
 using BloodField.Types;
 using Helpers;
 using BloodField.Managers;
-using Miniatures;
-using System.Collections;
 using System.Collections.Generic;
 using Tiles;
 using UnityEngine;
+using BloodField.Domain.Commands;
+using BloodField.Miniatures;
 
 namespace Commands
 {

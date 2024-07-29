@@ -1,8 +1,8 @@
 using BloodField.Types;
 using BloodField.Managers;
-using Miniatures;
 using Tiles;
 using UnityEngine;
+using BloodField.Miniatures;
 
 public class King : Miniature
 {

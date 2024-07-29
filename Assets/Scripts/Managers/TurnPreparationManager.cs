@@ -2,7 +2,6 @@ using BloodField.DTO;
 using BloodField.Types;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
-using BloodField.Types;
 using Nakama;
 using UnityEngine;
 

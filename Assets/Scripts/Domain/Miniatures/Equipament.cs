@@ -5,9 +5,8 @@ using Render;
 using System.Collections.Generic;
 using UnityEngine;
 using BloodField.Helpers;
-using System.Linq;
 
-namespace Miniatures
+namespace BloodField.Miniatures
 {
     public class Equipament : Miniature
     {
