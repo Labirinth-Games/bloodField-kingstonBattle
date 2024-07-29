@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7254bc9ebb8147a4085925e570d8c221, type: 3}
+  m_Name: MudCardStats
+  m_EditorClassIdentifier: 
+  title: "Lama\xE7al"
+  description: "O movimento de todo exercito que possui movimento acima de 2 \xE9
+    reduzido para MOV -1"
+  sprite: {fileID: -7591153804412091959, guid: 55e95f265a59d4c4584571519a94ec76, type: 3}
+  type: 1
+  equipamentType: 0
+  weightEquipamentType: 0
+  isIndestructible: 0
+  armyType: 0
+  canApplyEffectToAllMap: 1
+  width: 0
+  height: 0
+  turnDuration: 0
+  effectSprite: {fileID: -7591153804412091959, guid: 55e95f265a59d4c4584571519a94ec76, type: 3}
+  sortLayerSprite: Default
+  sortIndexLayerSprite: 1
+  opacitySprite: 1
+  effectVFX: {fileID: 0}
+  direction: 0
+  ATK: 0
+  DEF: 0
+  MOV: 0
+  D_ATK: 0
+  isGroup: 0
+  commandScript: {fileID: 0}
+  customTerrainScript: {fileID: 990363903512944899, guid: 1e8bf406a36943948b7e7fbf4835648e, type: 3}
+  additionalStats:
+    _serializedList:
+    - Key: 2
+      Value: -1
+  targets: 
+  conditionalStats:
+    _serializedList:
+    - Key: 2
+      Value: 2

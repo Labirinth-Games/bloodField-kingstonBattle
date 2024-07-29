@@ -11,6 +11,7 @@ using System.Text;
 using Nakama.TinyJson;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
+using System.Threading.Tasks;
 
 namespace BloodField.Miniatures
 {
@@ -169,28 +170,23 @@ namespace BloodField.Miniatures
 
         protected virtual void ToggleSelection() => _isSelected = !_isSelected;
 
-        public virtual void VerifyLocalEffect((int y, int x) lastPosition, (int y, int x) currentPosition)
+        public virtual async void VerifyLocalEffect((int y, int x) lastPosition, (int y, int x) currentPosition)
         {
             void Debuff((int y, int x) position, int multiply = 1) =>
                 GameManager.Instance.mapManager.FindByPosition(position)
                     .FindAll(tile => tile.IsTerrain())
                     .ForEach(terrain =>
                     {
-                        var terrainStats = terrain.gameObject.GetComponent<Miniature>().stats.additionalStats;
-                        var myStats = stats.additionalStats;
-                        int i = 0;
+                        var terrainStats = terrain.gameObject.GetComponent<Miniature>().stats;
 
-                        foreach (var stat in terrainStats)
-                        {
-                            myStats[stat.Key] += stat.Value * multiply;
-                            if (stat.Key == StatsType.DEF) AddHP(stat.Value * multiply);
-
-                            UIHelper.AdditionalStatsUIRender($"{stat.Key} {(System.Math.Sign(stat.Value * multiply) > 0 ? "+" : "-")}{System.Math.Abs(stat.Value)}", gameObject, i);
-                            i++;
-                        }
+                        if (terrainStats.canApplyEffectToAllMap)
+                            TerrainHelper.ApplyDebufferWithConditional(this, terrainStats, multiply);
+                        else
+                            TerrainHelper.ApplyDebufferCommon(this, terrainStats, multiply);
                     });
 
             Debuff(lastPosition, -1); // verify and remove debuff when exit lastTile
+            await Task.Delay(200);
             Debuff(currentPosition); // verify and add the debuff if there is
         }
         #endregion

@@ -49,6 +49,20 @@ namespace BloodField.Managers
             return tiles;
         }
 
+        public List<(int y, int x)> GetPositionsMiddleMap()
+        {
+            var tiles = new List<(int y, int x)>() { };
+
+            for (var y = 0; y < _size; y++)
+                for (var x = 0; x < _size; x++)
+                {
+                    if (IsInsideMiddleMap((y, x)))
+                        tiles.Add((y, x));
+                }
+
+            return tiles;
+        }
+
         public (int y, int x) GetKingPositions()
         {
             var h_position = Mathf.FloorToInt(_size / 2);
@@ -173,9 +187,19 @@ namespace BloodField.Managers
             return false;
         }
 
+        public bool CanSpawnMiddleMap((int y, int x) dir)
+        {
+            if (IsInsideMiddleMap(dir))
+                if (_map[dir.y, dir.x].Exists(f => f.CanAddTerrain()))
+                    return true;
+
+            return false;
+        }
+
         public bool IsInsideMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= 0 && dir.y < _size;
         public bool IsInsideSpawnMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= 0 && dir.y < spawnAreaScale;
         public bool IsInsideSpawnUntilMiddleMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= 0 && dir.y < _size - spawnAreaScale;
+        public bool IsInsideMiddleMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= spawnAreaScale && dir.y < _size - spawnAreaScale;
         #endregion
 
         private void OnValidate()

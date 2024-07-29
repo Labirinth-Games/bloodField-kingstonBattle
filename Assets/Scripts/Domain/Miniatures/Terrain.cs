@@ -7,13 +7,15 @@ using Tiles;
 using UnityEngine;
 using BloodField.Helpers;
 using System;
+using AYellowpaper.SerializedCollections;
+using System.Linq;
 
 namespace BloodField.Miniatures
 {
     public class Terrain : Miniature
     {
         private (int y, int x) _lastPosition;
-        private List<(int y, int x)> _tarrainArea;
+        private List<(int y, int x)> _terrainArea;
         private bool _canApplyEffectToAllMap = true;
         private bool _stopAttach = false;
         private int _turnAmount;
@@ -28,24 +30,18 @@ namespace BloodField.Miniatures
         #region Actions
         private void ApplyDebuff(int multiply = 1)
         {
-            _tarrainArea.ForEach(position =>
+            _terrainArea?.ForEach(position =>
             {
                 var target = GameManager.Instance.mapManager.FindByPosition(position).Find(e => e.IsATarget());
 
                 if (target != null)
                 {
                     var miniature = target.gameObject.GetComponent<Miniature>();
-                    var targetStats = miniature.stats.additionalStats;
-                    int i = 0;
 
-                    foreach (var terrainStats in stats.additionalStats)
-                    {
-                        targetStats[terrainStats.Key] += terrainStats.Value * multiply; // mulyiply is used to add or remove value added
-                        if (terrainStats.Key == StatsType.DEF) miniature.AddHP(terrainStats.Value * multiply);
-
-                        UIHelper.AdditionalStatsUIRender($"{terrainStats.Key} {(Math.Sign(terrainStats.Value * multiply) > 0 ? "+" : "-")}{Math.Abs(terrainStats.Value)}", target.gameObject, i);
-                        i++;
-                    }
+                    if (_canApplyEffectToAllMap)
+                        TerrainHelper.ApplyDebufferWithConditional(miniature, stats, multiply);
+                    else
+                        TerrainHelper.ApplyDebufferCommon(miniature, stats, multiply);
                 }
             });
         }
@@ -54,7 +50,7 @@ namespace BloodField.Miniatures
         {
             ApplyDebuff(-1);
             signageUI.Clear();
-            _tarrainArea?.ForEach(position => GameManager.Instance.mapManager.Unregister(TileType.Terrain, position));
+            _terrainArea?.ForEach(position => GameManager.Instance.mapManager.Unregister(TileType.Terrain, position));
             _floorInstances?.ForEach(f => Destroy(f.gameObject));
             Destroy(_vfxInstance);
 
@@ -65,7 +61,7 @@ namespace BloodField.Miniatures
         #region Turn
         public override void MyTurn()
         {
-            if (_turnAmount >= stats.turnDuration)
+            if (!_canApplyEffectToAllMap && _turnAmount >= stats.turnDuration)
                 Remove();
 
             _turnAmount++;
@@ -77,13 +73,17 @@ namespace BloodField.Miniatures
             signageUI.Clear();
             _turnAmount = 0;
             _stopAttach = true;
+
             GameManager.Instance.mapManager.Unregister(self); // remove miniature terrain on map
             GetComponent<SpriteRenderer>().sprite = null;
 
+            if (_canApplyEffectToAllMap) _terrainArea = GameManager.Instance.mapManager.GetPositionsMiddleMap();
+
             ApplyDebuff();
-            _floorInstances = TerrainRender.Render(_tarrainArea, gameObject, stats);
-            
-            stats.customTerrainScript?.Action(_tarrainArea, Remove); // call the command specific
+
+            _floorInstances = TerrainRender.Render(_terrainArea, gameObject, stats, _canApplyEffectToAllMap);
+
+            stats.customTerrainScript?.Action(_terrainArea, stats, Remove); // call the command specific
 
             if (stats.effectVFX)
                 _vfxInstance = TerrainRender.VfxRender(stats.effectVFX);
@@ -101,8 +101,8 @@ namespace BloodField.Miniatures
             _lastPosition = _position;
             signageUI.Clear();
 
-            _tarrainArea = ScanHelper.ScanFixed(new Tile(_position.y, _position.x), stats.width, stats.height, true);
-            signageUI.Overlay(_tarrainArea, OverlayerType.Terrain, true);
+            _terrainArea = ScanHelper.ScanFixed(new Tile(_position.y, _position.x), stats.width, stats.height, true);
+            signageUI.Overlay(_terrainArea, OverlayerType.Terrain, true);
         }
         #endregion
 

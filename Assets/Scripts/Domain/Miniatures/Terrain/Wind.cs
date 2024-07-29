@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using BloodField.Domain.Commands;
 using BloodField.Managers;
-using BloodField.Miniatures;
-using UnityEngine;
 
-namespace BloodField.Miniature.Terrains
+namespace BloodField.Miniatures.Terrains
 {
     public class Wind : ActionCommand
     {

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using BloodField.Types;
 using Tiles;
 using UnityEngine;
+using System.Linq;
 
 
 namespace Helpers
@@ -14,7 +15,7 @@ namespace Helpers
         {
             List<Tile> tileList = new List<Tile>();
 
-            if(amplitude < 1) return tileList;
+            if (amplitude < 1) return tileList;
 
             // positions around tile
             (int y, int x)[] positions = GetPositionByScanDirection(scanDirectionType, tile, amplitude, overcomeObstacles);
@@ -92,7 +93,7 @@ namespace Helpers
                     {
                         var tileFinded = GameManager.Instance.mapManager.FindByPosition((direction.y, direction.x));
 
-                        if (tileFinded.Exists(f => f.CanMove()) || overcomeObstacles)
+                        if (CanMove(tileFinded) || overcomeObstacles)
                             positions.Add((direction.y, direction.x)); // up
                         else
                             canContinue[direction.id] = false;
@@ -123,7 +124,7 @@ namespace Helpers
                     {
                         var tileFinded = GameManager.Instance.mapManager.FindByPosition((direction.y, direction.x));
 
-                        if (tileFinded.Exists(f => f.CanMove()) || overcomeObstacles)
+                        if (CanMove(tileFinded) || overcomeObstacles)
                             positions.Add((direction.y, direction.x)); // up
                         else
                             canContinue[direction.id] = false;
@@ -153,7 +154,7 @@ namespace Helpers
                     if (canContinue[direction.id] && GameManager.Instance.mapManager.IsInsideMap((direction.y, direction.x)))
                     {
                         var tileFinded = GameManager.Instance.mapManager.FindByPosition((direction.y, direction.x));
-                        if (tileFinded.Exists(f => f.CanMove()) || overcomeObstacles)
+                        if (CanMove(tileFinded) || overcomeObstacles)
                             positions.Add((direction.y, direction.x)); // up
                         else
                             canContinue[direction.id] = false;
@@ -185,7 +186,7 @@ namespace Helpers
                     {
                         var tileFinded = GameManager.Instance.mapManager.FindByPosition((direction.y, direction.x));
 
-                        if (tileFinded.Exists(f => f.CanMove()) || overcomeObstacles)
+                        if (CanMove(tileFinded) || overcomeObstacles)
                             positions.Add((direction.y, direction.x));
                         else
                             canContinue[direction.id] = false;
@@ -219,7 +220,25 @@ namespace Helpers
         #endregion
 
         #region Validators
-        public static Tile CanMoveToTile(List<Tile> tiles, (int y, int x) position) => tiles.Find(e => e.position == position && e.CanMove());
+        public static Tile CanMoveToTile(List<Tile> tiles, (int y, int x) position)
+        {
+            var elements = tiles.FindAll(e => e.position == position && e.CanMove());
+
+            if (elements.Count == 0) return null;
+
+            if (elements.Exists(e => e.IsArmy() || e.IsEquipament() || e.IsKing()))
+                return null;
+
+            return elements.Last();
+        }
+
+        public static bool CanMove(List<Tile> tiles)
+        {
+            if (tiles.Exists(e => e.IsArmy() || e.IsEquipament() || e.IsKing()))
+                return false;
+
+            return tiles.Exists(e => e.CanMove());
+        }
         public static Tile CanAttackTile(List<Tile> tiles, (int y, int x) position) => tiles.Find(e => e.position == position && e.IsATarget());
         #endregion
     }

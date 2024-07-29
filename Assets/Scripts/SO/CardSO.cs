@@ -102,6 +102,11 @@ public class CardSO : ScriptableObject
     };
     public List<ArmyType> targets;
 
+    [Space()]
+    [Header("Conditional to effect when permanent terrain")]
+    [SerializedDictionary("Prop Name", "value")]
+    public SerializedDictionary<StatsType, int> conditionalStats = new SerializedDictionary<StatsType, int>() {};
+
     private int GetValue(StatsType statsType, int baseValue)
     {
         int value;
