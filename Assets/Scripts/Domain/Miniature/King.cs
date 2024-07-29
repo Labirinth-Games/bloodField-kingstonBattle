@@ -30,6 +30,6 @@ public class King : Miniature
     {
         base.Die();
 
-        GameManager.Instance.eventManager.GameLoseEvent();
+        GameManager.Instance.eventManager.EndGameEvent(false);
     }
 }

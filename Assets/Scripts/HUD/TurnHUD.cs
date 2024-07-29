@@ -49,10 +49,12 @@ namespace HUD
 
         void Start()
         {
-            GameManager.Instance.eventManager.OnStartMainPhase += () => {
+            GameManager.Instance.eventManager.OnStartMainPhase += () =>
+            {
                 DisplayCountTurn.text = "Turn 1";
             };
             GameManager.Instance.eventManager.OnStartMyTurn += () => DisplayCountTurn.text = $"Turn {turnNumber++}";
+            GameManager.Instance.eventManager.OnEndGame += (bool isWin) => gameObject.SetActive(false);
         }
     }
 

@@ -2,8 +2,6 @@ using BloodField.DTO;
 using BloodField.Enums;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
-using Enums;
-using Miniatures;
 using Nakama;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,14 +14,18 @@ namespace BloodField.Managers
         public List<PlayerMatchDTO> Players { get; private set; } = new List<PlayerMatchDTO>();
         public PhaseEnum MatchPhase { get; private set; }
         public string MatchId { get; private set; }
+        public bool IsFinishGame { get; private set; } = false;
 
         #region Gets/Sets
+        public void SetIsFinishGame(bool val) => IsFinishGame = val;
         public bool IsPreparationPhase() => MatchPhase == PhaseEnum.Preparation;
         public bool IsMainPhase() => MatchPhase == PhaseEnum.Main;
         public bool IsReadyPreparationPhasePlayer() => Players.Exists(e => e.isFinishPreparation && e.userId == GameManager.Instance.UserId);
 
         public bool CanPlayCard()
         {
+            if (IsFinishGame) return false;
+
             if (IsPreparationPhase() && GameManager.Instance.matchManager.IsReadyPreparationPhasePlayer()) return false;
             if (IsMainPhase() && !GameManager.Instance.turnManager.IsMyTurn()) return false;
             if (IsMainPhase() && !GameManager.Instance.turnManager.CanPlayCard()) return false;
@@ -82,6 +84,13 @@ namespace BloodField.Managers
                     MatchPhase = PhaseEnum.Main;
                     GameManager.Instance.eventManager.StartMainPhase();
                 }
+            });
+
+            NetworkHelper.Listen<MatchNetworkEntity>(matchState, OpCodeEnum.MATCH_FINISH, (content, isHost, isOwner) =>
+            {
+                if (isOwner) return;
+
+                GameManager.Instance.eventManager.EndGameEvent(true);
             });
         }
         #endregion

@@ -92,22 +92,20 @@ namespace BloodField.Managers
 
             if (eventRemote) await NetworkHelper.Send<TurnNetworkEntity>(
                 OpCodeEnum.TURN_CARD_USED,
-                new TurnNetworkEntity() {}
+                new TurnNetworkEntity() { }
             );
         }
         #endregion
 
         #region Game
-        public event Action OnGameLose;
-        public void GameLoseEvent()
+        public event Action<bool> OnEndGame;
+        public void EndGameEvent(bool isWin = false)
         {
-            if (OnGameLose != null) OnGameLose();
-        }
-
-        public event Action OnGameWin;
-        public void GameWinEvent()
-        {
-            if (OnGameWin != null) OnGameWin();
+            if (OnEndGame != null)
+            {
+                GameManager.Instance.matchManager.SetIsFinishGame(true);
+                OnEndGame(isWin);
+            }
         }
         #endregion
     }

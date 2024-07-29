@@ -11,6 +11,7 @@ using System.Text;
 using Nakama.TinyJson;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
+using UnityEngine.UIElements;
 
 namespace Miniatures
 {
@@ -102,6 +103,7 @@ namespace Miniatures
             _hp -= damage;
 
             transform.DOScale(1.4f, .1f).SetLoops(2, LoopType.Yoyo);
+            UIHelper.HitUIRender($"-{damage}", gameObject);
 
             if (_hp <= 0)
                 Die();

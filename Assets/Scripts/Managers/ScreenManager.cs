@@ -33,8 +33,11 @@ namespace BloodField.Managers
 
         void Start()
         {
-            GameManager.Instance.eventManager.OnGameLose += OnGameLose;
-            GameManager.Instance.eventManager.OnGameWin += OnGameWin;
+            GameManager.Instance.eventManager.OnEndGame += (bool isWin) =>
+            {
+                if (isWin) OnGameWin();
+                else OnGameLose();
+            };
         }
     }
 }

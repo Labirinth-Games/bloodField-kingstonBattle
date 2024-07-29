@@ -25,5 +25,25 @@ namespace BloodField.Helpers
             instance.transform.DOScale(0, .25f).SetEase(Ease.InBounce).OnComplete(() => Destroy(instance));
 
         }
+
+        public static async void HitUIRender(string text, GameObject target)
+        {
+            var prefab = Resources.Load<GameObject>("UI/AdditionalStatusUIPrefab");
+            var instance = Instantiate(prefab);
+            // instance.transform.SetParent(target.transform);
+
+            instance.transform.position = target.transform.position;
+            var label = instance.GetComponent<TextMeshPro>();
+            label.text = text;
+            label.color = Color.red;
+
+            instance.transform.DOMoveY(target.transform.position.y + 1 + .6f, .5f).SetEase(Ease.InBounce);
+            instance.transform.DOScale(0, .25f).From().SetEase(Ease.InBounce);
+
+            await Task.Delay(1000);
+
+            instance.transform.DOScale(0, .25f).SetEase(Ease.InBounce).OnComplete(() => Destroy(instance));
+
+        }
     }
 }

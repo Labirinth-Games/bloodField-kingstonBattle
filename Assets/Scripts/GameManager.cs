@@ -35,6 +35,7 @@ namespace BloodField.Managers
         public string UserId { get; private set; }
         public bool IsLocal { get; private set; } = false;
         public bool IsHost { get; private set; } = false;
+        public bool IsFinishGame { get; private set; } = false;
 
         #region Gets/Sets
         public void SetUserId(string userId) => UserId = userId;

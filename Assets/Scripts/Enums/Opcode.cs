@@ -23,6 +23,7 @@ namespace BloodField.Enums
         // match
         public const long MATCH_STATE = 51;
         public const long MATCH_LOAD = 52;
+        public const long MATCH_FINISH = 53;
 
     }
 }
