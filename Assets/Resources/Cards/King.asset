@@ -14,17 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: King
   description: 
-  primaryColor: {r: 0, g: 0, b: 0, a: 0}
-  secundaryColor: {r: 0, g: 0, b: 0, a: 0}
   sprite: {fileID: 4865833193461296498, guid: 4393ae89fbf96254083e2a197f152a98, type: 3}
   type: 4
   equipamentType: 0
+  weightEquipamentType: 0
+  isIndestructible: 0
   armyType: 0
   canApplyEffectToAllMap: 0
   width: 0
   height: 0
   turnDuration: 0
   effectSprite: {fileID: 0}
+  sortLayerSprite: Default
+  sortIndexLayerSprite: 1
+  opacitySprite: 0.2
   effectVFX: {fileID: 0}
   direction: 1
   ATK: 1
@@ -33,12 +36,13 @@ MonoBehaviour:
   D_ATK: 1
   isGroup: 0
   commandScript: {fileID: 0}
+  customTerrainScript: {fileID: 0}
   additionalStats:
     _serializedList:
     - Key: 0
-      Value: 1
+      Value: 0
     - Key: 1
-      Value: 20
+      Value: 0
     - Key: 2
       Value: 0
     - Key: 3

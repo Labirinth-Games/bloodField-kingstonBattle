@@ -37,7 +37,7 @@ public class SignageUI : MonoBehaviour
 
             if (isOpacity)
             {
-                instance.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, .3f);
+                instance.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, .5f);
                 instance.GetComponent<SpriteRenderer>().sortingOrder = -1;
             }
 

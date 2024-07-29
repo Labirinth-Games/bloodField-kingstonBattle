@@ -13,13 +13,22 @@ MonoBehaviour:
   m_Name: FogCardStats
   m_EditorClassIdentifier: 
   title: Fog
-  description: Durante 1 turno, todos os jogadores receberam DEF -1 e MOV -1
+  description: Durante 2 turno, todos os jogadores receberam DEF -1 e MOV -1
   sprite: {fileID: -1766006069671443837, guid: 29ac324e9e3967b4ba8265c5065fc2b0, type: 3}
   type: 1
   equipamentType: 0
+  weightEquipamentType: 0
+  isIndestructible: 0
   armyType: 0
-  width: 0
-  height: 0
+  canApplyEffectToAllMap: 0
+  width: 8
+  height: 4
+  turnDuration: 2
+  effectSprite: {fileID: -3348401630117848977, guid: bafbe4137c247b741988a77fe3064437, type: 3}
+  sortLayerSprite: Miniature
+  sortIndexLayerSprite: 1
+  opacitySprite: 0.5
+  effectVFX: {fileID: 0}
   direction: 4
   ATK: 0
   DEF: 0
@@ -27,6 +36,11 @@ MonoBehaviour:
   D_ATK: 0
   isGroup: 0
   commandScript: {fileID: 0}
+  customTerrainScript: {fileID: 0}
   additionalStats:
-    _serializedList: []
+    _serializedList:
+    - Key: 1
+      Value: -1
+    - Key: 2
+      Value: -1
   targets: 

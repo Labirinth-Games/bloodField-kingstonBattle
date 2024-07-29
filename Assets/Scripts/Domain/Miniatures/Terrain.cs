@@ -22,7 +22,7 @@ namespace BloodField.Miniatures
         private List<GameObject> _floorInstances;
 
         #region Gets/Sets
-        public override bool CanAddOnBoard((int y, int x) position) => GameManager.Instance.mapManager.CanSpawnUntilMiddleMiniatures(position);
+        public override bool CanAddOnBoard((int y, int x) position) => GameManager.Instance.mapManager.CanSpawnTerrainUntilMiddleMap(position);
         #endregion
 
         #region Actions
@@ -34,13 +34,16 @@ namespace BloodField.Miniatures
 
                 if (target != null)
                 {
-                    var targetStats = target.gameObject.GetComponent<Miniature>().stats.additionalStats;
+                    var miniature = target.gameObject.GetComponent<Miniature>();
+                    var targetStats = miniature.stats.additionalStats;
                     int i = 0;
 
                     foreach (var terrainStats in stats.additionalStats)
                     {
                         targetStats[terrainStats.Key] += terrainStats.Value * multiply; // mulyiply is used to add or remove value added
-                        UIHelper.AdditionalStatsUIRender($"{terrainStats.Key} {(multiply < 0 ? "+" : "-")}{Math.Abs(terrainStats.Value)}", target.gameObject, i);
+                        if (terrainStats.Key == StatsType.DEF) miniature.AddHP(terrainStats.Value * multiply);
+
+                        UIHelper.AdditionalStatsUIRender($"{terrainStats.Key} {(Math.Sign(terrainStats.Value * multiply) > 0 ? "+" : "-")}{Math.Abs(terrainStats.Value)}", target.gameObject, i);
                         i++;
                     }
                 }
@@ -78,7 +81,7 @@ namespace BloodField.Miniatures
             GetComponent<SpriteRenderer>().sprite = null;
 
             ApplyDebuff();
-            _floorInstances = TerrainRender.Render(_tarrainArea, gameObject, stats.effectSprite);
+            _floorInstances = TerrainRender.Render(_tarrainArea, gameObject, stats);
             
             stats.customTerrainScript?.Action(_tarrainArea, Remove); // call the command specific
 

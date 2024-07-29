@@ -51,11 +51,21 @@ public class CardSO : ScriptableObject
     public int height;
     [ConditionalItem(nameof(type), CardType.Terrain)]
     public int turnDuration;
+
+    [Space()]
+
     [ConditionalItem(nameof(type), CardType.Terrain)]
     public Sprite effectSprite;
     [ConditionalItem(nameof(type), CardType.Terrain)]
-    public ParticleSystem effectVFX;
+    public string sortLayerSprite = "Default";
+    [ConditionalItem(nameof(type), CardType.Terrain)]
+    public int sortIndexLayerSprite = 1;
+    [ConditionalItem(nameof(type), CardType.Terrain)]
+    public float opacitySprite = .2f;
 
+    [Space()]
+    [ConditionalItem(nameof(type), CardType.Terrain)]
+    public ParticleSystem effectVFX;
 
     [Space()]
     [Header("Stats")]
@@ -95,7 +105,7 @@ public class CardSO : ScriptableObject
     private int GetValue(StatsType statsType, int baseValue)
     {
         int value;
-        if (additionalStats.TryGetValue(statsType, out value) && type == CardType.Army)
+        if (additionalStats.TryGetValue(statsType, out value) && (type == CardType.Army || type == CardType.King))
             return baseValue + value;
 
         return baseValue;

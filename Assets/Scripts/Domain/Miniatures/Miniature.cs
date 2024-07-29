@@ -183,7 +183,9 @@ namespace BloodField.Miniatures
                         foreach (var stat in terrainStats)
                         {
                             myStats[stat.Key] += stat.Value * multiply;
-                            UIHelper.AdditionalStatsUIRender($"{stat.Key} {(multiply<0?"+":"-")}{System.Math.Abs(stat.Value)}", gameObject, i);
+                            if (stat.Key == StatsType.DEF) AddHP(stat.Value * multiply);
+
+                            UIHelper.AdditionalStatsUIRender($"{stat.Key} {(System.Math.Sign(stat.Value * multiply) > 0 ? "+" : "-")}{System.Math.Abs(stat.Value)}", gameObject, i);
                             i++;
                         }
                     });

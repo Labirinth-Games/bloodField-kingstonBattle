@@ -4609,7 +4609,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.size
-      value: 4
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[0].Key
@@ -4622,11 +4622,11 @@ PrefabInstance:
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[2].Key
       value: 
-      objectReference: {fileID: 11400000, guid: 93c2f3cfc706bba4491bcd28816683bd, type: 2}
+      objectReference: {fileID: 11400000, guid: 431a3f411d57c634a9a5fdb59f543d9e, type: 2}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[3].Key
       value: 
-      objectReference: {fileID: 11400000, guid: 170e64ac6ab3a33428ac28d1b32b3222, type: 2}
+      objectReference: {fileID: 11400000, guid: 93c2f3cfc706bba4491bcd28816683bd, type: 2}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[4].Key
       value: 
@@ -4634,11 +4634,11 @@ PrefabInstance:
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[5].Key
       value: 
-      objectReference: {fileID: 11400000, guid: 170e64ac6ab3a33428ac28d1b32b3222, type: 2}
+      objectReference: {fileID: 11400000, guid: 7aaf1c1a4b6f4134a9a3f9f2d4ba3020, type: 2}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[6].Key
       value: 
-      objectReference: {fileID: 11400000, guid: 170e64ac6ab3a33428ac28d1b32b3222, type: 2}
+      objectReference: {fileID: 11400000, guid: 00c4e68bd8446d047b96de3984e01f5a, type: 2}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[7].Key
       value: 
@@ -4664,20 +4664,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b987ea839a6e965418a4858b8121ec3a, type: 2}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[2].Value
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[3].Value
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[4].Value
-      value: 20
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[5].Value
-      value: 20
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[6].Value
-      value: 20
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[7].Value

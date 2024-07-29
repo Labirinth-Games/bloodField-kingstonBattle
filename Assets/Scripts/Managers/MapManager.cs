@@ -164,6 +164,15 @@ namespace BloodField.Managers
             return false;
         }
 
+        public bool CanSpawnTerrainUntilMiddleMap((int y, int x) dir)
+        {
+            if (IsInsideSpawnUntilMiddleMap(dir))
+                if (_map[dir.y, dir.x].Exists(f => f.CanAddTerrain()))
+                    return true;
+
+            return false;
+        }
+
         public bool IsInsideMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= 0 && dir.y < _size;
         public bool IsInsideSpawnMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= 0 && dir.y < spawnAreaScale;
         public bool IsInsideSpawnUntilMiddleMap((int y, int x) dir) => dir.x >= 0 && dir.x < _size && dir.y >= 0 && dir.y < _size - spawnAreaScale;

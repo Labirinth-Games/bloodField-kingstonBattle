@@ -91,6 +91,7 @@ namespace Tiles
         public bool IsArmy() => type == TileType.Army;
         public bool AnyElement() => type != TileType.None;
         public bool CanMove() => new TileType[] { TileType.None, TileType.Terrain }.Contains(type);
+        public bool CanAddTerrain() => new TileType[] { TileType.None, TileType.Terrain, TileType.Army, TileType.King, TileType.Equipament }.Contains(type);
         public bool IsATarget() => new TileType[] { TileType.Army, TileType.Equipament, TileType.King }.Contains(type);
 
         private TileType TranslateTypes(CardType cardType)
