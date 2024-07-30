@@ -6,7 +6,7 @@ using CustomAttributes;
 using AYellowpaper.SerializedCollections;
 using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "Card", menuName = "ScriptableObjects/Card", order = 1)]
+[CreateAssetMenu(fileName = "CardStats", menuName = "ScriptableObjects/Card", order = 1)]
 public class CardSO : ScriptableObject
 {
     [Space()]

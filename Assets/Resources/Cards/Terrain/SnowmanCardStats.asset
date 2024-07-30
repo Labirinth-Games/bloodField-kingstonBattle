@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7254bc9ebb8147a4085925e570d8c221, type: 3}
+  m_Name: SnowmanCardStats
+  m_EditorClassIdentifier: 
+  title: Nevoeiro
+  description: A distancia de ataques acima de 2 recebem D-ATK -1
+  sprite: {fileID: -8227496516965211633, guid: 5e6573b21961e574eaca4e71d9203797, type: 3}
+  type: 1
+  equipamentType: 0
+  weightEquipamentType: 0
+  isIndestructible: 0
+  armyType: 0
+  canApplyEffectToAllMap: 1
+  width: 0
+  height: 0
+  turnDuration: 0
+  effectSprite: {fileID: -8227496516965211633, guid: 5e6573b21961e574eaca4e71d9203797, type: 3}
+  sortLayerSprite: Default
+  sortIndexLayerSprite: 1
+  opacitySprite: 0.5
+  effectVFX: {fileID: 0}
+  direction: 0
+  ATK: 0
+  DEF: 0
+  MOV: 0
+  D_ATK: 0
+  isGroup: 0
+  commandScript: {fileID: 0}
+  customTerrainScript: {fileID: 0}
+  additionalStats:
+    _serializedList:
+    - Key: 3
+      Value: -1
+  targets: 
+  conditionalStats:
+    _serializedList:
+    - Key: 3
+      Value: 2

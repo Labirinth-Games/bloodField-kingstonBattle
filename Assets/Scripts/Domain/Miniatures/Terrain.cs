@@ -6,9 +6,6 @@ using System.Collections.Generic;
 using Tiles;
 using UnityEngine;
 using BloodField.Helpers;
-using System;
-using AYellowpaper.SerializedCollections;
-using System.Linq;
 
 namespace BloodField.Miniatures
 {
@@ -46,7 +43,7 @@ namespace BloodField.Miniatures
             });
         }
 
-        private void Remove()
+        public void Remove()
         {
             ApplyDebuff(-1);
             signageUI.Clear();
@@ -77,7 +74,11 @@ namespace BloodField.Miniatures
             GameManager.Instance.mapManager.Unregister(self); // remove miniature terrain on map
             GetComponent<SpriteRenderer>().sprite = null;
 
-            if (_canApplyEffectToAllMap) _terrainArea = GameManager.Instance.mapManager.GetPositionsMiddleMap();
+            if (_canApplyEffectToAllMap)
+            {
+                GameManager.Instance.matchManager.ChangeTerrainPermanent(this);
+                _terrainArea = GameManager.Instance.mapManager.GetPositionsMiddleMap();
+            }
 
             ApplyDebuff();
 

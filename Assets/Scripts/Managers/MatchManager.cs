@@ -16,6 +16,8 @@ namespace BloodField.Managers
         public string MatchId { get; private set; }
         public bool IsFinishGame { get; private set; } = false;
 
+        private BloodField.Miniatures.Terrain _terrainPermanent = null;
+
         #region Gets/Sets
         public void SetIsFinishGame(bool val) => IsFinishGame = val;
         public bool IsPreparationPhase() => MatchPhase == PhaseType.Preparation;
@@ -40,6 +42,22 @@ namespace BloodField.Managers
             if (IsMainPhase() && !GameManager.Instance.turnManager.HasMiniatureToPlay()) return false;
 
             return true;
+        }
+        #endregion
+
+        #region Terrain
+        public void ChangeTerrainPermanent(BloodField.Miniatures.Terrain terrain)
+        {
+            if (_terrainPermanent is not null) _terrainPermanent.Remove();
+
+            _terrainPermanent = terrain;
+        }
+
+        public void RemoveTerrainPermanent()
+        {
+            if (_terrainPermanent is not null) _terrainPermanent.Remove();
+
+            _terrainPermanent = null;
         }
         #endregion
 
