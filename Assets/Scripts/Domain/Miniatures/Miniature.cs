@@ -261,7 +261,7 @@ namespace BloodField.Miniatures
             GameManager.Instance.eventManager.OnReceivedMatchState -= OnReceivedMatchState;
         }
 
-        public virtual void OnCreate(CardSO card, string ownerId, int y, int x)
+        public virtual void OnCreate(CardSO card, string ownerId, int y, int x, bool isAttachment)
         {
             // create tile config
             self = GameManager.Instance.mapManager.Register(new Tile(card.type, gameObject), (y, x));
@@ -279,7 +279,8 @@ namespace BloodField.Miniatures
             Subscribers();
 
             // attachment the army on mouse to set position
-            GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
+            if (isAttachment)
+                GameManager.Instance.miniatureMouseHelper.Attachment(gameObject);
         }
     }
 }

@@ -6,7 +6,7 @@ using BloodField.Miniatures;
 
 public class King : Miniature
 {
-    public override void OnCreate(CardSO card, string ownerId, int y, int x)
+    public override void OnCreate(CardSO card, string ownerId, int y, int x, bool isAttachment)
     {
         var pos = GameManager.Instance.mapManager.GetKingPositions();
         _ownerId = ownerId;

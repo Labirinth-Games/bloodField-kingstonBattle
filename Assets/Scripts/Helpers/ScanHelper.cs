@@ -33,7 +33,6 @@ namespace Helpers
 
             // positions around tile
             (int y, int x)[] positions = ScanDirectionFixed(tile, width, height, overcomeObstacles);
-            List<Tile>[,] map = GameManager.Instance.mapManager.GetMap();
 
             foreach (var position in positions)
                 tileList.Add(position);

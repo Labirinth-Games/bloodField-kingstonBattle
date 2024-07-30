@@ -13,19 +13,22 @@ namespace Generators
             List<CardSO> deck = new List<CardSO>();
             MatchConfigSO matchConfig = GameManager.Instance.MatchSettings;
 
-            foreach (var card in matchConfig.DeckCardTypeAmount)
+            foreach (var cardSetting in matchConfig.DeckCardTypeAmount)
             {
-                CardType CardType = card.Key;
+                CardType CardType = cardSetting.Key;
 
-                for (var i = 0; i < card.Value; i++)
+                for (var i = 0; i < cardSetting.Value; i++)
                 {
                     var cards = GameManager.Instance.cardManager.GetCardByType(CardType);
 
                     if (cards.Count > 0)
                     {
                         int indexRandom = Random.Range(0, cards.Count);
+                        CardSO card = Instantiate(cards[indexRandom]);
 
-                        deck.Add(cards[indexRandom]);
+                        if (CardType == CardType.Army && Random.Range(0f, 1f) <= GameManager.Instance.MatchSettings.probabilityOfHasArmyWithGroup) card.isGroup = true;
+
+                        deck.Add(card);
                     }
                 }
             }

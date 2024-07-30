@@ -4664,6 +4664,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b987ea839a6e965418a4858b8121ec3a, type: 2}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
+      propertyPath: cards._serializedList.Array.data[1].Value
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[2].Value
       value: 3
       objectReference: {fileID: 0}
@@ -4685,7 +4689,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[7].Value
-      value: 10
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 750525735945161493, guid: b5f275ed6662a7146baa6b559a3e233d, type: 3}
       propertyPath: cards._serializedList.Array.data[8].Value

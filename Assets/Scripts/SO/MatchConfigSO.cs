@@ -15,6 +15,7 @@ public class MatchConfigSO : ScriptableObject
     public int maxCardOnPlayerHand = 10; // max cards tha a player can has on hand
     public int amountDrawCardOnGameplay = 1; // amount that the player can play in your turn
     public int amountDrawCardOnPreparation = 3; // amount that the player can play in preparation stage
+    public float probabilityOfHasArmyWithGroup = .05f; // probability Of Has Army With Group (effect group in card)
 
     [Header("Map")]
     public int MapSize = 16; // size map

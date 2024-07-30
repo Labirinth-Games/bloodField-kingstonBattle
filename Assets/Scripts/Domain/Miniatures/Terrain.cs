@@ -107,9 +107,9 @@ namespace BloodField.Miniatures
         }
         #endregion
 
-        public override void OnCreate(CardSO card, string ownerId, int y, int x)
+        public override void OnCreate(CardSO card, string ownerId, int y, int x, bool isAttachment)
         {
-            base.OnCreate(card, ownerId, y, x);
+            base.OnCreate(card, ownerId, y, x, isAttachment);
 
             _position = self.position;
             _lastPosition = _position;

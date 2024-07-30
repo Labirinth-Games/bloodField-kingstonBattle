@@ -9,19 +9,27 @@ namespace Render
 {
     public class MiniatureRender : MonoBehaviour
     {
-        public static GameObject KingRender(GameObject prefab)
+        public static GameObject KingRender(GameObject prefab, bool isAttachment = true)
         {
             var kingSO = Resources.Load<CardSO>("Cards/King");
             var instance = Instantiate(prefab);
-            instance.GetComponent<King>().OnCreate(kingSO, GameManager.Instance.UserId, 0, 0);
+            instance.GetComponent<King>().OnCreate(kingSO, GameManager.Instance.UserId, 0, 0, isAttachment);
 
             return instance;
         }
 
-        public static GameObject Render(CardSO card, GameObject prefab)
+        public static GameObject Render(CardSO card, GameObject prefab, bool isAttachment = true)
         {
             var instance = Instantiate(prefab);
-            instance.GetComponent<Miniature>().OnCreate(card, GameManager.Instance.UserId, 0, 0);
+            instance.GetComponent<Miniature>().OnCreate(card, GameManager.Instance.UserId, 0, 0, isAttachment);
+
+            return instance;
+        }
+
+        public static GameObject Render(CardSO card, GameObject prefab, (int y, int x) position, bool isAttachment = true)
+        {
+            var instance = Instantiate(prefab);
+            instance.GetComponent<Miniature>().OnCreate(card, GameManager.Instance.UserId, position.y, position.x, isAttachment);
 
             return instance;
         }
@@ -44,7 +52,7 @@ namespace Render
             var cardSO = Resources.Load<CardSO>(card);
             var instance = Instantiate(prefab);
             
-            instance.GetComponent<Miniature>().OnCreate(cardSO, GameManager.Instance.UserId, y, x);
+            instance.GetComponent<Miniature>().OnCreate(cardSO, GameManager.Instance.UserId, y, x, false);
         }
     }
 }

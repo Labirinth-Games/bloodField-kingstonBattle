@@ -14,8 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Default
   initialAmountInHand: 7
-  amountPlayCardCanActive: 1
   maxCardOnPlayerHand: 7
+  amountDrawCardOnGameplay: 1
+  amountDrawCardOnPreparation: 3
+  probabilityOfHasArmyWithGroup: 0.1
+  MapSize: 16
   DeckCardTypeAmount:
     _serializedList:
     - Key: 0
