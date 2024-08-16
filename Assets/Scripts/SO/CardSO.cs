@@ -16,8 +16,7 @@ public class CardSO : ScriptableObject
 
     [Space()]
     [Header("Skin")]
-    // public Color primaryColor;
-    // public Color secundaryColor;
+    public ColorConfigSO color;
     public Sprite sprite;
 
     [Space()]

@@ -7,8 +7,6 @@ using Tiles;
 using UnityEngine;
 using Nakama;
 using BloodField.Types;
-using System.Text;
-using Nakama.TinyJson;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
 using System.Threading.Tasks;
@@ -78,6 +76,7 @@ namespace BloodField.Miniatures
                 OpCodeType.MINIATURE_MOVE,
                 new MiniatureNetworkEntity
                 {
+                    id = _id,
                     x = (int)pos.x,
                     y = (int)pos.y
                 }
@@ -92,7 +91,7 @@ namespace BloodField.Miniatures
 
             if (_isFinishAction || !_isSelected || enemy is null || !IsOwner()) return;
 
-            if (enemy.gameObject.TryGetComponent(out Miniature miniatureEnemy))
+            if (enemy.gameObject.TryGetComponent(out MiniatureRemote miniatureEnemy))
                 miniatureEnemy.Hit(stats.GetATK());
 
             FinishAction();
@@ -194,25 +193,12 @@ namespace BloodField.Miniatures
         #region Network Events
         private void OnReceivedMatchState(IMatchState matchState)
         {
-            var jsonUtf8 = Encoding.UTF8.GetString(matchState.State);
-            var content = JsonParser.FromJson<Dictionary<string, string>>(jsonUtf8);
-            var isOwner = content.ContainsKey("userId") && content["userId"] == GameManager.Instance.UserId;
-
-            switch (matchState.OpCode)
+            NetworkHelper.Listen<MiniatureNetworkEntity>(matchState, OpCodeType.MINIATURE_HIT, (content, isHost, isOwner) =>
             {
-                case OpCodeType.MINIATURE_MOVE:
-                    if (!isOwner)
-                    {
-                        MiniatureNetworkEntity miniature = JsonParser.FromJson<MiniatureNetworkEntity>(jsonUtf8);
+                if (isOwner || _id != content.id) return;
 
-                        if (miniature.id == _id)
-                        {
-                            var pos = GameManager.Instance.mapManager.ReflexPosition((miniature.y, miniature.x));
-                            self.MoveTo(pos);
-                        }
-                    }
-                    break;
-            }
+                Hit(content.damage);
+            });
         }
         #endregion
 
@@ -253,25 +239,28 @@ namespace BloodField.Miniatures
         {
             self.MoveTo(pos);
             SetReady();
+
+            GameManager.Instance.eventManager.MiniatureCreatedEvent(_id, stats, self);
         }
 
         void OnDestroy()
         {
-            GameManager.Instance.eventManager.OnStartMyTurn -= MyTurn;
             GameManager.Instance.eventManager.OnReceivedMatchState -= OnReceivedMatchState;
+            GameManager.Instance.eventManager.OnStartMyTurn -= MyTurn;
         }
 
         public virtual void OnCreate(CardSO card, string ownerId, int y, int x, bool isAttachment)
         {
             // create tile config
             self = GameManager.Instance.mapManager.Register(new Tile(card.type, gameObject), (y, x));
-            GetComponent<SpriteRenderer>().sprite = card.sprite;
 
             _ownerId = ownerId;
 
             // setting stats
             stats = Instantiate(card);
             _hp = stats.GetDEF();
+            
+            GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(card.sprite, stats.color);
 
             if (!GameManager.Instance.turnManager.IsMyTurn())
                 _isFinishAction = true;

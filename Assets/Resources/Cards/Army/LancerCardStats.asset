@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Lancer
   description: "Esse \xE9 um guerreiro com ataques de media distancia."
+  color: {fileID: 11400000, guid: 20a240081d2a1ce48b80584f973ce10f, type: 2}
   sprite: {fileID: 656662681236632824, guid: 5cbb53b643ee40a4dacf81ea6e091f64, type: 3}
   type: 0
   equipamentType: 0

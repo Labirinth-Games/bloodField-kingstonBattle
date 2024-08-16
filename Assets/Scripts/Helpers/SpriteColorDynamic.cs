@@ -4,15 +4,9 @@ using UnityEngine;
 
 namespace Helpers
 {
-    public struct SpriteColors
-    {
-        public Color primary;
-        public Color secundary;
-    }
-
     public class SpriteColorDynamic : MonoBehaviour
     {
-        public static Sprite ChangeColorBase(Sprite spriteOriginal, SpriteColors colors)
+        public static Sprite ChangeColorBase(Sprite spriteOriginal, ColorConfigSO colors, bool isRemote = false)
         {
             if (!spriteOriginal.texture.isReadable)
             {
@@ -24,6 +18,7 @@ namespace Helpers
             Sprite sprite = Sprite.Create(texture, new Rect(0, 0, spriteOriginal.texture.width, spriteOriginal.texture.height), Vector2.one / 2, spriteOriginal.pixelsPerUnit);
 
             sprite.texture.filterMode = FilterMode.Point;
+            var color = isRemote ? colors.remoteMiniatureColor : colors.localMiniatureColor;
 
             for (int y = 0; y < spriteOriginal.texture.height; y++)
                 for (int x = 0; x < spriteOriginal.texture.width; x++)
@@ -31,10 +26,12 @@ namespace Helpers
                     Color pixelColor = spriteOriginal.texture.GetPixel(x, y);
                     Debug.Log(pixelColor.ToHexString());
 
-                    if (pixelColor.ToHexString() == "7E8AA7FF")
-                        sprite.texture.SetPixel(x, y, colors.primary);
-                    else if (pixelColor.ToHexString() == "566794FF")
-                        sprite.texture.SetPixel(x, y, colors.secundary);
+                    if (pixelColor.ToHexString() == colors.baseColor.primary.ToHexString()) // primary color
+                        sprite.texture.SetPixel(x, y, color.primary);
+                    else if (pixelColor.ToHexString() == colors.baseColor.shadow.ToHexString())
+                        sprite.texture.SetPixel(x, y, color.shadow);
+                    else if (pixelColor.ToHexString() == colors.baseColor.light.ToHexString())
+                        sprite.texture.SetPixel(x, y, color.light);
                     else
                         sprite.texture.SetPixel(x, y, pixelColor);
                 }

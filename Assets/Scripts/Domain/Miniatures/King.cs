@@ -3,6 +3,7 @@ using BloodField.Managers;
 using Tiles;
 using UnityEngine;
 using BloodField.Miniatures;
+using Helpers;
 
 public class King : Miniature
 {
@@ -11,16 +12,13 @@ public class King : Miniature
         var pos = GameManager.Instance.mapManager.GetKingPositions();
         _ownerId = ownerId;
 
-        if (!IsOwner())
-            pos = GameManager.Instance.mapManager.ReflexPosition(pos);
-
         self = GameManager.Instance.mapManager.Register(new Tile(TileType.King, gameObject), pos);
         self.SetPositionOnWorld();
 
         stats = Instantiate(card);
         _hp = stats.GetDEF();
         
-        GetComponent<SpriteRenderer>().sprite = card.sprite;
+        GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(card.sprite, stats.color);
         
         SetReady();
         Subscribers();

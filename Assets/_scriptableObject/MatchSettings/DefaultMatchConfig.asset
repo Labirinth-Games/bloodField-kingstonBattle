@@ -17,7 +17,7 @@ MonoBehaviour:
   maxCardOnPlayerHand: 7
   amountDrawCardOnGameplay: 1
   amountDrawCardOnPreparation: 3
-  probabilityOfHasArmyWithGroup: 0.1
+  probabilityOfHasArmyWithGroup: 0.02
   MapSize: 16
   DeckCardTypeAmount:
     _serializedList:

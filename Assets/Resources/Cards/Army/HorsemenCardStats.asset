@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Horsemen
   description: Cavaleiro que tem otima movimentacao e boa defesa.
+  color: {fileID: 11400000, guid: 20a240081d2a1ce48b80584f973ce10f, type: 2}
   sprite: {fileID: -5352670390854010123, guid: 131407c1b4872434494ae3399183b178, type: 3}
   type: 0
   equipamentType: 0

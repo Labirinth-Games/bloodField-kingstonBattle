@@ -11,11 +11,13 @@ namespace Render
     {
         public static GameObject KingRender(GameObject prefab, bool isAttachment = true)
         {
-            var kingSO = Resources.Load<CardSO>("Cards/King");
-            var instance = Instantiate(prefab);
-            instance.GetComponent<King>().OnCreate(kingSO, GameManager.Instance.UserId, 0, 0, isAttachment);
+            var kingSO = Resources.Load<CardSO>("Cards/King/King");
+            var king = Instantiate(prefab).GetComponent<King>();
+            king.OnCreate(kingSO, GameManager.Instance.UserId, 0, 0, isAttachment);
 
-            return instance;
+            GameManager.Instance.eventManager.MiniatureCreatedEvent(king._id, king.stats, king.self);
+
+            return king.gameObject;
         }
 
         public static GameObject Render(CardSO card, GameObject prefab, bool isAttachment = true)
@@ -36,7 +38,7 @@ namespace Render
 
         public static GameObject PreviewRender(CardSO card, int hp, GameObject prefab)
         {
-            if(prefab is null) return null;
+            if (prefab is null) return null;
 
             var instance = Instantiate(prefab);
             instance.GetComponent<MiniaturePreviewHUD>().Render(card, hp);
@@ -46,13 +48,21 @@ namespace Render
             return instance;
         }
 
-        public void SpawnRemote(string miniature, string card, int y, int x)
-        {   
-            var prefab = Resources.Load<GameObject>(miniature);
-            var cardSO = Resources.Load<CardSO>(card);
-            var instance = Instantiate(prefab);
-            
-            instance.GetComponent<Miniature>().OnCreate(cardSO, GameManager.Instance.UserId, y, x, false);
+        public static GameObject SpawnRemote(string id, CardSO card, (int y, int x) pos)
+        {
+            var instance = new GameObject();
+            instance.AddComponent<MiniatureRemote>();
+            instance.AddComponent<SpriteRenderer>().sortingLayerName = "Miniature";
+            instance.GetComponent<SpriteRenderer>().sortingOrder = -1;
+            instance.AddComponent<BoxCollider2D>();
+            instance.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
+            instance.AddComponent<SignageUI>();
+
+            var reflexPosition = GameManager.Instance.mapManager.ReflexPosition(pos);
+
+            instance.GetComponent<MiniatureRemote>().OnCreate(id, card, GameManager.Instance.UserId, reflexPosition.y, reflexPosition.x);
+
+            return instance;
         }
     }
 }

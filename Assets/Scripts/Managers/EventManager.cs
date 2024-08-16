@@ -5,6 +5,7 @@ using BloodField.Helpers;
 using BloodField.Network.Entities;
 using Nakama;
 using UnityEngine;
+using Tiles;
 
 namespace BloodField.Managers
 {
@@ -94,6 +95,14 @@ namespace BloodField.Managers
                 OpCodeType.TURN_CARD_USED,
                 new TurnNetworkEntity() { }
             );
+        }
+        #endregion
+
+        #region Miniature
+        public event Action<string, CardSO, Tile> OnMiniatureCreated;
+        public void MiniatureCreatedEvent(string id, CardSO card, Tile tile)
+        {
+            if (OnMiniatureCreated != null)  OnMiniatureCreated(id, card, tile);
         }
         #endregion
 

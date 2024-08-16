@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: King
   description: 
-  sprite: {fileID: 4865833193461296498, guid: 4393ae89fbf96254083e2a197f152a98, type: 3}
+  color: {fileID: 11400000, guid: 20a240081d2a1ce48b80584f973ce10f, type: 2}
+  sprite: {fileID: -382183722442779561, guid: 1eb36252349365e499dcdbf39c5229c0, type: 3}
   type: 4
   equipamentType: 0
   weightEquipamentType: 0
@@ -48,3 +49,5 @@ MonoBehaviour:
     - Key: 3
       Value: 0
   targets: 
+  conditionalStats:
+    _serializedList: []

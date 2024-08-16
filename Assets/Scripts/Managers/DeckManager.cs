@@ -39,7 +39,7 @@ namespace BloodField.Managers
         }
 
         #region Validatior
-        public bool CanDraw(int amountCardOnPlayerHand) => deck.Count > 0 && amountCardOnPlayerHand <= GameManager.Instance.MatchSettings.maxCardOnPlayerHand;
+        public bool CanDraw(int amountCardOnPlayerHand) => (GameManager.Instance.IsHost ? deck.Count > 0 : true) && amountCardOnPlayerHand <= GameManager.Instance.MatchSettings.maxCardOnPlayerHand;
         #endregion
 
         #region Gets/Sets

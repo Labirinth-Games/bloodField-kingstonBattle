@@ -6,6 +6,8 @@ using Nakama;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Tiles;
+using Render;
 
 namespace BloodField.Managers
 {
@@ -110,6 +112,13 @@ namespace BloodField.Managers
 
                 GameManager.Instance.eventManager.EndGameEvent(true);
             });
+
+            NetworkHelper.Listen<MiniatureNetworkEntity>(matchState, OpCodeType.MINIATURE_CREATE, (content, isHost, isOwner) =>
+            {
+                if (isOwner) return;
+
+                MiniatureRender.SpawnRemote(content.id, content.GetCard(), content.GetPosition());
+            });
         }
         #endregion
 
@@ -130,6 +139,17 @@ namespace BloodField.Managers
         {
             if (GameManager.Instance.IsHost) ValidateAllPlayerFinishPreparationStage();
             else await NetworkHelper.Send<TurnNetworkEntity>(OpCodeType.TURN_PHASE_PREPARATION_READY, new TurnNetworkEntity() { });
+        }
+
+        private async void OnMiniatureCreated(string id, CardSO card, Tile tile)
+        {
+            await NetworkHelper.Send<MiniatureNetworkEntity>(OpCodeType.MINIATURE_CREATE, new MiniatureNetworkEntity()
+            {
+                id = id,
+                cardPath = $"Cards/{card.type}/{card.name}",
+                y = tile.position.y,
+                x = tile.position.x,
+            });
         }
         #endregion
 
@@ -171,6 +191,13 @@ namespace BloodField.Managers
                 GameManager.Instance.networkManager.Socket.ReceivedMatchState += OnReceiveMatchState;
 
             GameManager.Instance.eventManager.OnFinishedPreparationPhase += OnFinishedPreparationPhase;
+            GameManager.Instance.eventManager.OnMiniatureCreated += OnMiniatureCreated;
+        }
+
+        void OnDestroy()
+        {
+            GameManager.Instance.eventManager.OnFinishedPreparationPhase -= OnFinishedPreparationPhase;
+            GameManager.Instance.eventManager.OnMiniatureCreated -= OnMiniatureCreated;
         }
 
         void Update()

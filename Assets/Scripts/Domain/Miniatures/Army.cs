@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using BloodField.Managers;
 using BloodField.Types;
 using Helpers;
-using Mono.Cecil;
 using Render;
 using Tiles;
 using UnityEngine;
@@ -54,9 +53,13 @@ namespace BloodField.Miniatures
                 cloneStats.isGroup = false;
 
                 var instance = MiniatureRender.Render(cloneStats, Resources.Load<GameObject>("Miniatures/ArmyMiniaturePrefab"), element.position, false);
-                instance.GetComponent<Army>().self.MoveTo(element.position);
-                instance.GetComponent<Army>().SetReady();
+                var army = instance.GetComponent<Army>();
+                army.self.MoveTo(element.position);
+                army.SetReady();
+
                 instance.transform.position = new Vector3(element.position.x, element.position.y, 0);
+
+                GameManager.Instance.eventManager.MiniatureCreatedEvent(army._id, army.stats, army.self);
             }
         }
 

@@ -19,6 +19,9 @@ namespace BloodField.Types
         // Miniatures
         public const long MINIATURE_MOVE = 41;
         public const long MINIATURE_ATTACK = 42;
+        public const long MINIATURE_CREATE = 43;
+        public const long MINIATURE_HIT = 44;
+        public const long MINIATURE_DEATH = 45;
 
         // match
         public const long MATCH_STATE = 51;

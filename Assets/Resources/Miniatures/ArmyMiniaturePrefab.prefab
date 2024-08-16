@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   miniaturePreviewHUDPrefab: {fileID: 7020397068233471694, guid: 31d2f22400416a4488c4a4a761c14b68, type: 3}
+  colorConfig: {fileID: 11400000, guid: 20a240081d2a1ce48b80584f973ce10f, type: 2}
   signageUI: {fileID: 7118493457403369120}
   stats: {fileID: 0}
 --- !u!114 &7118493457403369120

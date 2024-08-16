@@ -11,6 +11,6 @@ namespace BloodField.Network.Entities
         public string[] Cards;
         public int AmountCardsDraw;
 
-        public List<CardSO> GetCards() => Cards.Select(s => Resources.Load<CardSO>(s)).ToList();
+        public List<CardSO> GetCards() => Cards.Select(s => Resources.Load<CardSO>(s.Replace("(Clone)", string.Empty))).ToList();
     }
 }
