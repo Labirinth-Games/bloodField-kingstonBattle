@@ -63,7 +63,7 @@ namespace BloodField.Miniatures
             if (_hp <= 0)
                 Die();
 
-            await NetworkHelper.Send<MiniatureNetworkEntity>(OpCodeType.MINIATURE_HIT, new MiniatureNetworkEntity() { damage = stats.GetATK(), id = _id });
+            await NetworkHelper.Send<MiniatureNetworkEntity>(OpCodeType.MINIATURE_HIT, new MiniatureNetworkEntity() { damage = damage, id = _id });
         }
 
         public virtual async void Die()
@@ -153,7 +153,8 @@ namespace BloodField.Miniatures
             stats = Instantiate(card);
             _hp = stats.GetDEF();
 
-            GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(card.sprite, stats.color, true);
+            if (new List<CardType> { CardType.Equipament, CardType.Army, CardType.King }.Exists(e => e == stats.type))
+                GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(card.sprite, stats.color, true);
 
             Subscribers();
         }

@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine;
 using Tiles;
 using Render;
+using System.Threading.Tasks;
 
 namespace BloodField.Managers
 {
@@ -93,6 +94,8 @@ namespace BloodField.Managers
                 GameManager.Instance.turnManager.Load(myPlayer, Players.First());
 
                 MatchPhase = PhaseType.Preparation;
+
+                GameManager.Instance.screenManager.LoadScreen(false);
             });
 
             NetworkHelper.Listen<MatchNetworkEntity>(matchState, OpCodeType.MATCH_STATE, (content, isHost, isOwner) =>
@@ -119,6 +122,22 @@ namespace BloodField.Managers
 
                 MiniatureRender.SpawnRemote(content.id, content.GetCard(), content.GetPosition());
             });
+
+            NetworkHelper.Listen<MiniatureNetworkEntity>(matchState, OpCodeType.MINIATURE_TERRAIN_CREATE, (content, isHost, isOwner) =>
+            {
+                if (isOwner) return;
+
+                var terrain = new GameObject();
+                terrain.name = $"Remote_Base_Terrain_{content.GetCard().title}";
+                terrain.transform.position = Vector2.one * -1;
+                terrain.AddComponent<Miniatures.Terrain>();
+                terrain.AddComponent<SpriteRenderer>();
+                terrain.AddComponent<BoxCollider2D>();
+
+                terrain.GetComponent<Miniatures.Terrain>().OnCreate(content.GetCard(), content.id, content.y, content.x, false);
+                terrain.GetComponent<Miniatures.Terrain>().AddOnBoardRemote(content.GetPosition());
+                terrain.GetComponent<BoxCollider2D>().size = new Vector2(1, 1);
+            });
         }
         #endregion
 
@@ -143,12 +162,27 @@ namespace BloodField.Managers
 
         private async void OnMiniatureCreated(string id, CardSO card, Tile tile)
         {
+            var path = card.type == CardType.Equipament ? $"Cards/{card.type}/{card.equipamentType}/{card.name}" : $"Cards/{card.type}/{card.name}";
+
             await NetworkHelper.Send<MiniatureNetworkEntity>(OpCodeType.MINIATURE_CREATE, new MiniatureNetworkEntity()
             {
                 id = id,
-                cardPath = $"Cards/{card.type}/{card.name}",
+                cardPath = path,
                 y = tile.position.y,
                 x = tile.position.x,
+            });
+        }
+
+        private async void OnTerrainCreated(string id, (int y, int x) pos, CardSO card, Tile tile)
+        {
+            var path = card.type == CardType.Equipament ? $"Cards/{card.type}/{card.equipamentType}/{card.name}" : $"Cards/{card.type}/{card.name}";
+
+            await NetworkHelper.Send<MiniatureNetworkEntity>(OpCodeType.MINIATURE_TERRAIN_CREATE, new MiniatureNetworkEntity()
+            {
+                id = id,
+                cardPath = path,
+                y = pos.y,
+                x = pos.x,
             });
         }
         #endregion
@@ -157,10 +191,13 @@ namespace BloodField.Managers
         {
             MatchId = matchId;
             Players = players;
+            GameManager.Instance.screenManager.LoadScreen(true);
 
             Subscribers();
 
             GameManager.Instance.deckManager.Load();
+
+            await NetworkHelper.Send<MatchNetworkEntity>(OpCodeType.MATCH_LOAD, new MatchNetworkEntity() { Players = Players.Select(s => s.userId).ToList() });
 
             GameManager.Instance.screenManager.GameScreenShow();
             GameManager.Instance.mapManager.Load();
@@ -174,12 +211,15 @@ namespace BloodField.Managers
             GameManager.Instance.turnManager.Load(myPlayer, Players.First());
             MatchPhase = PhaseType.Preparation;
 
-            await NetworkHelper.Send<MatchNetworkEntity>(OpCodeType.MATCH_LOAD, new MatchNetworkEntity() { Players = Players.Select(s => s.userId).ToList() });
+            GameManager.Instance.screenManager.LoadScreen(false);
         }
 
         public void InitialPhaseRemote(string matchId)
         {
             MatchId = matchId;
+
+            // show screen load
+            GameManager.Instance.screenManager.LoadScreen(true);
 
             GameManager.Instance.deckManager.Subscribers();
             Subscribers();
@@ -192,12 +232,14 @@ namespace BloodField.Managers
 
             GameManager.Instance.eventManager.OnFinishedPreparationPhase += OnFinishedPreparationPhase;
             GameManager.Instance.eventManager.OnMiniatureCreated += OnMiniatureCreated;
+            GameManager.Instance.eventManager.OnTerrainCreated += OnTerrainCreated;
         }
 
         void OnDestroy()
         {
             GameManager.Instance.eventManager.OnFinishedPreparationPhase -= OnFinishedPreparationPhase;
             GameManager.Instance.eventManager.OnMiniatureCreated -= OnMiniatureCreated;
+            GameManager.Instance.eventManager.OnTerrainCreated -= OnTerrainCreated;
         }
 
         void Update()

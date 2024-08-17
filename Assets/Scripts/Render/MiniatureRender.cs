@@ -51,6 +51,7 @@ namespace Render
         public static GameObject SpawnRemote(string id, CardSO card, (int y, int x) pos)
         {
             var instance = new GameObject();
+            instance.name = $"Remote_{card.type}_{card.title}";
             instance.AddComponent<MiniatureRemote>();
             instance.AddComponent<SpriteRenderer>().sortingLayerName = "Miniature";
             instance.GetComponent<SpriteRenderer>().sortingOrder = -1;

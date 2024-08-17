@@ -15,15 +15,21 @@ MonoBehaviour:
   title: Rain
   description: "Durante 3 turnos o ch\xE3o ficar\xE1 encharcado, assim dificultando
     a movimenta\xE7\xE3o (MOV -1) de qualquer exercito dentro da \xE1rea de 6x3"
+  color: {fileID: 0}
   sprite: {fileID: -6830152201372448578, guid: 80c44f40d7f717a42bed0d3af513147d, type: 3}
   type: 1
   equipamentType: 0
+  weightEquipamentType: 0
+  isIndestructible: 0
   armyType: 0
   canApplyEffectToAllMap: 0
   width: 6
   height: 3
   turnDuration: 2
   effectSprite: {fileID: 1820064276241994544, guid: 7a1ff6deb4d3ca441b64da7eb0e7d63b, type: 3}
+  sortLayerSprite: Terrain
+  sortIndexLayerSprite: 1
+  opacitySprite: 0.2
   effectVFX: {fileID: 345775955226391227, guid: 760c6ca3abe806c44b33bdee5e8a694e, type: 3}
   direction: 4
   ATK: 0
@@ -32,8 +38,11 @@ MonoBehaviour:
   D_ATK: 0
   isGroup: 0
   commandScript: {fileID: 0}
+  customTerrainScript: {fileID: 0}
   additionalStats:
     _serializedList:
     - Key: 2
       Value: -1
   targets: 
+  conditionalStats:
+    _serializedList: []

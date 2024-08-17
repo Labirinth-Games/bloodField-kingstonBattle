@@ -104,6 +104,12 @@ namespace BloodField.Managers
         {
             if (OnMiniatureCreated != null)  OnMiniatureCreated(id, card, tile);
         }
+
+        public event Action<string, (int y, int x), CardSO, Tile> OnTerrainCreated;
+        public void TerrainCreatedEvent(string id, (int y, int x) pos, CardSO card, Tile tile)
+        {
+            if (OnTerrainCreated != null)  OnTerrainCreated(id, pos, card, tile);
+        }
         #endregion
 
         #region Game

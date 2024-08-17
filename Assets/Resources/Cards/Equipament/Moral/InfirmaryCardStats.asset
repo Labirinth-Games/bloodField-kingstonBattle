@@ -14,17 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Infirmary
   description: Soldados recebem DEF +1
-  primaryColor: {r: 0, g: 0, b: 0, a: 0}
-  secundaryColor: {r: 0, g: 0, b: 0, a: 0}
+  color: {fileID: 11400000, guid: 20a240081d2a1ce48b80584f973ce10f, type: 2}
   sprite: {fileID: 4146719202606272858, guid: 932a1b2f6b6302149992655c6e5dcf62, type: 3}
   type: 3
   equipamentType: 3
+  weightEquipamentType: 0
+  isIndestructible: 0
   armyType: 0
   canApplyEffectToAllMap: 0
   width: 0
   height: 0
   turnDuration: 0
   effectSprite: {fileID: 0}
+  sortLayerSprite: Default
+  sortIndexLayerSprite: 1
+  opacitySprite: 0.2
   effectVFX: {fileID: 0}
   direction: 0
   ATK: 0
@@ -33,8 +37,11 @@ MonoBehaviour:
   D_ATK: 0
   isGroup: 0
   commandScript: {fileID: 0}
+  customTerrainScript: {fileID: 0}
   additionalStats:
     _serializedList:
     - Key: 1
       Value: 1
   targets: 00000000010000000200000003000000
+  conditionalStats:
+    _serializedList: []

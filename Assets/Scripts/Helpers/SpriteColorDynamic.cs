@@ -24,7 +24,6 @@ namespace Helpers
                 for (int x = 0; x < spriteOriginal.texture.width; x++)
                 {
                     Color pixelColor = spriteOriginal.texture.GetPixel(x, y);
-                    Debug.Log(pixelColor.ToHexString());
 
                     if (pixelColor.ToHexString() == colors.baseColor.primary.ToHexString()) // primary color
                         sprite.texture.SetPixel(x, y, color.primary);

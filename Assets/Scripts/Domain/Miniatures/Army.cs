@@ -83,8 +83,6 @@ namespace BloodField.Miniatures
         {
             base.OnCreate(card, ownerId, y, x, isAttachment);
             ApplyAdditionalStats();
-
-            // GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(GetComponent<SpriteRenderer>().sprite, new SpriteColors() { primary = stats.primaryColor, secundary = stats.secundaryColor });
         }
     }
 }

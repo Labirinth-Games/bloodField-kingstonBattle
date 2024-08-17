@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Ensolarado
   description: "Durante 2 turnos o exercito dentro da \xE1rea 3x2 recebe ATK +1"
+  color: {fileID: 0}
   sprite: {fileID: -1447735423192876108, guid: 098b0c1ecb2ee134280ce63f3345e512, type: 3}
   type: 1
   equipamentType: 0
@@ -22,10 +23,10 @@ MonoBehaviour:
   armyType: 0
   canApplyEffectToAllMap: 0
   width: 3
-  height: 2
+  height: 3
   turnDuration: 2
   effectSprite: {fileID: -1928264830872788639, guid: 74af0a5f535e0d84cab9f3750023b78d, type: 3}
-  sortLayerSprite: Default
+  sortLayerSprite: Terrain
   sortIndexLayerSprite: 1
   opacitySprite: 0.2
   effectVFX: {fileID: 0}
@@ -42,3 +43,5 @@ MonoBehaviour:
     - Key: 0
       Value: 1
   targets: 
+  conditionalStats:
+    _serializedList: []

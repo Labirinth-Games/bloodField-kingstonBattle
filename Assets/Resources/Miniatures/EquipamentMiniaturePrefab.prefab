@@ -50,6 +50,7 @@ MonoBehaviour:
   miniaturePreviewHUDPrefab: {fileID: 7020397068233471694, guid: 31d2f22400416a4488c4a4a761c14b68, type: 3}
   signageUI: {fileID: 4781986632109155068}
   stats: {fileID: 0}
+  indicatorPrefab: {fileID: 0}
 --- !u!114 &4781986632109155068
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ using BloodField.Types;
 using BloodField.Helpers;
 using BloodField.Network.Entities;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace BloodField.Miniatures
 {
@@ -259,8 +260,9 @@ namespace BloodField.Miniatures
             // setting stats
             stats = Instantiate(card);
             _hp = stats.GetDEF();
-            
-            GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(card.sprite, stats.color);
+
+            if (new List<CardType> { CardType.Equipament, CardType.Army }.Exists(e => e == stats.type))
+                GetComponent<SpriteRenderer>().sprite = SpriteColorDynamic.ChangeColorBase(card.sprite, stats.color);
 
             if (!GameManager.Instance.turnManager.IsMyTurn())
                 _isFinishAction = true;

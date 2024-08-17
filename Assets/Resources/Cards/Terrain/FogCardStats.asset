@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Fog
   description: Durante 2 turno, todos os jogadores receberam DEF -1 e MOV -1
+  color: {fileID: 0}
   sprite: {fileID: -1766006069671443837, guid: 29ac324e9e3967b4ba8265c5065fc2b0, type: 3}
   type: 1
   equipamentType: 0
@@ -44,3 +45,5 @@ MonoBehaviour:
     - Key: 2
       Value: -1
   targets: 
+  conditionalStats:
+    _serializedList: []

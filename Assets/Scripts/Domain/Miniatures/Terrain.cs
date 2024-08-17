@@ -46,7 +46,7 @@ namespace BloodField.Miniatures
         public void Remove()
         {
             ApplyDebuff(-1);
-            signageUI.Clear();
+            signageUI?.Clear();
             _terrainArea?.ForEach(position => GameManager.Instance.mapManager.Unregister(TileType.Terrain, position));
             _floorInstances?.ForEach(f => Destroy(f.gameObject));
             Destroy(_vfxInstance);
@@ -67,7 +67,7 @@ namespace BloodField.Miniatures
 
         public override void AddOnBoard((int y, int x) pos)
         {
-            signageUI.Clear();
+            signageUI?.Clear();
             _turnAmount = 0;
             _stopAttach = true;
 
@@ -88,7 +88,22 @@ namespace BloodField.Miniatures
 
             if (stats.effectVFX)
                 _vfxInstance = TerrainRender.VfxRender(stats.effectVFX);
+
+            if (IsOwner()) // send message to remote client
+            {
+                var positionRemote = GameManager.Instance.mapManager.ReflexPosition(_position);
+                positionRemote.y += stats.height - 1;
+
+                GameManager.Instance.eventManager.TerrainCreatedEvent(_id, positionRemote, stats, self);
+            }
         }
+
+        public void AddOnBoardRemote((int y, int x) pos)
+        {
+            _terrainArea = ScanHelper.ScanFixed(new Tile(pos.y, pos.x), stats.width, stats.height, true);
+            AddOnBoard(pos);
+        }
+
 
         #region Unity Event
         private void Update()
@@ -100,16 +115,18 @@ namespace BloodField.Miniatures
             if (_lastPosition == _position || !CanAddOnBoard(_position)) return;
 
             _lastPosition = _position;
-            signageUI.Clear();
+            signageUI?.Clear();
 
             _terrainArea = ScanHelper.ScanFixed(new Tile(_position.y, _position.x), stats.width, stats.height, true);
-            signageUI.Overlay(_terrainArea, OverlayerType.Terrain, true);
+            signageUI?.Overlay(_terrainArea, OverlayerType.Terrain, true);
         }
         #endregion
 
         public override void OnCreate(CardSO card, string ownerId, int y, int x, bool isAttachment)
         {
             base.OnCreate(card, ownerId, y, x, isAttachment);
+
+            GetComponent<SpriteRenderer>().sprite = card.sprite;
 
             _position = self.position;
             _lastPosition = _position;

@@ -16,6 +16,9 @@ namespace Render
             {
                 var instance = new GameObject();
                 var spriteRender = instance.AddComponent<SpriteRenderer>();
+                instance.transform.SetParent(gameObject.transform);
+                instance.name = $"Remote_Terrain_{card.title}";
+
                 spriteRender.sprite = card.effectSprite;
                 spriteRender.sortingOrder = card.sortIndexLayerSprite;
                 spriteRender.sortingLayerName = card.sortLayerSprite;

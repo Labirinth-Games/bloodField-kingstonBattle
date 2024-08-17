@@ -15,6 +15,7 @@ MonoBehaviour:
   title: "Lama\xE7al"
   description: "O movimento de todo exercito que possui movimento acima de 2 \xE9
     reduzido para MOV -1"
+  color: {fileID: 0}
   sprite: {fileID: -7591153804412091959, guid: 55e95f265a59d4c4584571519a94ec76, type: 3}
   type: 1
   equipamentType: 0
@@ -26,7 +27,7 @@ MonoBehaviour:
   height: 0
   turnDuration: 0
   effectSprite: {fileID: -7591153804412091959, guid: 55e95f265a59d4c4584571519a94ec76, type: 3}
-  sortLayerSprite: Default
+  sortLayerSprite: Terrain
   sortIndexLayerSprite: 1
   opacitySprite: 1
   effectVFX: {fileID: 0}

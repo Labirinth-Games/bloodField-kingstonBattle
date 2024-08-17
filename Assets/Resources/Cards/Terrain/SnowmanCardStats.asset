@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Nevoeiro
   description: A distancia de ataques acima de 2 recebem D-ATK -1
+  color: {fileID: 0}
   sprite: {fileID: -8227496516965211633, guid: 5e6573b21961e574eaca4e71d9203797, type: 3}
   type: 1
   equipamentType: 0
@@ -25,7 +26,7 @@ MonoBehaviour:
   height: 0
   turnDuration: 0
   effectSprite: {fileID: -8227496516965211633, guid: 5e6573b21961e574eaca4e71d9203797, type: 3}
-  sortLayerSprite: Default
+  sortLayerSprite: Terrain
   sortIndexLayerSprite: 1
   opacitySprite: 0.5
   effectVFX: {fileID: 0}

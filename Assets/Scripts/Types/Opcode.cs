@@ -22,6 +22,7 @@ namespace BloodField.Types
         public const long MINIATURE_CREATE = 43;
         public const long MINIATURE_HIT = 44;
         public const long MINIATURE_DEATH = 45;
+        public const long MINIATURE_TERRAIN_CREATE = 46;
 
         // match
         public const long MATCH_STATE = 51;

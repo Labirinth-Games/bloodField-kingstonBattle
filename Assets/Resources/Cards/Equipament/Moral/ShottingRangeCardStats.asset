@@ -14,17 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: Shotting Range
   description: Arqueiros recebem D-ATK +1
-  primaryColor: {r: 0, g: 0, b: 0, a: 0}
-  secundaryColor: {r: 0, g: 0, b: 0, a: 0}
+  color: {fileID: 11400000, guid: 20a240081d2a1ce48b80584f973ce10f, type: 2}
   sprite: {fileID: -8166646595793821193, guid: 3a365a2292dbdce459e5af858d44b5b0, type: 3}
   type: 3
   equipamentType: 3
+  weightEquipamentType: 0
+  isIndestructible: 0
   armyType: 0
   canApplyEffectToAllMap: 0
   width: 0
   height: 0
   turnDuration: 0
   effectSprite: {fileID: 0}
+  sortLayerSprite: Default
+  sortIndexLayerSprite: 1
+  opacitySprite: 0.2
   effectVFX: {fileID: 0}
   direction: 0
   ATK: 0
@@ -33,6 +37,7 @@ MonoBehaviour:
   D_ATK: 0
   isGroup: 0
   commandScript: {fileID: 0}
+  customTerrainScript: {fileID: 0}
   additionalStats:
     _serializedList:
     - Key: 0
@@ -44,3 +49,5 @@ MonoBehaviour:
     - Key: 3
       Value: 1
   targets: 01000000
+  conditionalStats:
+    _serializedList: []

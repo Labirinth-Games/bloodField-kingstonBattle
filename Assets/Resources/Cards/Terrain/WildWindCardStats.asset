@@ -15,6 +15,7 @@ MonoBehaviour:
   title: Vento Feroz
   description: "Durante o turno, todos o exercito dentro da \xE1rea de 6x2 ser\xE1
     emburrado para tr\xE1s 2x (andar\xE1 para tr\xE1s 2 casas)"
+  color: {fileID: 0}
   sprite: {fileID: -4435411982898553938, guid: 6cd3d65a6d3e9f745b106913e17bf2fe, type: 3}
   type: 1
   equipamentType: 0
@@ -26,7 +27,7 @@ MonoBehaviour:
   height: 2
   turnDuration: 0
   effectSprite: {fileID: 1264529668495882818, guid: daa0ed84292dfdc42900cf85d1b76031, type: 3}
-  sortLayerSprite: Default
+  sortLayerSprite: Terrain
   sortIndexLayerSprite: 1
   opacitySprite: 1
   effectVFX: {fileID: 0}
@@ -41,3 +42,5 @@ MonoBehaviour:
   additionalStats:
     _serializedList: []
   targets: 
+  conditionalStats:
+    _serializedList: []

@@ -75,7 +75,13 @@ namespace BloodField.Managers
                 if (isOwner) return;
 
                 var cards = GetCardsOnDeck(content.AmountCardsDraw);
-                var cardsPaths = cards.Select(s => $"Cards/{s.type}/{s.name}").ToArray();
+
+                var cardsPaths = cards.Select(s =>
+                {
+                    var pathConfig = s.type == CardType.Equipament ? $"Cards/{s.type}/{s.equipamentType}/{s.name}" : $"Cards/{s.type}/{s.name}";
+
+                    return pathConfig;
+                }).ToArray();
 
                 await NetworkHelper.Send<DeckNetworkEntity>(OpCodeType.DECK_RECEIVE_CARDS, new DeckNetworkEntity() { Cards = cardsPaths });
             });
@@ -83,7 +89,7 @@ namespace BloodField.Managers
             NetworkHelper.Listen<DeckNetworkEntity>(matchState, OpCodeType.DECK_RECEIVE_CARDS, (content, isHost, isOwner) =>
             {
                 if (isOwner) return;
-                
+
                 var cards = content.GetCards();
 
                 // add cards diretly on hand to player

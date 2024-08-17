@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   title: "Ver\xE3o"
   description: "Limpa qualquer outro tipo de efeito clim\xE1tico permanente."
+  color: {fileID: 0}
   sprite: {fileID: 8987275716240953735, guid: 15e279d8775cf7b4eb8e8358d8c805c0, type: 3}
   type: 1
   equipamentType: 0
@@ -25,7 +26,7 @@ MonoBehaviour:
   height: 0
   turnDuration: 0
   effectSprite: {fileID: 0}
-  sortLayerSprite: Default
+  sortLayerSprite: Terrain
   sortIndexLayerSprite: 1
   opacitySprite: 0.2
   effectVFX: {fileID: 0}
