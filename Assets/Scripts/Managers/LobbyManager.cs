@@ -18,8 +18,8 @@ namespace BloodField.Managers
 
         public async void FindMatch()
         {
-            await GameManager.Instance.networkManager.FindMatch(_playerName);
-            GameManager.Instance.eventManager.DisplayMessageFindMatchHUDEvent("Searching...");
+            await GameManager.Instance.networkManager.FindMatch();
+            GameManager.Instance.eventManager.ShowScreenLoadHUDEvent("Searching...");
         }
 
         public async void Logoff() => await GameManager.Instance.networkManager.Logoff();
@@ -30,10 +30,10 @@ namespace BloodField.Managers
         {
             GameManager.Instance.SetIsHost(true);
             GameManager.Instance.SetUserId("00000000-0000-0000-0000-000000000001");
-            
-            GameManager.Instance.matchManager.InitialPhase("00000000-0000-0000-0000-000000000000", new List<PlayerMatchDTO>() { 
-                new PlayerMatchDTO {userId = "00000000-0000-0000-0000-000000000001"}, 
-                new PlayerMatchDTO {userId = "00000000-0000-0000-0000-000000000002"} 
+
+            GameManager.Instance.matchManager.InitialPhase("00000000-0000-0000-0000-000000000000", new List<PlayerMatchDTO>() {
+                new PlayerMatchDTO {userId = "00000000-0000-0000-0000-000000000001"},
+                new PlayerMatchDTO {userId = "00000000-0000-0000-0000-000000000002"}
             });
         }
 
@@ -49,17 +49,18 @@ namespace BloodField.Managers
 
             _players = accounts.Users.Select(s => s.DisplayName).ToList();
 
-            GameManager.Instance.eventManager.DisplayMessageFindMatchHUDEvent("Found Match!");
+            GameManager.Instance.eventManager.ShowScreenLoadHUDEvent("Found Match!");
             GameManager.Instance.eventManager.DisplayPlayersOnLobbyHUDEvent(_players);
 
-            // if (matchmaker.Users.First().Presence.UserId == GameManager.Instance.UserId)
-            //     GameManager.Instance.SetIsHost(true);
+            if (!GameManager.Instance.isDevelopMode)
+                if (matchmaker.Users.First().Presence.UserId == GameManager.Instance.UserId)
+                    GameManager.Instance.SetIsHost(true);
 
             var playersGame = matchmaker.Users.Select(s => new PlayerMatchDTO { userId = s.Presence.UserId }).OrderBy(_ => System.Guid.NewGuid()).ToList();
 
             if (GameManager.Instance.IsHost)
                 GameManager.Instance.matchManager.InitialPhase(_matchId, playersGame);
-            else 
+            else
                 GameManager.Instance.matchManager.InitialPhaseRemote(_matchId);
         }
 

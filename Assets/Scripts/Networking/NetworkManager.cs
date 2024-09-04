@@ -3,6 +3,9 @@ using BloodField.SO;
 using BloodField.Managers;
 using Nakama;
 using UnityEngine;
+using System.Net.NetworkInformation;
+using System.Linq;
+using System;
 
 namespace BloodField.Network
 {
@@ -25,24 +28,47 @@ namespace BloodField.Network
             Client = new Client(connectionSO.scheme, connectionSO.host, connectionSO.port, connectionSO.serverKey, UnityWebRequestAdapter.Instance);
         }
 
-        private async Task Authentication()
+        public async Task<IApiAccount> Authenticator()
         {
-            PlayerPrefs.SetString(_clientRefName, System.Guid.NewGuid().ToString());
+            try
+            {
+                Connect();
 
-            Session = await Client.AuthenticateDeviceAsync(PlayerPrefs.GetString(_clientRefName));
+                var firstMacAddress = NetworkInterface
+                    .GetAllNetworkInterfaces()
+                    .Where(nic => nic.OperationalStatus == OperationalStatus.Up && nic.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+                    .Select(nic => nic.GetPhysicalAddress().ToString())
+                    .FirstOrDefault();
 
-            PlayerPrefs.SetString(_sessionTokenName, Session.AuthToken);
-            PlayerPrefs.SetString(_sessionRefreshTokenName, Session.RefreshToken);
+                Session = await Client.AuthenticateDeviceAsync(firstMacAddress);
 
-            Socket = Client.NewSocket(true);
-            await Socket.ConnectAsync(Session, true, 30);
+                PlayerPrefs.SetString(_sessionTokenName, Session.AuthToken);
+                PlayerPrefs.SetString(_sessionRefreshTokenName, Session.RefreshToken);
+
+                return await Client.GetAccountAsync(Session);
+            }
+            catch (ApiResponseException err)
+            {
+                throw err;
+            }
         }
 
-        public async Task FindMatch(string name)
+        public async Task UpdateUserRegister(string name)
         {
-            await Authentication();
+            try
+            {
+                await Client.UpdateAccountAsync(Session, name, name);
+            }
+            catch (ApplicationException err)
+            {
+                throw err;
+            }
+        }
 
-            await Client.UpdateAccountAsync(Session, name, name);
+        public async Task FindMatch()
+        {
+            Socket = Client.NewSocket(true);
+            await Socket.ConnectAsync(Session, true, 30);
 
             // assign in match
             var matchmakerTicket = await Socket.AddMatchmakerAsync("*", 2, 2);
@@ -55,7 +81,7 @@ namespace BloodField.Network
 
             GameManager.Instance.SetUserId(Session.UserId);
         }
-
+        
         public async Task ExitMatch()
         {
             await Socket.RemoveMatchmakerAsync(_ticket);

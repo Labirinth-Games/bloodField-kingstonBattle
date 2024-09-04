@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df5e6b1aa90d80246b11d8f435b56c59, type: 3}
   m_Name: NakamaConnectionSO
   m_EditorClassIdentifier: 
-  scheme: http
-  host: 127.0.0.1
+  scheme: https
+  host: labyrinth-games.com.br
   port: 7350
-  serverKey: defaultkey
+  serverKey: 2428911e-504e-478f-9c42-5be08c6d83fa

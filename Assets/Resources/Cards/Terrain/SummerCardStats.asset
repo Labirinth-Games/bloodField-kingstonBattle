@@ -27,7 +27,7 @@ MonoBehaviour:
   turnDuration: 0
   effectSprite: {fileID: 0}
   sortLayerSprite: Terrain
-  sortIndexLayerSprite: 1
+  sortIndexLayerSprite: 0
   opacitySprite: 0.2
   effectVFX: {fileID: 0}
   direction: 0

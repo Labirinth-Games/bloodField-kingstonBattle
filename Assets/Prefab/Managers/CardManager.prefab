@@ -24,13 +24,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8981973711865775845}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6068540755482202608
 MonoBehaviour:
@@ -56,4 +56,4 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 12bad58b18b68b44ea2ead9f4255cf91, type: 2}
   - {fileID: 11400000, guid: d29633978351d534dad0417ee88776e3, type: 2}
   cardPreviewPrefab: {fileID: 1962485834779004676, guid: 63c09c88b4dcaf44888ed2f6ac2974a7, type: 3}
-  cardPrefab: {fileID: 4955371552990318282, guid: 3329f171027a3a548afb11695a21ed94, type: 3}
+  cardPrefab: {fileID: 7803267623136520307, guid: 5299b6f010f4c9340b85babb2e3554fd, type: 3}

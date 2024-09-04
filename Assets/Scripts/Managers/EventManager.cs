@@ -38,11 +38,18 @@ namespace BloodField.Managers
         #endregion
 
         #region HUD
-        public event Action<string> OnDisplayMessageFindMatchHUD;
-        public void DisplayMessageFindMatchHUDEvent(string value)
+        public event Action<string> OnShowScreenLoadHUD;
+        public void ShowScreenLoadHUDEvent(string value)
         {
-            if (OnDisplayMessageFindMatchHUD != null) OnDisplayMessageFindMatchHUD(value);
+            if (OnShowScreenLoadHUD != null) OnShowScreenLoadHUD(value);
         }
+
+        public event Action OnHideScreenLoadHUD;
+        public void HideScreenLoadHUDEvent()
+        {
+            if (OnHideScreenLoadHUD != null) OnHideScreenLoadHUD();
+        }
+
         public event Action<List<string>> OnDisplayPlayersOnLobbyHUD;
         public void DisplayPlayersOnLobbyHUDEvent(List<string> value)
         {

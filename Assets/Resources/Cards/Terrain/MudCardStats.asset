@@ -28,7 +28,7 @@ MonoBehaviour:
   turnDuration: 0
   effectSprite: {fileID: -7591153804412091959, guid: 55e95f265a59d4c4584571519a94ec76, type: 3}
   sortLayerSprite: Terrain
-  sortIndexLayerSprite: 1
+  sortIndexLayerSprite: 0
   opacitySprite: 1
   effectVFX: {fileID: 0}
   direction: 0

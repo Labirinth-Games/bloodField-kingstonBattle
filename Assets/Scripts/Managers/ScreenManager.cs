@@ -10,28 +10,27 @@ namespace BloodField.Managers
         [SerializeField] private GameObject ScreenGameWin;
         [SerializeField] private GameObject ScreenLoad;
 
-        public void GameScreenShow()
+        private GameObject _lastInstance;
+
+        private void Open(GameObject screen)
         {
-            ScreenGame.SetActive(true);
-            ScreenLobby.SetActive(false);
-        }
-        public void LobbyScreenShow()
-        {
-            ScreenLobby.SetActive(true);
-            ScreenGame.SetActive(false);
+            var parent = GameObject.FindGameObjectWithTag("Canvas");
+
+            Clear();
+
+            _lastInstance = Instantiate(screen);
+            _lastInstance.transform.position = new Vector3(1920/2, 1080/2, 0);
+            _lastInstance.transform.SetParent(parent.transform);
         }
 
-        public void LoadScreen(bool stats) => ScreenLoad.SetActive(stats);
-        
+        public void Clear() => Destroy(_lastInstance);
+
+        public void GameScreenShow() => Open(ScreenGame);
+        public void LobbyScreenShow() => Open(ScreenLobby);
+
         #region Events
-        private void OnGameLose()
-        {
-            ScreenGameLose.SetActive(true);
-        }
-        private void OnGameWin()
-        {
-            ScreenGameWin.SetActive(true);
-        }
+        private void OnGameLose() => Open(ScreenGameLose);
+        private void OnGameWin() => Open(ScreenGameWin);
         #endregion
 
         void Start()

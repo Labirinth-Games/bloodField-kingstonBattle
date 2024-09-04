@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using BloodField.HUD;
 using BloodField.Managers;
 using BloodField.Network;
@@ -5,6 +6,7 @@ using Controls;
 using Helpers;
 using Render;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BloodField.Managers
 {
@@ -14,6 +16,7 @@ namespace BloodField.Managers
         public MatchConfigSO MatchSettings;
         public GameConfigSO GameSettings;
         public bool isDebug = false;
+        public bool isDevelopMode = false;
 
         [Header("References")]
         public MapManager mapManager;
@@ -51,20 +54,30 @@ namespace BloodField.Managers
 
         async void Update()
         {
-            if (Input.GetKeyDown(KeyCode.L))
+            if (Input.GetKeyDown(KeyCode.L) && isDevelopMode)
             {
                 await networkManager.Logoff();
 #if UNITY_EDITOR
-        UnityEditor.EditorApplication.isPlaying = false;
+                UnityEditor.EditorApplication.isPlaying = false;
 #else
         Application.Quit();
 #endif
             }
         }
 
-        void Start()
+        async void Start()
         {
-            networkManager.Connect();
+            await Task.Delay(1000);
+
+            var client = await networkManager.Authenticator();
+
+            if (string.IsNullOrEmpty(client.User.DisplayName)) SceneManager.LoadScene("RegisterScene");
+            else
+            {
+                SceneManager.LoadScene("GameScene");
+                await Task.Delay(500);
+                screenManager.LobbyScreenShow();
+            }
         }
 
         private void OnValidate()

@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 6377356033146715734}
   - component: {fileID: 7500425473678580111}
   - component: {fileID: 8401037510602738522}
+  - component: {fileID: 8409513178751103201}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -61,7 +62,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MatchSettings: {fileID: 11400000, guid: 248ca7ea0b15d884f9ea3bf8873ecdbf, type: 2}
   GameSettings: {fileID: 11400000, guid: 53395207b219be243a84bf6bbb948fb7, type: 2}
-  isDebug: 1
+  isDebug: 0
+  isDevelopMode: 0
   mapManager: {fileID: 1423650662961454086, guid: b082d5c2eb22d9542beec1abaa4586cd, type: 3}
   turnManager: {fileID: 9206476916903781374}
   turnPreparationManager: {fileID: 7500425473678580111}
@@ -75,7 +77,7 @@ MonoBehaviour:
   networkManager: {fileID: 7813025172142089290}
   eventManager: {fileID: 6377356033146715734}
   lobbyManager: {fileID: 5175225173370690399}
-  screenManager: {fileID: 0}
+  screenManager: {fileID: 8409513178751103201}
   logHUD: {fileID: 8401037510602738522}
 --- !u!114 &5138143739483719528
 MonoBehaviour:
@@ -132,22 +134,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cards:
     _serializedList:
-    - Key: {fileID: 11400000, guid: a713718dbb6a0c74d900584a4982563e, type: 2}
-      Value: 3
-    - Key: {fileID: 11400000, guid: 9eb61f32fa6439a4f82a3a106f915bb8, type: 2}
-      Value: 3
-    - Key: {fileID: 11400000, guid: 1358763f2a52435479e712f4175f6b03, type: 2}
-      Value: 3
-    - Key: {fileID: 11400000, guid: aad6125538aaa224ea2e3ce1084576e5, type: 2}
-      Value: 3
-    - Key: {fileID: 11400000, guid: 07ddd694c0bb3db459e6f772df992757, type: 2}
-      Value: 20
+    - Key: {fileID: 11400000, guid: adba77cfb5ac3ff4c9ebd5fd8eca3941, type: 2}
+      Value: 0
     - Key: {fileID: 11400000, guid: 431a3f411d57c634a9a5fdb59f543d9e, type: 2}
       Value: 3
-    - Key: {fileID: 11400000, guid: adba77cfb5ac3ff4c9ebd5fd8eca3941, type: 2}
+    - Key: {fileID: 11400000, guid: 93c2f3cfc706bba4491bcd28816683bd, type: 2}
+      Value: 10
+    - Key: {fileID: 11400000, guid: ccc528ad56fe4f54ea2103083b4de208, type: 2}
+      Value: 3
+    - Key: {fileID: 11400000, guid: d8005b2757856ea43bd002f891f5aba5, type: 2}
+      Value: 3
+    - Key: {fileID: 11400000, guid: 00c4e68bd8446d047b96de3984e01f5a, type: 2}
+      Value: 3
+    - Key: {fileID: 11400000, guid: 16c68af740fdd2d40b4c11ce0340792d, type: 2}
       Value: 3
     - Key: {fileID: 11400000, guid: 12bad58b18b68b44ea2ead9f4255cf91, type: 2}
       Value: 3
+    - Key: {fileID: 11400000, guid: a713718dbb6a0c74d900584a4982563e, type: 2}
+      Value: 0
+    - Key: {fileID: 11400000, guid: 9eb61f32fa6439a4f82a3a106f915bb8, type: 2}
+      Value: 0
+    - Key: {fileID: 11400000, guid: 07ddd694c0bb3db459e6f772df992757, type: 2}
+      Value: 0
+    - Key: {fileID: 11400000, guid: bbf6b2dd671f8494b8af3dbe18bca802, type: 2}
+      Value: 0
 --- !u!114 &9206476916903781374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,7 +254,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd71e1a093a9f8b4e8c993441eb175da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isHost: 0
 --- !u!114 &6377356033146715734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,6 +292,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   container: {fileID: 0}
   elementItem: {fileID: 5425713337447408588, guid: 5447411190728124589f9be19e6cc33b, type: 3}
+--- !u!114 &8409513178751103201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3992945214950551121}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713768200f7378346a3810a2911f072a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ScreenLobby: {fileID: 6465601075636256392, guid: 6da60facdb763434e80b1874d518dcb0, type: 3}
+  ScreenGame: {fileID: 4814652553653544960, guid: c85f9a9f52dde6d45af8dc9a57fea913, type: 3}
+  ScreenGameLose: {fileID: 3270990429036634678, guid: 140b075e7fb4ffc4e899eed0babdb3c9, type: 3}
+  ScreenGameWin: {fileID: 4076336878446077734, guid: 52884a058141b69439d822f3406c41bb, type: 3}
+  ScreenLoad: {fileID: 4949976587189401777, guid: a04c2f50e2a1b354e888776da85757fb, type: 3}
 --- !u!1001 &3136610736541794869
 PrefabInstance:
   m_ObjectHideFlags: 0

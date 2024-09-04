@@ -32,7 +32,7 @@ namespace BloodField.Network
 
         void Start()
         {
-            GameManager.Instance.eventManager.OnDisplayMessageFindMatchHUD += SetMessageConnection;
+            GameManager.Instance.eventManager.OnShowScreenLoadHUD += SetMessageConnection;
             GameManager.Instance.eventManager.OnDisplayPlayersOnLobbyHUD += SetPlayerList;
         }
     }

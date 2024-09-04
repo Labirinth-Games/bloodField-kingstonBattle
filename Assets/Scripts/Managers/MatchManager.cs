@@ -95,7 +95,7 @@ namespace BloodField.Managers
 
                 MatchPhase = PhaseType.Preparation;
 
-                GameManager.Instance.screenManager.LoadScreen(false);
+                GameManager.Instance.eventManager.HideScreenLoadHUDEvent();
             });
 
             NetworkHelper.Listen<MatchNetworkEntity>(matchState, OpCodeType.MATCH_STATE, (content, isHost, isOwner) =>
@@ -191,7 +191,6 @@ namespace BloodField.Managers
         {
             MatchId = matchId;
             Players = players;
-            GameManager.Instance.screenManager.LoadScreen(true);
 
             Subscribers();
 
@@ -211,15 +210,12 @@ namespace BloodField.Managers
             GameManager.Instance.turnManager.Load(myPlayer, Players.First());
             MatchPhase = PhaseType.Preparation;
 
-            GameManager.Instance.screenManager.LoadScreen(false);
+            GameManager.Instance.eventManager.HideScreenLoadHUDEvent();
         }
 
         public void InitialPhaseRemote(string matchId)
         {
             MatchId = matchId;
-
-            // show screen load
-            GameManager.Instance.screenManager.LoadScreen(true);
 
             GameManager.Instance.deckManager.Subscribers();
             Subscribers();
